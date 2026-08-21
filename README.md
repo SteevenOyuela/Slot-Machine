@@ -40,23 +40,36 @@ Para ejecutar el simulador:
 2. Compila todas las clases.
 3. En el *Code Pad* (Terminal) o mediante la interfaz de BlueJ, crea la máquina y actívala:
    ```java
-   // 1. Instanciar y hacer visible
-   SlotMachine mach1 = new SlotMachine();
-   mach1.makeVisible(); 
+   // ==========================================
+   // 1. INICIALIZACIÓN Y VISIBILIDAD
+   // ==========================================
+   SlotMachine(); // Inicializa la máquina tragamonedas con sus componentes básicos y el lienzo (Canvas).
+   makeVisible(); // Hace visible la interfaz gráfica del simulador en el tablero.
+   makeInvisible(); // Oculta la interfaz gráfica del simulador, permitiendo que la lógica siga en segundo plano.
    
-   // 2. Agregar símbolos al catálogo (colores CSS y formas)
-   mach1.addSymbol("red", "circle");
-   mach1.addSymbol("blue", "triangle");
-   mach1.addSymbol("yellow", "rectangle");
+   // ==========================================
+   // 2. GESTIÓN DE LA ESTRUCTURA (Ruedas y Símbolos)
+   // ==========================================
+   addSymbol(String color, String shape); // Añade un nuevo símbolo (definido por color y forma) a la colección disponible.
+   delSymbol(String color, String shape); // Elimina un símbolo específico de la colección disponible.
+   addWheel(int index); // Añade una nueva rueda a la máquina en la posición especificada.
+   delWheel(int index); // Elimina una rueda existente de la máquina en la posición especificada.
    
-   // 3. (Opcional) Modificar el número de ruedas
-   mach1.addWheel(4);
+   // ==========================================
+   // 3. EJECUCIÓN DEL JUEGO
+   // ==========================================
+   placeSymbol(int index, String color); // Asigna un símbolo específico (por su color) a la rueda indicada, permitiendo manipular el estado.
+   spin(int index); // Gira una rueda específica indicada por su índice, actualizando su símbolo visible.
+   spin(); // Gira todas las ruedas de la máquina, actualizando los símbolos visibles con una animación de palanca.
    
-   // 4. Jugar
-   mach1.spin();
-
-```
-
+   // ==========================================
+   // 4. CONSULTAS Y VALIDACIÓN DE ESTADOS
+   // ==========================================
+   symbols(); // Lista todos los símbolos actualmente registrados en el catálogo del sistema.
+   configuration(); // Retorna la configuración actual de los símbolos visibles en las ruedas.
+   distinctSymbols(); // Verifica la cantidad de símbolos distintos presentes en pantalla.
+   isJackpot(); // Determina si la configuración actual de las ruedas es ganadora (todos coinciden) y actualiza el color.
+   ok(); // Valida si la última operación solicitada en la máquina se logró realizar exitosamente.
 ---
 
 ## 📊 Aprendizajes Obtenidos
