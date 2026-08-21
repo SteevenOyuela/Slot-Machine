@@ -1,0 +1,10 @@
+#BlueJ class context
+#Fri Aug 21 00:11:23 COT 2026
+comment0.target=Lever
+comment0.text=\r\n Representa la palanca de la m\u00E1quina tragamonedas.\r\n
+comment1.target=Lever()
+comment2.target=void tirar()
+comment2.text=\r\n Mueve la palanca hacia abajo.\r\n
+comment3.target=void soltar()
+comment3.text=\r\n Regresa la palanca a su posici\u00F3n original (Estado 1).\r\n
+numComments=4

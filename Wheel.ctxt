@@ -1,0 +1,26 @@
+#BlueJ class context
+#Thu Aug 20 23:36:19 COT 2026
+comment0.target=Wheel
+comment0.text=\r\n Representa Las ruedas.\r\n \r\n Estas casillas estan represetnadas de color balnco y se encuentran distribuidas en el tablero.\r\n
+comment1.params=index
+comment1.target=Wheel(int)
+comment1.text=\r\n Crea una nueva rueda y la posiciona din\u00E1micamente en el lienzo.\r\n @param index El \u00EDndice de la rueda (0 para la primera, 1 para la segunda, etc.)\r\n
+comment2.params=nuevoIndex
+comment2.target=void actualizarPosicion(int)
+comment2.text=\r\n Recalcula la posici\u00F3n de la rueda y desplaza el rect\u00E1ngulo.\r\n @param nuevoIndex El nuevo \u00EDndice de la rueda en la m\u00E1quina.\r\n
+comment3.target=void redibujar()
+comment3.text=\r\n M\u00E9todo para asegurar que la rueda quede encima del fondo gris\r\n
+comment4.target=void makeInvisible()
+comment4.text=\r\n Borra la representaci\u00F3n visual de la rueda del lienzo.\r\n
+comment5.params=color forma
+comment5.target=void setSymbol(java.lang.String, java.lang.String)
+comment5.text=\r\n Asigna un nuevo s\u00EDmbolo a esta rueda y lo dibuja centrado.\r\n @param color El color del s\u00EDmbolo.\r\n @param forma La figura geom\u00E9trica ("circle", "triangle", "rectangle").\r\n
+comment6.params=nuevoColor nuevaForma
+comment6.target=void girar(java.lang.String, java.lang.String)
+comment6.text=\r\n Realiza una animaci\u00F3n de giro poniendo la casilla en negro por un instante\r\n antes de revelar el nuevo s\u00EDmbolo.\r\n
+comment7.target=java.lang.String getColorActual()
+comment7.text=\r\n Consulta el color del s\u00EDmbolo que la rueda est\u00E1 mostrando actualmente.\r\n @return El color en formato String, o una cadena vac\u00EDa si no tiene s\u00EDmbolo.\r\n
+comment8.params=color
+comment8.target=void cambiarColorFondo(java.lang.String)
+comment8.text=\r\n Cambia el color de fondo de la casilla de la rueda.\r\n @param color El color deseado.\r\n
+numComments=9

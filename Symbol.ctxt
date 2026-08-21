@@ -1,0 +1,23 @@
+#BlueJ class context
+#Thu Aug 20 23:32:37 COT 2026
+comment0.target=Symbol
+comment0.text=\r\n Representa un s\u00EDmbolo en la m\u00E1quina tragamonedas.\r\n Puede tomar la forma de un c\u00EDrculo, tri\u00E1ngulo o cuadrado.\r\n
+comment1.params=color forma
+comment1.target=Symbol(java.lang.String, java.lang.String)
+comment1.text=\r\n Crea un nuevo s\u00EDmbolo.\r\n @param color El color en formato CSS (ej. "red", "blue", "yellow").\r\n @param forma La figura que representar\u00E1 el s\u00EDmbolo ("circle", "triangle", "rectangle").\r\n
+comment2.target=java.lang.String getColor()
+comment2.text=\r\n Retorna el color del s\u00EDmbolo (necesario para la l\u00F3gica de validaci\u00F3n).\r\n
+comment3.target=java.lang.String getForma()
+comment3.text=\r\n Retorna la forma geom\u00E9trica del s\u00EDmbolo ("circle", "triangle", "rectangle").\r\n
+comment4.target=void makeVisible()
+comment5.target=void makeInvisible()
+comment6.params=x y
+comment6.target=void moverA(int, int)
+comment6.text=\r\n Mueve el s\u00EDmbolo a una coordenada espec\u00EDfica (\u00FAtil para posicionarlo dentro de la rueda).\r\n
+comment7.params=distancia
+comment7.target=void moverHorizontal(int)
+comment7.text=\r\n Desplaza el s\u00EDmbolo horizontalmente.\r\n @param distancia P\u00EDxeles a mover (positivo a la derecha, negativo a la izquierda).\r\n
+comment8.params=distancia
+comment8.target=void moverVertical(int)
+comment8.text=\r\n Desplaza el s\u00EDmbolo verticalmente.\r\n @param distancia P\u00EDxeles a mover (positivo hacia abajo, negativo hacia arriba).\r\n
+numComments=9
