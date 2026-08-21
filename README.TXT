@@ -81,16 +81,10 @@ Para ejecutar el simulador:
 Trabajo realizado por estudiantes de tercer semestre de Ingeniería en Inteligencia Artificial de la Escuela Colombiana de Ingeniería Julio Garavito:
 
 * **Andres Steeven Oyuela Mendez**, andres.oyuela-m@mail.escuelaing.edu.co
+* **Jhon Eduard Duran Ceballos**, jhon.duran-c@mail.escuelaing.edu.co
 
 ---
 
 ## 📌 Conclusión
 
 El Simulador de Máquina Tragamonedas DOPO-POOB demuestra con éxito cómo el análisis estructurado de requisitos y la aplicación rigurosa de patrones orientados a objetos permiten desarrollar software interactivo, modular y escalable. A través de 10 iteraciones y superando retos técnicos gráficos, el proyecto culmina en una experiencia visual sólida y una base de código preparada para crecer.
-"""
-with open("README.md", "w", encoding="utf-8") as f:
-f.write(content)
-
-print("README.md")
-
-```
