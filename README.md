@@ -1,4 +1,4 @@
-# 🎰 Simulador de Máquina Tragamonedas (DOPO-POOB)
+# 🎰 Simulador de Máquina Tragamonedas
 
 ## 📘 Descripción General
 Este proyecto es un simulador interactivo de una máquina tragamonedas (Slot Machine), desarrollado íntegramente en Java utilizando el entorno **BlueJ**. El simulador permite gestionar dinámicamente ruedas y símbolos, ejecutar giros con animaciones (incluyendo una palanca interactiva), y detectar de forma automática cuando el jugador ha alcanzado el estado ganador (Jackpot). 
