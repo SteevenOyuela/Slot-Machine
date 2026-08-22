@@ -154,7 +154,7 @@ public class Triangle{
     public void changeColor(String newColor){
         color = newColor;
         draw();
-    }
+    } 
 
     /*
      * Draw the triangle with current specifications on screen.
