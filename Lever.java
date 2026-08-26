@@ -13,7 +13,6 @@ public class Lever {
      */
     
     public Lever() {
-        // Conector horizontal (une el palo con la máquina gris)
         conector = new Rectangle();
         conector.changeSize(10, 30);
         conector.changeColor("black");
@@ -21,7 +20,6 @@ public class Lever {
         conector.moveVertical(140);
         conector.makeVisible();
 
-        // Palo vertical
         palo = new Rectangle();
         palo.changeSize(70, 10);
         palo.changeColor("black");
@@ -29,7 +27,6 @@ public class Lever {
         palo.moveVertical(80);
         palo.makeVisible();
 
-        // Manija (Bolita roja)
         bolita = new Circle();
         bolita.changeSize(30);
         bolita.changeColor("red");

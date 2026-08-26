@@ -6,9 +6,9 @@
 
 public class Wheel {
     private Rectangle casilla;
-    private int posicionX; // Guardamos la posición actual
-    private Symbol simboloActual; // Memoria de cada rueda conforme a cada simbolo
-    private Rectangle bordeCasilla; // simulacion del borde
+    private int posicionX;
+    private Symbol simboloActual;
+    private Rectangle bordeCasilla;
 
     /**
      * Crea una nueva rueda y la posiciona dinámicamente en el lienzo.
@@ -19,7 +19,6 @@ public class Wheel {
         casilla.changeSize(140, 100);
         casilla.changeColor("white");
         
-        // Calculamos la posición X basada en el índice
         posicionX = 70 + (index * 120);
         
         casilla.moveHorizontal(posicionX);
@@ -40,12 +39,11 @@ public class Wheel {
      */
     public void actualizarPosicion(int nuevoIndex) {
         int nuevaPosicionX = 70 + (nuevoIndex * 120);
-        int distanciaAMover = nuevaPosicionX - posicionX; // Calcula el desplazamiento
+        int distanciaAMover = nuevaPosicionX - posicionX;
         
         bordeCasilla.moveHorizontal(distanciaAMover);
         casilla.moveHorizontal(distanciaAMover);
         
-        // Si la rueda tiene un símbolo, lo movemos la misma distancia
         if (simboloActual != null) {
             simboloActual.moverHorizontal(distanciaAMover);
         }
@@ -83,22 +81,15 @@ public class Wheel {
      * @param forma La figura geométrica ("circle", "triangle", "rectangle").
      */
     public void setSymbol(String color, String forma) {
-        // Ocultar el anterior si existe
         if (simboloActual != null) {
             simboloActual.makeInvisible();
         }
 
-        // Crear el nuevo
         simboloActual = new Symbol(color, forma);
 
-        // Calibración exacta para centrar:
-        // EJE X: Posición de la rueda + 20 px de margen
         int ajusteHorizontal = posicionX + 20; 
-        
-        // EJE Y: 100 (donde empieza la rueda) + 38 px de margen
         int ajusteVertical = 138; 
         
-        // Aplicamos los movimientos
         simboloActual.moverHorizontal(ajusteHorizontal);
         simboloActual.moverVertical(ajusteVertical); 
         
@@ -110,7 +101,6 @@ public class Wheel {
      * antes de revelar el nuevo símbolo.
      */
     public void girar(String nuevoColor, String nuevaForma) {
-        // Ocultar el símbolo actual y poner la casilla "en negro"
         if (simboloActual != null) {
             simboloActual.makeInvisible();
         }
@@ -119,10 +109,8 @@ public class Wheel {
         // Pausa para el cambio de color (implementación con IA)
         Canvas.getCanvas().wait(200); 
         
-        // Vuelve al color blanco
         casilla.changeColor("white"); 
-        
-        // Dibuja el nuevo símbolo
+
         setSymbol(nuevoColor, nuevaForma);
     }
     

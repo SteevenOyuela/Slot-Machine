@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sat Aug 22 12:55:27 COT 2026
+#Tue Aug 25 23:59:23 COT 2026
 comment0.target=SlotMachine
 comment0.text=\r\n Representa una m\u00E1quina tragamonedas.\r\n \r\n La m\u00E1quina utiliza los componentes gr\u00E1ficos de la librer\u00EDa shapes\r\n para construir su representaci\u00F3n visual.\r\n
 comment1.target=SlotMachine()
