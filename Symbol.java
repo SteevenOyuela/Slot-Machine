@@ -7,7 +7,6 @@ public class Symbol {
     private String color;
     private String forma; // "circle", "triangle", o "rectangle"
     
-    // Declaramos las tres posibles figuras, pero solo usaremos una
     private Circle circulo;
     private Triangle triangulo;
     private Rectangle cuadrado;
@@ -21,7 +20,6 @@ public class Symbol {
         this.color = color;
         this.forma = forma.toLowerCase();
 
-        // Inicializamos SOLO la figura solicitada
         if (this.forma.equals("circle")) {
             circulo = new Circle();
             circulo.changeColor(color);
@@ -53,10 +51,6 @@ public class Symbol {
         return forma;
     }
 
-    // ==========================================
-    // MÉTODOS DE DELEGACIÓN VISUAL
-    // ==========================================
-
     public void makeVisible() {
         if (circulo != null) circulo.makeVisible();
         if (triangulo != null) triangulo.makeVisible();
@@ -73,8 +67,6 @@ public class Symbol {
      * Mueve el símbolo a una coordenada específica (útil para posicionarlo dentro de la rueda).
      */
     public void moverA(int x, int y) {
-        // Primero lo regresamos al origen (0,0) por seguridad, 
-        // o asumimos que nace en 0,0 y simplemente lo desplazamos.
         if (circulo != null) {
             circulo.moveHorizontal(x);
             circulo.moveVertical(y);
