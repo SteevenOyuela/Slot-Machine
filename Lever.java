@@ -7,6 +7,11 @@ public class Lever {
     private Rectangle palo;
     private Circle bolita;
 
+    /**
+     * Construye una nueva palanca (Lever) y la dibuja en el lienzo.
+     * Inicializa, dimensiona, colorea y posiciona el conector, el palo y la manija en su estado de reposo.
+     */
+    
     public Lever() {
         // Conector horizontal (une el palo con la máquina gris)
         conector = new Rectangle();
