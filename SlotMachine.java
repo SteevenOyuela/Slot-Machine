@@ -58,13 +58,6 @@ public class SlotMachine {
         
         palanca = new Lever();
         
-        wheels = new ArrayList<Wheel>();
-        
-        for (int i = 0; i < 3; i++) {
-            Wheel nuevaRueda = new Wheel(i);
-            wheels.add(nuevaRueda);
-        }
-        
         symbols = new ArrayList<Symbol>();
 
         addSymbol("maroon", "circle");
@@ -75,12 +68,6 @@ public class SlotMachine {
         addSymbol("turquoise", "rectangle");
         
         wheels = new ArrayList<Wheel>();
-        
-        for (int i = 0; i < 3; i++) {
-            Wheel nuevaRueda = new Wheel(i);
-            asignarSimboloAleatorio(nuevaRueda);
-            wheels.add(nuevaRueda);
-        }
         
         actualizarRuedas();
         
@@ -138,47 +125,56 @@ public class SlotMachine {
     }
     
     /**
-     * Adiciona una nueva rueda a la máquina en la posición indicada.
+     * Adiciona una nueva rueda a la máquina validando estrictamente los casos frontera.
      * @param pos La posición donde se desea insertar la rueda (iniciando en 1).
      */
     public void addWheel(int pos) {
-        if (pos < 1) {
-            pos = 1;
-        }
+        int maxPosValida = wheels.size() + 1;
         
-        if (pos > wheels.size() + 1) {
-            pos = wheels.size() + 1;
+        if (pos < 1 || pos > maxPosValida) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, 
+                    "Error: No se puede agregar en la posición " + pos + ".\n" +
+                    "Actualmente solo puedes usar posiciones del 1 al " + maxPosValida + ".");
+            }
+            ok = false;
+            return;
         }
         
         int indiceJava = pos - 1;
         
         Wheel nuevaRueda = new Wheel(indiceJava);
-        asignarSimboloAleatorio(nuevaRueda);
+        asignarSimboloAleatorio(nuevaRueda); 
         wheels.add(indiceJava, nuevaRueda);
         
         actualizarRuedas();
+        isJackpot(); //Al agregar una rueda comprueba si es estado ganador 
         ok = true;
     }
     
     /**
-     * Elimina una rueda de la máquina en la posición indicada.
+     * Elimina una rueda de la máquina validando estrictamente los casos frontera.
      * @param pos La posición de la rueda que se desea eliminar (iniciando en 1).
      */
     public void delWheel(int pos) {
         if (wheels.isEmpty()) {
             if (isVisible) {
                 JOptionPane.showMessageDialog(null, "Error: No hay ruedas para eliminar.");
-                ok = false;
             }
+            ok = false;
             return;
         }
         
-        if (pos < 1) {
-            pos = 1;
-        }
+        int maxPosValida = wheels.size();
         
-        if (pos > wheels.size()) {
-            pos = wheels.size();
+        if (pos < 1 || pos > maxPosValida) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, 
+                    "Error: No existe la rueda en la posición " + pos + ".\n" +
+                    "Actualmente solo puedes eliminar posiciones del 1 al " + maxPosValida + ".");
+            }
+            ok = false;
+            return; 
         }
         
         int indiceJava = pos - 1;
@@ -188,6 +184,8 @@ public class SlotMachine {
         wheels.remove(indiceJava);
         
         actualizarRuedas();
+        isJackpot(); // Al elimianr una rueda comprueba si es estado eprdedor
+        ok = true;
     }
     
     /**
@@ -351,7 +349,10 @@ public class SlotMachine {
      * @return true si la configuración es ganadora, false en caso contrario.
      */
     public boolean isJackpot() {
-        if (wheels.isEmpty()) {
+        if (wheels.size() <= 1) {
+            parteTrasera.changeColor("lightgray"); 
+            pintarCasillasRuedas("white"); 
+            actualizarRuedas(); 
             return false;
         }
 
