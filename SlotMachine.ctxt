@@ -1,5 +1,5 @@
 #BlueJ class context
-#Tue Aug 25 23:59:23 COT 2026
+#Sun Aug 30 21:19:34 COT 2026
 comment0.target=SlotMachine
 comment0.text=\r\n Representa una m\u00E1quina tragamonedas.\r\n \r\n La m\u00E1quina utiliza los componentes gr\u00E1ficos de la librer\u00EDa shapes\r\n para construir su representaci\u00F3n visual.\r\n
 comment1.target=SlotMachine()
@@ -41,10 +41,10 @@ comment5.target=void pintarCasillasRuedas(java.lang.String)
 comment5.text=\r\n Cambia el color de las casillas de todas las ruedas.\r\n @param color El color al que se cambiar\u00E1n las casillas.\r\n
 comment6.params=pos
 comment6.target=void addWheel(int)
-comment6.text=\r\n Adiciona una nueva rueda a la m\u00E1quina en la posici\u00F3n indicada.\r\n @param pos La posici\u00F3n donde se desea insertar la rueda (iniciando en 1).\r\n
+comment6.text=\r\n Adiciona una nueva rueda a la m\u00E1quina validando estrictamente los casos frontera.\r\n @param pos La posici\u00F3n donde se desea insertar la rueda (iniciando en 1).\r\n
 comment7.params=pos
 comment7.target=void delWheel(int)
-comment7.text=\r\n Elimina una rueda de la m\u00E1quina en la posici\u00F3n indicada.\r\n @param pos La posici\u00F3n de la rueda que se desea eliminar (iniciando en 1).\r\n
+comment7.text=\r\n Elimina una rueda de la m\u00E1quina validando estrictamente los casos frontera.\r\n @param pos La posici\u00F3n de la rueda que se desea eliminar (iniciando en 1).\r\n
 comment8.params=color
 comment8.target=boolean existeColor(java.lang.String)
 comment8.text=\r\n Verifica si un s\u00EDmbolo con el color indicado ya existe en la m\u00E1quina.\r\n @param color El color a buscar.\r\n @return true si el color ya existe, false en caso contrario.\r\n
