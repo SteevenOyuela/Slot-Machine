@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sun Aug 30 21:19:34 COT 2026
+#Sat Sep 05 17:16:32 COT 2026
 comment0.target=SlotMachine
 comment0.text=\r\n Representa una m\u00E1quina tragamonedas.\r\n \r\n La m\u00E1quina utiliza los componentes gr\u00E1ficos de la librer\u00EDa shapes\r\n para construir su representaci\u00F3n visual.\r\n
 comment1.target=SlotMachine()
@@ -32,6 +32,21 @@ comment2.text=\r\n Hace visible la m\u00E1quina tragamonedas.\r\n
 comment20.params=wheel
 comment20.target=void spin(int)
 comment20.text=\r\n Gira una \u00FAnica rueda espec\u00EDfica asign\u00E1ndole un s\u00EDmbolo aleatorio.\r\n @param wheel La posici\u00F3n de la rueda (iniciando en 1).\r\n
+comment21.params=wheel1 wheel2
+comment21.target=void swap(int, int)
+comment21.text=\r\n Intercambia la posici\u00F3n de dos ruedas dentro de la m\u00E1quina tragamonedas.\r\n @param wheel1 La posici\u00F3n de la primera rueda a intercambiar (iniciando en 1).\r\n @param wheel2 La posici\u00F3n de la segunda rueda a intercambiar (iniciando en 1).\r\n
+comment22.params=wheel
+comment22.target=void lock(int)
+comment22.text=\r\n Bloquea una rueda espec\u00EDfica para que no gire.\r\n @param wheel La posici\u00F3n de la rueda (iniciando en 1).\r\n
+comment23.params=wheel
+comment23.target=void unlock(int)
+comment23.text=\r\n Desbloquea una rueda espec\u00EDfica para que vuelva a girar.\r\n @param wheel La posici\u00F3n de la rueda (iniciando en 1).\r\n
+comment24.params=wheel steps
+comment24.target=void spin(int, int)
+comment24.text=\r\n Gira una rueda espec\u00EDfica avanzando una cantidad determinada de pasos.\r\n @param wheel La posici\u00F3n de la rueda (iniciando en 1).\r\n @param steps La cantidad de posiciones a avanzar en el cat\u00E1logo de s\u00EDmbolos.\r\n
+comment25.params=setSymbols
+comment25.target=void spin(java.lang.String[])
+comment25.text=\r\n Deja la m\u00E1quina tragamonedas en una configuraci\u00F3n exacta dada por el usuario.\r\n @param setSymbols Arreglo de Strings con los colores deseados para cada rueda, de izquierda a derecha.\r\n
 comment3.target=void makeInvisible()
 comment3.text=\r\n Hace invisible la m\u00E1quina tragamonedas.\r\n
 comment4.target=void actualizarRuedas()
@@ -51,4 +66,4 @@ comment8.text=\r\n Verifica si un s\u00EDmbolo con el color indicado ya existe e
 comment9.params=color forma
 comment9.target=void addSymbol(java.lang.String, java.lang.String)
 comment9.text=\r\n Adiciona un nuevo s\u00EDmbolo a la m\u00E1quina si su color no est\u00E1 repetido.\r\n @param color El color del nuevo s\u00EDmbolo.\r\n @param forma La figura ("circle", "triangle", "rectangle").\r\n
-numComments=21
+numComments=26

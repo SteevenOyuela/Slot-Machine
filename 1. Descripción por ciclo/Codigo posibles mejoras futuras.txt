@@ -1,0 +1,30 @@
+- En el constructor de SlotMachine, si se desea empezar con una cantidad específica de ruedas. simplemente agregar:
+
+wheels = new ArrayList<Wheel>();
+        
+        for (int i = 0; i < 3; i++) {
+            Wheel nuevaRueda = new Wheel(i);
+            asignarSimboloAleatorio(nuevaRueda);
+            wheels.add(nuevaRueda);
+        }
+        
+        actualizarRuedas();
+
+- En la clase Wheel, si se desea hacer la validación de que luego de desbloquear una casilla este vuelva a tener el color anterior antes de realizar la acción:
+
+public void unlock() {
+        isLocked = false;
+        if (simboloActual != null) {
+            casilla.changeColor(simboloActual.getColor()); 
+        } else {
+            casilla.changeColor("white");
+        }
+    }
+
+- Si desea desbloquear todas las ruedas luego de un movimiento implementar este for en la clase slotMachine justamente en los métodos spin(int wheel) y spin(), antes del isJackpot();
+
+for (Wheel rueda : wheels) {
+            if (rueda.isLocked()) {
+                rueda.unlock(); // Esto regresa sus bordes a color negro
+            }
+        }

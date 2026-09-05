@@ -1,5 +1,5 @@
 #BlueJ class context
-#Wed Aug 26 18:12:16 COT 2026
+#Sat Sep 05 13:57:46 COT 2026
 comment0.target=Symbol
 comment0.text=\r\n Representa un s\u00EDmbolo en la m\u00E1quina tragamonedas.\r\n Puede tomar la forma de un c\u00EDrculo, tri\u00E1ngulo o cuadrado.\r\n
 comment1.params=color forma

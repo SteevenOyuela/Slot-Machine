@@ -9,6 +9,8 @@ public class Wheel {
     private int posicionX;
     private Symbol simboloActual;
     private Rectangle bordeCasilla;
+    
+    private boolean isLocked;
 
     /**
      * Crea una nueva rueda y la posiciona dinámicamente en el lienzo.
@@ -54,7 +56,6 @@ public class Wheel {
     /**
      * Método para asegurar que la rueda quede encima del fondo gris
      */
-    
     public void redibujar() {
         bordeCasilla.makeVisible();
         casilla.makeVisible();
@@ -133,5 +134,40 @@ public class Wheel {
         if (casilla != null) {
             casilla.changeColor(color);
         }
+    }
+    
+    /**
+     * Bloquea la rueda y cambia su color para indicarlo visualmente.
+     */
+    public void lock() {
+        isLocked = true; 
+        
+        bordeCasilla.changeColor("red");
+        redibujar();
+    }
+
+    /**
+     * Desbloquea la rueda y restaura su color original.
+     */
+    public void unlock() {
+        isLocked = false;
+        
+        bordeCasilla.changeColor("green");
+        
+        redibujar();
+        
+        Canvas.getCanvas().wait(400);
+        
+        bordeCasilla.changeColor("black");
+        
+        redibujar();
+    }
+
+    /**
+     * Consulta si la rueda está bloqueada.
+     * @return true si está bloqueada, false si está libre.
+     */
+    public boolean isLocked() {
+        return isLocked;
     }
 }
