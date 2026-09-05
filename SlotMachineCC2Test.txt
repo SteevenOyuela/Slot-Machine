@@ -1,0 +1,150 @@
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+/**
+ * Pruebas de integración para SlotMachine relacionadas con el Jackpot:
+ * verifica que se alcance correctamente, que el estado ganador se preserve
+ * y que se rechacen operaciones posteriores al ganar.
+ */
+public class SlotMachineCC2Test {
+
+    private SlotMachine mach1;
+
+    /**
+     * Crea una máquina nueva e invisible antes de cada prueba.
+     */
+    @Before
+    public void setUp() {
+        mach1 = new SlotMachine();
+        mach1.makeInvisible();
+    }
+
+    /**
+     * @return la cantidad actual de ruedas en la máquina.
+     */
+    private int ruedas() {
+        return mach1.configuration().length;
+    }
+
+    /**
+     * Obtiene el color del símbolo ubicado en el índice dado del catálogo
+     * de símbolos de la máquina, validando que exista.
+     * @param indice posición en el catálogo de símbolos.
+     * @return el color del símbolo en esa posición.
+     */
+    private String simbolo(int indice) {
+        String[] simbolos = mach1.symbols();
+        assertNotNull(simbolos);
+        assertTrue(simbolos.length > indice);
+        return simbolos[indice];
+    }
+
+    /**
+     * Agrega ruedas hasta que la máquina tenga exactamente 3.
+     */
+    private void crearTresRuedas() {
+        while (ruedas() < 3) {
+            mach1.addWheel(ruedas() + 1);
+            assertTrue(mach1.ok());
+        }
+    }
+
+    /**
+     * addWheel asigna símbolos al azar; si por azar la configuración inicial
+     * ya resulta ganadora, spin(String[]) quedaría bloqueado antes de poder
+     * fijar la configuración deseada en la prueba. Este método reasigna la
+     * última rueda hasta romper ese Jackpot accidental.
+     */
+    private void evitarJackpotAccidental() {
+        while (ruedas() > 1 && mach1.distinctSymbols() == 1) {
+            int ultima = ruedas();
+            mach1.delWheel(ultima);
+            mach1.addWheel(ultima);
+        }
+    }
+
+    /**
+     * Tras fijar una configuración no ganadora, se pueda
+     * bloquear/desbloquear una rueda sin afectar el estado, que luego se
+     * pueda alcanzar el Jackpot fijando el mismo símbolo en todas las
+     * ruedas, y que una vez ganado, un nuevo spin con otra configuración
+     * sea rechazado y el estado ganador se mantenga intacto.
+     */
+    @Test
+    public void accordingDcOaShouldReachJackpotAndPreserveWinningState() {
+        crearTresRuedas();
+        evitarJackpotAccidental();
+
+        String[] configuracionInicial = {
+            simbolo(0),
+            simbolo(1),
+            simbolo(2)
+        };
+
+        mach1.spin(configuracionInicial);
+
+        assertTrue(mach1.ok());
+        assertArrayEquals(configuracionInicial, mach1.configuration());
+        assertFalse(mach1.isJackpot());
+
+        mach1.lock(1);
+        assertTrue(mach1.ok());
+
+        mach1.unlock(1);
+        assertTrue(mach1.ok());
+
+        String simboloGanador = simbolo(0);
+
+        String[] jackpot = {
+            simboloGanador,
+            simboloGanador,
+            simboloGanador
+        };
+
+        mach1.spin(jackpot);
+
+        assertTrue(mach1.ok());
+        assertTrue(mach1.isJackpot());
+        assertArrayEquals(jackpot, mach1.configuration());
+
+        String[] estadoGanador = mach1.configuration();
+
+        // Tras el Jackpot, cualquier spin posterior debe rechazarse
+        // y la configuración ganadora debe permanecer sin cambios.
+        mach1.spin(new String[] {
+            simbolo(1),
+            simbolo(1),
+            simbolo(1)
+        });
+
+        assertFalse(mach1.ok());
+        assertArrayEquals(estadoGanador, mach1.configuration());
+    }
+
+    /**
+     * Verifica que con dos ruedas se pueda alcanzar el Jackpot fijando el
+     * mismo símbolo en ambas, y que un spin posterior con símbolos distintos
+     * sea rechazado, dejando la configuración ganadora sin modificar.
+     */
+    @Test
+    public void accordingDcOaShouldReachJackpotAndRejectSubsequentOperations() {
+        mach1.addWheel(1);
+        mach1.addWheel(2);
+        evitarJackpotAccidental();
+
+        mach1.spin(new String[]{"maroon", "green"});
+        assertFalse(mach1.isJackpot());
+
+        mach1.lock(1);
+        mach1.unlock(1);
+
+        mach1.spin(new String[]{"blue", "blue"});
+        assertTrue(mach1.ok());
+        assertTrue(mach1.isJackpot());
+
+        mach1.spin(new String[]{"maroon", "green"});
+        assertFalse(mach1.ok());
+        assertArrayEquals(new String[]{"blue", "blue"}, mach1.configuration());
+    }
+}

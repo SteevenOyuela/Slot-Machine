@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sun Aug 30 21:32:09 COT 2026
+#Sat Sep 05 13:57:50 COT 2026
 comment0.target=Canvas
 comment0.text=\r\n Canvas is a class to allow for simple graphical drawing on a canvas.\r\n This is a modification of the general purpose Canvas, specially made for\r\n the BlueJ "shapes" example. \r\n\r\n @author\: Bruce Quig\r\n @author\: Michael Kolling (mik)\r\n\r\n @version\: 1.6 (shapes)\r\n
 comment1.target=Canvas getCanvas()

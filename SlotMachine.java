@@ -143,6 +143,20 @@ public class SlotMachine {
         
         int indiceJava = pos - 1;
         
+        if (indiceJava < wheels.size()) {
+            Wheel ruedaEnPosicion = wheels.get(indiceJava);
+            
+            if (ruedaEnPosicion.isLocked()) {
+                if (isVisible) {
+                    JOptionPane.showMessageDialog(null, 
+                        "Error: La rueda en la posición " + pos + " está bloqueada.\n" +
+                        "No puedes agregar una rueda aquí porque desplazaría a la que está congelada.");
+                }
+                ok = false;
+                return;
+            }
+        }
+        
         Wheel nuevaRueda = new Wheel(indiceJava);
         asignarSimboloAleatorio(nuevaRueda); 
         wheels.add(indiceJava, nuevaRueda);
@@ -178,6 +192,20 @@ public class SlotMachine {
         }
         
         int indiceJava = pos - 1;
+        
+        if (indiceJava < wheels.size()) {
+            Wheel ruedaEnPosicion = wheels.get(indiceJava);
+            
+            if (ruedaEnPosicion.isLocked()) {
+                if (isVisible) {
+                    JOptionPane.showMessageDialog(null, 
+                        "Error: La rueda en la posición " + pos + " está bloqueada.\n" +
+                        "No puedes eliminar una rueda aquí");
+                }
+                ok = false;
+                return;
+            }
+        }
         
         Wheel ruedaAEliminar = wheels.get(indiceJava);
         ruedaAEliminar.makeInvisible();
@@ -269,7 +297,7 @@ public class SlotMachine {
             return;
         }
         
-        if (distinctSymbols() == 1) {
+        if (wheels.size() > 1 && distinctSymbols() == 1) {
             if (isVisible) {
                 JOptionPane.showMessageDialog(null, "Error: Ya has ganado el Jackpot. No se permiten más movimientos.");
             }
@@ -282,11 +310,13 @@ public class SlotMachine {
         
         for (int i = 0; i < wheels.size(); i++) {
             Wheel ruedaActual = wheels.get(i);
-        
-            int indiceAleatorio = (int) (Math.random() * symbols.size());
-            Symbol simboloElegido = symbols.get(indiceAleatorio);
             
-            ruedaActual.girar(simboloElegido.getColor(), simboloElegido.getForma());
+            if (!ruedaActual.isLocked()) {
+                int indiceAleatorio = (int) (Math.random() * symbols.size());
+                Symbol simboloElegido = symbols.get(indiceAleatorio);
+                
+                ruedaActual.girar(simboloElegido.getColor(), simboloElegido.getForma());
+            }
         }
         
         Canvas.getCanvas().wait(200);
@@ -361,7 +391,11 @@ public class SlotMachine {
         if (ganaste) {
             parteTrasera.changeColor("gold");
             
-            actualizarRuedas(); 
+            for (Wheel ruedaActual : wheels) {
+                ruedaActual.unlock(); 
+            }
+            
+            actualizarRuedas();
             
             JOptionPane.showMessageDialog(null, "¡FELICIDADES HAS GANADO!");
         } else {
@@ -414,6 +448,16 @@ public class SlotMachine {
         } else if (index >= wheels.size()) {
             index = wheels.size() - 1;
         }
+        
+        Wheel ruedaActual = wheels.get(index);
+        
+        if (ruedaActual.isLocked()) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, "Error: La rueda " + (index + 1) + " está bloqueada y no puede girar para hacer la respectiva accion de cambio.");
+            }
+            ok = false;
+            return;
+        }
 
         String formaEncontrada = "";
         for (Symbol s : symbols) {
@@ -460,6 +504,16 @@ public class SlotMachine {
         } else if (index >= wheels.size()) {
             index = wheels.size() - 1;
         }
+        
+        Wheel ruedaActual = wheels.get(index);
+        
+        if (ruedaActual.isLocked()) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, "Error: La rueda " + (index + 1) + " está bloqueada y no puede girar.");
+            }
+            ok = false;
+            return;
+        }
 
         int indiceAleatorio = (int) (Math.random() * symbols.size());
         Symbol simboloElegido = symbols.get(indiceAleatorio);
@@ -472,6 +526,310 @@ public class SlotMachine {
         Canvas.getCanvas().wait(200);
         palanca.soltar();
         
+        isJackpot();
+        ok = true;
+    }
+    
+    /**
+     * Intercambia la posición de dos ruedas dentro de la máquina tragamonedas.
+     * @param wheel1 La posición de la primera rueda a intercambiar (iniciando en 1).
+     * @param wheel2 La posición de la segunda rueda a intercambiar (iniciando en 1).
+     */
+    public void swap(int wheel1, int wheel2) {
+        if (wheels.isEmpty() || wheels.size() < 2) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, "Error: No hay suficientes ruedas para intercambiar.");
+            }
+            ok = false;
+            return;
+        }
+        
+        int maxPosValida = wheels.size();
+        
+        if (wheel1 < 1 || wheel1 > maxPosValida || wheel2 < 1 || wheel2 > maxPosValida) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, 
+                    "Error: No se pueden intercambiar las posiciones " + wheel1 + " y " + wheel2 + ".\n" +
+                    "Actualmente solo puedes usar posiciones del 1 al " + maxPosValida + ".");
+            }
+            ok = false;
+            return;
+        }
+
+        int indice1 = wheel1 - 1;
+        int indice2 = wheel2 - 1;
+        
+        Wheel ruedaActual1 = wheels.get(indice1);
+        Wheel ruedaActual2 = wheels.get(indice2);
+        
+        if (ruedaActual1.isLocked() || ruedaActual2.isLocked()) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, "Error: Una de las ruedas está bloqueada y no se puede realizar el cambio.");
+            }
+            ok = false;
+            return;
+        }
+
+        if (indice1 != indice2) {
+            Wheel ruedaTemporal = wheels.get(indice1);
+            wheels.set(indice1, wheels.get(indice2));
+            wheels.set(indice2, ruedaTemporal);
+
+            actualizarRuedas();
+            isJackpot();
+        }
+        ok = true;
+    }
+    
+    /**
+     * Bloquea una rueda específica para que no gire.
+     * @param wheel La posición de la rueda (iniciando en 1).
+     */
+    public void lock(int wheel) {
+        if (wheels.isEmpty()) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, "Error: No hay ruedas para bloquear.");
+            }
+            ok = false;
+            return;
+        }
+        
+        int maxPosValida = wheels.size();
+        if (wheel < 1 || wheel > maxPosValida) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, 
+                    "Error: No se puede bloquear la posición " + wheel + ".\n" +
+                    "Rango válido actual: 1 a " + maxPosValida + ".");
+            }
+            ok = false;
+            return;
+        }
+        
+        Wheel ruedaObjetivo = wheels.get(wheel - 1);
+
+        if (ruedaObjetivo.isLocked()) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, "Error: La rueda en la posición " + wheel + " ya se encuentra bloqueada.");
+            }
+            ok = false;
+            return;
+        }
+
+        ruedaObjetivo.lock();
+        ok = true;
+    }
+
+    /**
+     * Desbloquea una rueda específica para que vuelva a girar.
+     * @param wheel La posición de la rueda (iniciando en 1).
+     */
+    public void unlock(int wheel) {
+        if (wheels.isEmpty()) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, "Error: No hay ruedas para desbloquear.");
+            }
+            ok = false;
+            return;
+        }
+        
+        int maxPosValida = wheels.size();
+        if (wheel < 1 || wheel > maxPosValida) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, 
+                    "Error: No se puede desbloquear la posición " + wheel + ".\n" +
+                    "Rango válido actual: 1 a " + maxPosValida + ".");
+            }
+            ok = false;
+            return;
+        }
+        
+        Wheel ruedaObjetivo = wheels.get(wheel - 1);
+        
+        if (!ruedaObjetivo.isLocked()) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, "Error: La rueda en la posición " + wheel + " ya se encuentra libre.");
+            }
+            ok = false;
+            return;
+        }
+
+        ruedaObjetivo.unlock();
+        ok = true;
+    }
+    
+    /**
+     * Gira una rueda específica avanzando una cantidad determinada de pasos.
+     * @param wheel La posición de la rueda (iniciando en 1).
+     * @param steps La cantidad de posiciones a avanzar en el catálogo de símbolos.
+     */
+    public void spin(int wheel, int steps) {
+        if (wheels.isEmpty() || symbols.isEmpty()) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, "Error: Faltan ruedas o símbolos para poder girar.");
+            }
+            ok = false;
+            return;
+        }
+        
+        if (wheels.size() > 1 && distinctSymbols() == 1) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, "Error: Ya has ganado el Jackpot. No se permiten más movimientos.");
+            }
+            ok = false;
+            return;
+        }
+        
+        int maxPosValida = wheels.size();
+        
+        if (wheel < 1 || wheel > maxPosValida) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, 
+                    "Error: No se puede girar la rueda en la posición " + wheel + ".\n" +
+                    "Actualmente solo puedes usar posiciones del 1 al " + maxPosValida + ".");
+            }
+            ok = false;
+            return;
+        }
+
+        int index = wheel - 1;
+        if (index < 0) {
+            index = 0;
+        } else if (index >= wheels.size()) {
+            index = wheels.size() - 1;
+        }
+        
+        Wheel ruedaActual = wheels.get(index);
+        
+        if (ruedaActual.isLocked()) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, "Error: La rueda " + (index + 1) + " está bloqueada y no puede girar.");
+            }
+            ok = false;
+            return;
+        }
+
+        // 5. Encontrar en qué posición del catálogo de símbolos está el símbolo actual (IA implementativa)
+        int indiceCatalogo = 0;
+        String colorActual = ruedaActual.getColorActual();
+        for (int i = 0; i < symbols.size(); i++) {
+            if (symbols.get(i).getColor().equalsIgnoreCase(colorActual)) {
+                indiceCatalogo = i;
+                break;
+            }
+        }
+        
+        if (isVisible) {
+            palanca.tirar();
+            Canvas.getCanvas().wait(200);
+        }
+        
+        // 7. Avanzar el número de pasos indicados
+        for (int i = 0; i < steps; i++) {
+            indiceCatalogo = (indiceCatalogo + 1) % symbols.size();
+            Symbol siguienteSimbolo = symbols.get(indiceCatalogo);
+            
+            if (isVisible) {
+                ruedaActual.girar(siguienteSimbolo.getColor(), siguienteSimbolo.getForma());
+            } else {
+                ruedaActual.setSymbol(siguienteSimbolo.getColor(), siguienteSimbolo.getForma());
+            }
+        }
+        
+        if (isVisible) {
+            Canvas.getCanvas().wait(200);
+            palanca.soltar();
+        }
+        
+        isJackpot();
+        ok = true;
+    }
+    
+    /**
+     * Deja la máquina tragamonedas en una configuración exacta dada por el usuario.
+     * @param setSymbols Arreglo de Strings con los colores deseados para cada rueda, de izquierda a derecha.
+     */
+    public void spin(String[] setSymbols) {
+        if (wheels.isEmpty() || symbols.isEmpty() || setSymbols == null) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, "Error: Faltan ruedas, símbolos, o el arreglo ingresado es nulo.");
+            }
+            ok = false;
+            return;
+        }
+
+        if (setSymbols.length != wheels.size()) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, 
+                    "Error: La cantidad de símbolos dados (" + setSymbols.length + 
+                    ") no coincide con el número de ruedas (" + wheels.size() + ").");
+            }
+            ok = false;
+            return;
+        }
+
+        if (wheels.size() > 1 && distinctSymbols() == 1) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, "Error: Ya has ganado el Jackpot. No se permiten más movimientos.");
+            }
+            ok = false;
+            return;
+        }
+        
+        for (int i = 0; i < wheels.size(); i++) {
+            if (wheels.get(i).isLocked()) {
+                if (isVisible) {
+                    JOptionPane.showMessageDialog(null, "Error: La rueda " + (i + 1) + " está bloqueada. No se puede aplicar la configuración.");
+                }
+                ok = false;
+                return;
+            }
+        }
+
+        String[] formasEncontradas = new String[setSymbols.length];
+        
+        for (int i = 0; i < setSymbols.length; i++) {
+            String colorBuscado = setSymbols[i];
+            String formaEncontrada = "";
+            
+            for (Symbol s : symbols) {
+                if (s.getColor().equalsIgnoreCase(colorBuscado)) {
+                    formaEncontrada = s.getForma();
+                    break;
+                }
+            }
+            
+            if (formaEncontrada.isEmpty()) {
+                if (isVisible) {
+                    JOptionPane.showMessageDialog(null, "Error: El símbolo de color '" + colorBuscado + "' no existe en el catálogo.");
+                }
+                ok = false;
+                return; 
+            }
+            formasEncontradas[i] = formaEncontrada;
+        }
+
+        if (isVisible) {
+            palanca.tirar();
+            Canvas.getCanvas().wait(200);
+        }
+
+        for (int i = 0; i < wheels.size(); i++) {
+            Wheel ruedaActual = wheels.get(i);
+            
+            if (!ruedaActual.isLocked()) {
+                if (isVisible) {
+                    ruedaActual.girar(setSymbols[i], formasEncontradas[i]);
+                } else {
+                    ruedaActual.setSymbol(setSymbols[i], formasEncontradas[i]);
+                }
+            }
+        }
+
+        if (isVisible) {
+            Canvas.getCanvas().wait(200);
+            palanca.soltar();
+        }
+
         isJackpot();
         ok = true;
     }

@@ -1,10 +1,14 @@
 #BlueJ class context
-#Sun Aug 30 21:32:14 COT 2026
+#Sat Sep 05 13:57:45 COT 2026
 comment0.target=Wheel
 comment0.text=\r\n Representa Las ruedas.\r\n \r\n Estas casillas estan represetnadas de color balnco y se encuentran distribuidas en el tablero.\r\n
 comment1.params=index
 comment1.target=Wheel(int)
 comment1.text=\r\n Crea una nueva rueda y la posiciona din\u00E1micamente en el lienzo.\r\n @param index El \u00EDndice de la rueda (0 para la primera, 1 para la segunda, etc.)\r\n
+comment10.target=void unlock()
+comment10.text=\r\n Desbloquea la rueda y restaura su color original.\r\n
+comment11.target=boolean isLocked()
+comment11.text=\r\n Consulta si la rueda est\u00E1 bloqueada.\r\n @return true si est\u00E1 bloqueada, false si est\u00E1 libre.\r\n
 comment2.params=nuevoIndex
 comment2.target=void actualizarPosicion(int)
 comment2.text=\r\n Recalcula la posici\u00F3n de la rueda y desplaza el rect\u00E1ngulo.\r\n @param nuevoIndex El nuevo \u00EDndice de la rueda en la m\u00E1quina.\r\n
@@ -23,4 +27,6 @@ comment7.text=\r\n Consulta el color del s\u00EDmbolo que la rueda est\u00E1 mos
 comment8.params=color
 comment8.target=void cambiarColorFondo(java.lang.String)
 comment8.text=\r\n Cambia el color de fondo de la casilla de la rueda.\r\n @param color El color deseado.\r\n
-numComments=9
+comment9.target=void lock()
+comment9.text=\r\n Bloquea la rueda y cambia su color para indicarlo visualmente.\r\n
+numComments=12
