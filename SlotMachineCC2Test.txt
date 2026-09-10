@@ -3,11 +3,11 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Pruebas de integración para SlotMachine relacionadas con el Jackpot:
+ * Pruebas de integración para Slotmach1 relacionadas con el Jackpot:
  * verifica que se alcance correctamente, que el estado ganador se preserve
  * y que se rechacen operaciones posteriores al ganar.
  */
-public class SlotMachineCC2Test {
+public class Slotmach1CC2Test {
 
     private SlotMachine mach1;
 
@@ -146,5 +146,42 @@ public class SlotMachineCC2Test {
         mach1.spin(new String[]{"maroon", "green"});
         assertFalse(mach1.ok());
         assertArrayEquals(new String[]{"blue", "blue"}, mach1.configuration());
+    }
+    
+    /**
+     * Verifica colectivamente que, al forzar una configuración donde todas las ruedas
+     * quedan con el mismo símbolo mediante spin(String[]), el sistema cambie su estado
+     * y detecte exitosamente el jackpot.
+     */
+    @Test
+    public void accordingDcOaShouldDetectJackpotAfterForcedSpin() {
+        mach1.addSymbol(1, "red");
+        mach1.addSymbol(2, "blue");
+        mach1.addWheel(1);
+        mach1.addWheel(2);
+        
+        mach1.spin(new String[]{"red", "red"});
+        
+        assertTrue(mach1.isJackpot());
+    }
+    
+    /**
+     * Verifica que, al intercambiar dos ruedas válidas con símbolos
+     * distintos mediante swap(int, int), cada una termine mostrando el
+     * símbolo que antes tenía la otra.
+     */
+    @Test
+    public void accordingDcOaShouldSwapSymbolsBetweenTwoValidWheels(){
+        mach1.addSymbol(1, "red");
+        mach1.addSymbol(2, "blue");
+        mach1.addWheel(1);
+        mach1.addWheel(2);
+        mach1.placeSymbol(1, "red");
+        mach1.placeSymbol(2, "blue");
+
+        mach1.swap(1, 2);
+
+        assertEquals("blue", mach1.configuration()[0]);
+        assertEquals("red", mach1.configuration()[1]);
     }
 }

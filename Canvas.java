@@ -23,6 +23,9 @@ public class Canvas{
 
     /**
      * Factory method to get the canvas singleton object.
+     * Como recomendación apra el uso del metodo visible; 
+     * Cuando se ejcuten las pruebas de aceptación se recomiendo que esté en FALSE para que no se muestre el mensaje de felicitaciones.
+     * Cuando se ejecute el juego en modo normal, se recomienda que esté en TRUE para que se muestre el mensaje de felicitaciones.
      */
     public static Canvas getCanvas(){
         if(canvasSingleton == null) {

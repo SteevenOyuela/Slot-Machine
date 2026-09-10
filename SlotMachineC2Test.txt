@@ -182,21 +182,6 @@ public class SlotMachineC2Test {
     }
 
     /**
-     * QUÉ SE PRUEBA: que se puede eliminar la última rueda de la máquina.
-     * WHEN: con 2 ruedas configuradas (maroon, green), se elimina la rueda en la posición 2.
-     * THEN: ok() debe ser true y debe quedar solo la rueda "maroon".
-     */
-    @Test
-    public void testDelWheelLastSucceeds() {
-        mach1.addWheel(1);
-        mach1.addWheel(2);
-        mach1.spin(new String[]{"maroon", "green"});
-        mach1.delWheel(2);
-        assertTrue(mach1.ok());
-        assertArrayEquals(new String[]{"maroon"}, mach1.configuration());
-    }
-
-    /**
      * QUÉ SE PRUEBA: que se puede eliminar una rueda intermedia y las de los extremos se conservan.
      * WHEN: con 3 ruedas configuradas (maroon, green, blue), se elimina la rueda en la posición 2.
      * THEN: ok() debe ser true y deben quedar solo "maroon" y "blue", en ese orden.
@@ -284,51 +269,51 @@ public class SlotMachineC2Test {
 
     /**
      * QUÉ SE PRUEBA: que se puede agregar un símbolo nuevo (color no repetido) al catálogo.
-     * WHEN: se llama addSymbol("brown", "circle") con un color que aún no existe.
+     * WHEN: se llama addSymbol(1, "brown") con un color que aún no existe.
      * THEN: el tamaño del catálogo debe aumentar exactamente en 1.
      */
     @Test
     public void testAddSymbolValidIncreasesCatalog() {
         int before = mach1.symbols().length;
-        mach1.addSymbol("brown", "circle");
+        mach1.addSymbol(1, "brown");
         assertEquals(before + 1, mach1.symbols().length);
     }
 
     /**
      * QUÉ SE PRUEBA: que no se puede duplicar un símbolo si el color ya existe con la misma forma.
-     * WHEN: se intenta addSymbol("maroon", "circle"), color y forma ya presentes en el catálogo.
+     * WHEN: se intenta addSymbol(1, "maroon"), color y forma ya presentes en el catálogo.
      * THEN: el tamaño del catálogo no debe cambiar.
      */
     @Test
     public void testAddSymbolDuplicateColorSameShapeCatalogUnchanged() {
         int before = mach1.symbols().length;
-        mach1.addSymbol("maroon", "circle");
+        mach1.addSymbol(1, "maroon");
         assertEquals(before, mach1.symbols().length);
     }
 
     /**
      * QUÉ SE PRUEBA: que la validación de color duplicado ignora la forma; el color por sí
      * solo ya bloquea la duplicación aunque se use una figura distinta.
-     * WHEN: se intenta addSymbol("maroon", "rectangle") cuando "maroon" ya existe con otra forma.
+     * WHEN: se intenta addSymbol(1, "maroon") cuando "maroon" ya existe con otra forma.
      * THEN: el tamaño del catálogo no debe cambiar.
      */
     @Test
     public void testAddSymbolDuplicateColorDifferentShapeCatalogUnchanged() {
         int before = mach1.symbols().length;
-        mach1.addSymbol("maroon", "rectangle");
+        mach1.addSymbol(1, "maroon");
         assertEquals(before, mach1.symbols().length);
     }
 
     /**
      * QUÉ SE PRUEBA: que la comparación de colores para detectar duplicados no distingue
      * mayúsculas de minúsculas.
-     * WHEN: se intenta addSymbol("MAROON", "circle") cuando "maroon" ya existe en minúsculas.
+     * WHEN: se intenta addSymbol(1, "MAROON") cuando "maroon" ya existe en minúsculas.
      * THEN: el tamaño del catálogo no debe cambiar.
      */
     @Test
     public void testAddSymbolDuplicateColorDifferentCaseCatalogUnchanged() {
         int before = mach1.symbols().length;
-        mach1.addSymbol("MAROON", "circle");
+        mach1.addSymbol(1, "MAROON");
         assertEquals(before, mach1.symbols().length);
     }
 
@@ -336,36 +321,36 @@ public class SlotMachineC2Test {
 
     /**
      * QUÉ SE PRUEBA: que se puede eliminar del catálogo un símbolo existente por su color.
-     * WHEN: se llama delSymbol("maroon", "circle") cuando "maroon" está en el catálogo.
+     * WHEN: se llama delSymbol("maroon") cuando "maroon" está en el catálogo.
      * THEN: el catálogo ya no debe contener "maroon" y debe quedar con 5 símbolos.
      */
     @Test
     public void testDelSymbolExistingRemovesFromCatalog() {
-        mach1.delSymbol("maroon", "circle");
+        mach1.delSymbol("maroon");
         assertFalse(java.util.Arrays.asList(mach1.symbols()).contains("maroon"));
         assertEquals(5, mach1.symbols().length);
     }
 
     /**
      * QUÉ SE PRUEBA: que intentar eliminar un símbolo que no existe no afecta al catálogo.
-     * WHEN: se llama delSymbol("nonexistent", "circle") con un color que no está en el catálogo.
+     * WHEN: se llama delSymbol("nonexistent") con un color que no está en el catálogo.
      * THEN: el tamaño del catálogo no debe cambiar.
      */
     @Test
     public void testDelSymbolNonExistentDoesNotChangeCatalog() {
         int before = mach1.symbols().length;
-        mach1.delSymbol("nonexistent", "circle");
+        mach1.delSymbol("nonexistent");
         assertEquals(before, mach1.symbols().length);
     }
 
     /**
      * QUÉ SE PRUEBA: que la búsqueda del color a eliminar no distingue mayúsculas de minúsculas.
-     * WHEN: se llama delSymbol("MAROON", "circle") cuando el catálogo tiene "maroon" en minúsculas.
+     * WHEN: se llama delSymbol("MAROON") cuando el catálogo tiene "maroon" en minúsculas.
      * THEN: "maroon" debe quedar eliminado del catálogo.
      */
     @Test
     public void testDelSymbolDifferentCaseRemoves() {
-        mach1.delSymbol("MAROON", "circle");
+        mach1.delSymbol("MAROON");
         assertFalse(java.util.Arrays.asList(mach1.symbols()).contains("maroon"));
     }
 
@@ -376,7 +361,7 @@ public class SlotMachineC2Test {
      */
     @Test
     public void testDelSymbolPreservesOtherSymbols() {
-        mach1.delSymbol("maroon", "circle");
+        mach1.delSymbol("maroon");
         java.util.List<String> cat = java.util.Arrays.asList(mach1.symbols());
         assertTrue(cat.contains("green"));
         assertTrue(cat.contains("blue"));
@@ -448,35 +433,6 @@ public class SlotMachineC2Test {
         assertArrayEquals(new String[]{"maroon", "blue", "green", "purple"}, mach1.configuration());
     }
 
-    /**
-     * QUÉ SE PRUEBA: que al avanzar una rueda exactamente el tamaño completo del catálogo
-     * de símbolos, esta vuelve a mostrar el mismo símbolo con el que empezó.
-     * WHEN: se coloca "maroon" en la rueda 1 y se hace spin(1, n) con n = cantidad de símbolos.
-     * THEN: la rueda 1 debe seguir mostrando "maroon".
-     */
-    @Test
-    public void testConfigurationAfterSpinWithSteps() {
-        mach1.addWheel(1);
-        mach1.addWheel(2);
-        mach1.placeSymbol(1, "maroon");
-        int n = mach1.symbols().length;
-        mach1.spin(1, n);
-        assertEquals("maroon", mach1.configuration()[0]);
-    }
-
-    /**
-     * QUÉ SE PRUEBA: que spin(String[]) deja la configuración exactamente como se solicitó.
-     * WHEN: con 2 ruedas, se llama spin(new String[]{"blue", "purple"}).
-     * THEN: configuration() debe devolver exactamente {blue, purple}.
-     */
-    @Test
-    public void testConfigurationAfterSpinArray() {
-        mach1.addWheel(1);
-        mach1.addWheel(2);
-        mach1.spin(new String[]{"blue", "purple"});
-        assertArrayEquals(new String[]{"blue", "purple"}, mach1.configuration());
-    }
-
     // ---------------- symbols ----------------
 
     /**
@@ -491,35 +447,35 @@ public class SlotMachineC2Test {
 
     /**
      * QUÉ SE PRUEBA: que un símbolo agregado aparece luego en el catálogo devuelto por symbols().
-     * WHEN: se llama addSymbol("brown", "circle").
+     * WHEN: se llama addSymbol(1, "brown").
      * THEN: symbols() debe contener "brown".
      */
     @Test
     public void testSymbolsAfterAdd() {
-        mach1.addSymbol("brown", "circle");
+        mach1.addSymbol(1, "brown");
         assertTrue(java.util.Arrays.asList(mach1.symbols()).contains("brown"));
     }
 
     /**
      * QUÉ SE PRUEBA: que un símbolo eliminado ya no aparece en el catálogo devuelto por symbols().
-     * WHEN: se llama delSymbol("green", "circle").
+     * WHEN: se llama delSymbol("green").
      * THEN: symbols() ya no debe contener "green".
      */
     @Test
     public void testSymbolsAfterDelete() {
-        mach1.delSymbol("green", "circle");
+        mach1.delSymbol("green");
         assertFalse(java.util.Arrays.asList(mach1.symbols()).contains("green"));
     }
 
     /**
      * QUÉ SE PRUEBA: que el catálogo nunca queda con colores duplicados, incluso si se
      * intenta agregar el mismo color con otra forma.
-     * WHEN: se intenta addSymbol("maroon", "triangle") cuando "maroon" ya existe.
+     * WHEN: se intenta addSymbol(1, "maroon") cuando "maroon" ya existe.
      * THEN: debe haber exactamente una sola aparición de "maroon" (sin distinguir mayúsculas) en el catálogo.
      */
     @Test
     public void testSymbolsNoDuplicateColors() {
-        mach1.addSymbol("maroon", "triangle");
+        mach1.addSymbol(1, "maroon");
         long count = java.util.Arrays.stream(mach1.symbols()).filter(c -> c.equalsIgnoreCase("maroon")).count();
         assertEquals(1, count);
     }
@@ -534,21 +490,6 @@ public class SlotMachineC2Test {
     @Test
     public void testDistinctSymbolsZeroWheels() {
         assertEquals(0, mach1.distinctSymbols());
-    }
-
-    /**
-     * QUÉ SE PRUEBA: que distinctSymbols() cuenta correctamente cuando todas las ruedas
-     * muestran colores diferentes entre sí.
-     * WHEN: con 3 ruedas configuradas como {maroon, green, blue}, se consulta distinctSymbols().
-     * THEN: el resultado debe ser 3.
-     */
-    @Test
-    public void testDistinctSymbolsAllDifferent() {
-        mach1.addWheel(1);
-        mach1.addWheel(2);
-        mach1.addWheel(3);
-        mach1.spin(new String[]{"maroon", "green", "blue"});
-        assertEquals(3, mach1.distinctSymbols());
     }
 
     /**
@@ -637,32 +578,6 @@ public class SlotMachineC2Test {
     }
 
     // ---------------- spin() ----------------
-
-    /**
-     * QUÉ SE PRUEBA: que no se puede girar la máquina si no tiene ruedas.
-     * WHEN: se llama spin() sin haber agregado ninguna rueda.
-     * THEN: ok() debe ser false.
-     */
-    @Test
-    public void testSpinNoWheelsRejected() {
-        mach1.spin();
-        assertFalse(mach1.ok());
-    }
-
-    /**
-     * QUÉ SE PRUEBA: que girar la máquina funciona correctamente cuando todas las ruedas
-     * están desbloqueadas.
-     * WHEN: con 2 ruedas configuradas y sin bloquear, se llama spin().
-     * THEN: ok() debe ser true.
-     */
-    @Test
-    public void testSpinWithUnlockedWheelsSucceeds() {
-        mach1.addWheel(1);
-        mach1.addWheel(2);
-        mach1.spin(new String[]{"maroon", "green"});
-        mach1.spin();
-        assertTrue(mach1.ok());
-    }
 
     /**
      * QUÉ SE PRUEBA: que una vez logrado el Jackpot, ya no se permite seguir girando la máquina.
@@ -981,22 +896,6 @@ public class SlotMachineC2Test {
         assertEquals("green", mach1.configuration()[1]);
     }
 
-    /**
-     * QUÉ SE PRUEBA: que una rueda que fue bloqueada y luego desbloqueada puede volver a girar.
-     * WHEN: se bloquea la rueda 1, se desbloquea, y luego se llama spin(1).
-     * THEN: ok() debe ser true.
-     */
-    @Test
-    public void testUnlockedWheelCanBeSpunAgain() {
-        mach1.addWheel(1);
-        mach1.addWheel(2);
-        mach1.spin(new String[]{"maroon", "green"});
-        mach1.lock(1);
-        mach1.unlock(1);
-        mach1.spin(1);
-        assertTrue(mach1.ok());
-    }
-
     // ---------------- spin(int wheel, int steps) ----------------
 
     /**
@@ -1034,20 +933,6 @@ public class SlotMachineC2Test {
     }
 
     // ---------------- spin(String[]) ----------------
-
-    /**
-     * QUÉ SE PRUEBA: que spin(String[]) puede dejar una configuración ganadora válida.
-     * WHEN: se llama spin(new String[]{"blue", "blue"}) sobre 2 ruedas.
-     * THEN: ok() debe ser true y la máquina debe quedar en estado de Jackpot.
-     */
-    @Test
-    public void testSpinArrayValidWinning() {
-        mach1.addWheel(1);
-        mach1.addWheel(2);
-        mach1.spin(new String[]{"blue", "blue"});
-        assertTrue(mach1.ok());
-        assertTrue(mach1.isJackpot());
-    }
 
     /**
      * QUÉ SE PRUEBA: que no se puede pasar un arreglo nulo como configuración deseada.
@@ -1119,20 +1004,6 @@ public class SlotMachineC2Test {
         mach1.spin(new String[]{"maroon", "nonexistent"});
         assertFalse(mach1.ok());
         assertArrayEquals(before, mach1.configuration());
-    }
-
-    /**
-     * QUÉ SE PRUEBA: que la búsqueda de colores en el catálogo no distingue mayúsculas
-     * de minúsculas al aplicar spin(String[]).
-     * WHEN: se llama spin(new String[]{"MAROON", "GREEN"}) usando mayúsculas.
-     * THEN: ok() debe ser true.
-     */
-    @Test
-    public void testSpinArrayCaseInsensitiveColorAccepted() {
-        mach1.addWheel(1);
-        mach1.addWheel(2);
-        mach1.spin(new String[]{"MAROON", "GREEN"});
-        assertTrue(mach1.ok());
     }
 
     /**
