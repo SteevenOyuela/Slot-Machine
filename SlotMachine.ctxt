@@ -1,12 +1,12 @@
 #BlueJ class context
-#Sat Sep 05 17:27:35 COT 2026
+#Wed Sep 09 14:15:20 COT 2026
 comment0.target=SlotMachine
 comment0.text=\r\n Representa una m\u00E1quina tragamonedas.\r\n \r\n La m\u00E1quina utiliza los componentes gr\u00E1ficos de la librer\u00EDa shapes\r\n para construir su representaci\u00F3n visual.\r\n
 comment1.target=SlotMachine()
 comment1.text=\r\n Crea una nueva m\u00E1quina tragamonedas.\r\n
-comment10.params=color forma
-comment10.target=void delSymbol(java.lang.String, java.lang.String)
-comment10.text=\r\n Elimina un s\u00EDmbolo de la m\u00E1quina buscando por su color.\r\n @param color El color del s\u00EDmbolo a eliminar.\r\n
+comment10.params=color
+comment10.target=void delSymbol(java.lang.String)
+comment10.text=\r\n Elimina un s\u00EDmbolo de la m\u00E1quina tragamonedas.\r\n Si el s\u00EDmbolo indicado no existe, la operaci\u00F3n no se realiza\r\n y se muestra un mensaje de error.\r\n\r\n @param color el color del s\u00EDmbolo que se desea eliminar\r\n
 comment11.params=rueda
 comment11.target=void asignarSimboloAleatorio(Wheel)
 comment11.text=\r\n Asigna un s\u00EDmbolo aleatorio de la lista de s\u00EDmbolos disponibles a una rueda.\r\n Si no hay s\u00EDmbolos en la lista, la rueda se queda vac\u00EDa por el momento.\r\n @param rueda La rueda a la que se le asignar\u00E1 el s\u00EDmbolo.\r\n
@@ -63,7 +63,7 @@ comment7.text=\r\n Elimina una rueda de la m\u00E1quina validando estrictamente 
 comment8.params=color
 comment8.target=boolean existeColor(java.lang.String)
 comment8.text=\r\n Verifica si un s\u00EDmbolo con el color indicado ya existe en la m\u00E1quina.\r\n @param color El color a buscar.\r\n @return true si el color ya existe, false en caso contrario.\r\n
-comment9.params=color forma
-comment9.target=void addSymbol(java.lang.String, java.lang.String)
-comment9.text=\r\n Adiciona un nuevo s\u00EDmbolo a la m\u00E1quina si su color no est\u00E1 repetido.\r\n @param color El color del nuevo s\u00EDmbolo.\r\n @param forma La figura ("circle", "triangle", "rectangle").\r\n
+comment9.params=pos color
+comment9.target=void addSymbol(int, java.lang.String)
+comment9.text=\r\n Agrega un nuevo s\u00EDmbolo a la m\u00E1quina tragamonedas en la posici\u00F3n indicada.\r\n El s\u00EDmbolo solo se agrega si no existe previamente.\r\n Si la posici\u00F3n es mayor que el n\u00FAmero de s\u00EDmbolos, se agrega al final.\r\n Si la posici\u00F3n es menor o igual a uno, se agrega al principio.\r\n\r\n @param pos la posici\u00F3n deseada para el nuevo s\u00EDmbolo\r\n @param color el color del s\u00EDmbolo que se desea agregar. Los colores\r\n disponibles son "red", "black", "blue", "yellow", "green", "white",\r\n "orange" y "cyan".\r\n
 numComments=26

@@ -60,12 +60,12 @@ public class SlotMachine {
         
         symbols = new ArrayList<Symbol>();
 
-        addSymbol("maroon", "circle");
-        addSymbol("green", "circle");
-        addSymbol("blue", "triangle");
-        addSymbol("purple", "triangle");
-        addSymbol("yellow", "rectangle");
-        addSymbol("turquoise", "rectangle");
+        addSymbol(1, "maroon");
+        addSymbol(2, "green");
+        addSymbol(3, "blue");
+        addSymbol(4, "purple");
+        addSymbol(5, "yellow");
+        addSymbol(6, "turquoise");
         
         wheels = new ArrayList<Wheel>();
         
@@ -232,27 +232,50 @@ public class SlotMachine {
     }
     
     /**
-     * Adiciona un nuevo símbolo a la máquina si su color no está repetido.
-     * @param color El color del nuevo símbolo.
-     * @param forma La figura ("circle", "triangle", "rectangle").
+     * Agrega un nuevo símbolo a la máquina tragamonedas en la posición indicada.
+     * El símbolo solo se agrega si no existe previamente.
+     * Si la posición es mayor que el número de símbolos, se agrega al final.
+     * Si la posición es menor o igual a uno, se agrega al principio.
+     *
+     * @param pos la posición deseada para el nuevo símbolo
+     * @param color el color del símbolo que se desea agregar. Los colores
+     * disponibles son "red", "black", "blue", "yellow", "green", "white",
+     * "orange" y "cyan".
      */
-    public void addSymbol(String color, String forma) {
-        if (existeColor(color)) {
-            if (isVisible) {
-                JOptionPane.showMessageDialog(null, "Error: Ya existe un símbolo de color " + color + " y forma de " + forma);
+    public void addSymbol(int pos, String color) {
+        for (Symbol s : symbols) {
+            if (s.getColor().equalsIgnoreCase(color)) {
+                if (isVisible) {
+                    JOptionPane.showMessageDialog(null, "Error: Ya existe un símbolo de color " + color);
+                }
+                ok = false;
+                return;
             }
-            return;
         }
         
-        Symbol nuevoSimbolo = new Symbol(color, forma);
-        symbols.add(nuevoSimbolo);
+        int indiceJava;
+        if (pos <= 1) {
+            indiceJava = 0;
+        } else if (pos > symbols.size()) {
+            indiceJava = symbols.size();
+        } else {
+            indiceJava = pos - 1;
+        }
+        
+        Symbol nuevoSimbolo = new Symbol(color, "triangle"); 
+        
+        symbols.add(indiceJava, nuevoSimbolo);
+        ok = true;
     }
 
     /**
-     * Elimina un símbolo de la máquina buscando por su color.
-     * @param color El color del símbolo a eliminar.
+     * Elimina un símbolo de la máquina tragamonedas.
+     * Si el símbolo indicado no existe, la operación no se realiza
+     * y se muestra un mensaje de error.
+     *
+     * @param color el color del símbolo que se desea eliminar
      */
-    public void delSymbol(String color,  String forma) {
+    public void delSymbol(String color) {
         Symbol simboloAEliminar = null;
         
         for (Symbol s : symbols) {
@@ -264,12 +287,15 @@ public class SlotMachine {
         
         if (simboloAEliminar == null) {
             if (isVisible) {
-                JOptionPane.showMessageDialog(null, "Error: No se encontró el símbolo de color " + color + " con forma de " + forma);
+                JOptionPane.showMessageDialog(null, "Error: No se encontró un símbolo de color " + color + " para eliminar.");
             }
-        } else {
-            simboloAEliminar.makeInvisible();
-            symbols.remove(simboloAEliminar);
-        }
+            ok = false;
+            return;
+        } 
+        
+        simboloAEliminar.makeInvisible();
+        symbols.remove(simboloAEliminar);
+        ok = true;
     }
     
     /**
@@ -397,7 +423,10 @@ public class SlotMachine {
             
             actualizarRuedas();
             
-            JOptionPane.showMessageDialog(null, "¡FELICIDADES HAS GANADO!");
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, "¡FELICIDADES HAS GANADO!");
+            }
+            
         } else {
             parteTrasera.changeColor("lightgray"); 
             pintarCasillasRuedas("white"); 
