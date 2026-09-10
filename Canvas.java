@@ -31,8 +31,8 @@ public class Canvas{
         if(canvasSingleton == null) {
             canvasSingleton = new Canvas("BlueJ Shapes Demo", 800, 400, 
                                          Color.white);
+            canvasSingleton.init();
         }
-        canvasSingleton.setVisible(true);
         return canvasSingleton;
     }
 
@@ -254,4 +254,12 @@ public class Canvas{
         }
     }
 
+    private void init(){
+        Dimension size = canvas.getSize();
+        canvasImage = canvas.createImage(size.width, size.height);
+        graphic = (Graphics2D)canvasImage.getGraphics();
+        graphic.setColor(backgroundColour);
+        graphic.fillRect(0, 0, size.width, size.height);
+        graphic.setColor(Color.black);
+    }
 }
