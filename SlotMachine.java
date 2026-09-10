@@ -331,8 +331,10 @@ public class SlotMachine {
             return;
         }
         
-        palanca.tirar();
-        Canvas.getCanvas().wait(200);
+        if (isVisible) {
+            palanca.tirar();
+            Canvas.getCanvas().wait(200);
+        }
         
         for (int i = 0; i < wheels.size(); i++) {
             Wheel ruedaActual = wheels.get(i);
@@ -345,8 +347,10 @@ public class SlotMachine {
             }
         }
         
-        Canvas.getCanvas().wait(200);
-        palanca.soltar();
+        if (isVisible) {
+            Canvas.getCanvas().wait(200);
+            palanca.soltar();
+        }
         
         isJackpot();
         
@@ -547,13 +551,17 @@ public class SlotMachine {
         int indiceAleatorio = (int) (Math.random() * symbols.size());
         Symbol simboloElegido = symbols.get(indiceAleatorio);
 
-        palanca.tirar();
-        Canvas.getCanvas().wait(200);
+        if (isVisible) {
+            palanca.tirar();
+            Canvas.getCanvas().wait(200);
+        }
         
         wheels.get(index).girar(simboloElegido.getColor(), simboloElegido.getForma());
         
-        Canvas.getCanvas().wait(200);
-        palanca.soltar();
+        if (isVisible) {
+            Canvas.getCanvas().wait(200);
+            palanca.soltar();
+        }
         
         isJackpot();
         ok = true;
@@ -758,7 +766,9 @@ public class SlotMachine {
             Symbol siguienteSimbolo = symbols.get(indiceCatalogo);
             
             if (isVisible) {
+                Canvas.getCanvas().wait(400);
                 ruedaActual.girar(siguienteSimbolo.getColor(), siguienteSimbolo.getForma());
+                Canvas.getCanvas().wait(400);
             } else {
                 ruedaActual.setSymbol(siguienteSimbolo.getColor(), siguienteSimbolo.getForma());
             }
