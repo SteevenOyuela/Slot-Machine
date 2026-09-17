@@ -1,0 +1,48 @@
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+/**
+ * Pruebas de aceptación colectivas para la clase SlotMachineContest.
+ * Autores: Duran Ceballos y Oyuela Mendez (DcOm).
+ */
+public class SlotMachineContestCTest {
+
+    /**
+     * Prueba de Aceptación 1:
+     * Verifica que todas las coordenadas de acción {rueda, pasos} dictadas por el algoritmo
+     * tengan sentido lógico (la rueda afectada esté entre 2 y n, y los pasos sean positivos).
+     */
+    @Test
+    public void accordingDcOmShouldReturnValidWheelAndStepRanges() {
+        SlotMachineContest contest = new SlotMachineContest();
+        int n = 4;
+        int[][] acciones = contest.solve(n);
+        
+        // Recorremos la matriz generada para auditar cada movimiento
+        for (int i = 0; i < acciones.length; i++) {
+            int rueda = acciones[i][0];
+            int pasos = acciones[i][1];
+            
+            // La rueda 1 es nuestra sonda base, por lo que los movimientos deben aplicarse de la rueda 2 en adelante
+            assertTrue("El índice de la rueda a mover debe ser >= 2", rueda >= 2);
+            assertTrue("El índice de la rueda no debe superar el tamaño máximo n", rueda <= n);
+            assertTrue("La cantidad de pasos de giro debe ser mayor a 0", pasos > 0);
+        }
+    }
+
+    /**
+     * Prueba de Aceptación 2:
+     * Evalúa la robustez del motor algorítmico llevándolo al límite máximo 
+     * permitido por las reglas del problema (n = 50 ruedas y símbolos).
+     */
+    @Test
+    public void accordingDcOmShouldSolveMaxMachineSizeWithinLimits() {
+        SlotMachineContest contest = new SlotMachineContest();
+        int n = 50; // Límite máximo establecido por la maratón
+        
+        int[][] acciones = contest.solve(n);
+        
+        assertNotNull("Debe lograr generar una matriz incluso para n=50", acciones);
+        assertTrue("Incluso en el peor escenario (n=50), las acciones deben ser menores a 10,000", acciones.length <= 10000);
+    }
+}

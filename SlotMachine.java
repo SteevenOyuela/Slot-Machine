@@ -1,5 +1,8 @@
+import java.util.List;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import java.util.Random;
+import java.util.*; //Poder usar el shuffle
 
 /**
  * Representa una máquina tragamonedas.
@@ -71,9 +74,78 @@ public class SlotMachine {
         
         actualizarRuedas();
         
-        makeVisible();
+        makeInvisible();
     }
 
+    /**
+     * Crea una máquina tragamonedas de n ruedas y n símbolos distintos,
+     * inicializada aleatoriamente.
+     * @param n Cantidad de ruedas y símbolos a generar (3 <= n <= 50).
+     */
+    public SlotMachine(int n) {
+        canvas = Canvas.getCanvas();
+        
+        bordeTrasero = new Rectangle();
+        bordeTrasero.changeSize(210, 390);
+        bordeTrasero.changeColor("black");
+        bordeTrasero.moveHorizontal(45);
+        bordeTrasero.moveVertical(65);
+        bordeTrasero.makeVisible();
+    
+        parteTrasera = new Rectangle();
+        parteTrasera.changeSize(200, 380);
+        parteTrasera.changeColor("lightgray");
+        parteTrasera.moveHorizontal(50);
+        parteTrasera.moveVertical(70);
+        parteTrasera.makeVisible();
+        
+        base = new Rectangle();
+        base.changeSize(25, 150);
+        base.changeColor("black");
+        
+        int anchoInicial = 20 + (3 * 120); 
+        posicionXBase = 50 + (anchoInicial / 2) - 75;
+        
+        base.moveHorizontal(posicionXBase);
+        base.moveVertical(272);
+        base.makeVisible();
+        
+        palanca = new Lever();
+        
+        symbols = new ArrayList<Symbol>();
+        
+        wheels = new ArrayList<Wheel>();
+        
+        List<String> disponibles = new ArrayList<>();
+        disponibles.add("blue");
+        disponibles.add("yellow");
+        disponibles.add("orange");
+        disponibles.add("green");
+        disponibles.add("grey");
+        disponibles.add("pink");
+        disponibles.add("purple");
+        disponibles.add("maroon");
+        disponibles.add("silver");
+        disponibles.add("turquoise");
+        disponibles.add("salmon");
+        disponibles.add("darkgreen");
+        disponibles.add("lavender");
+
+        Collections.shuffle(disponibles); // Mezclamos los colores al azar IA IMPLEMENTATIVA
+
+        for (int i = 0; i < n; i++) {
+            String colorUnico = disponibles.get(i % disponibles.size()); // Usamos (i % disponibles.size()) por si 'n' es mayor a 13 IA IMPLEMENTATIVA
+            String formaAsignada = "triangle"; 
+            
+            addSymbol(i, colorUnico);
+            addWheel(i+1);
+        }
+        
+        actualizarRuedas();
+        
+        makeVisible();
+    }
+    
     /**
      * Hace visible la máquina tragamonedas.
      */

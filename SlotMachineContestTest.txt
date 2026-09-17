@@ -1,0 +1,32 @@
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+/**
+ * Pruebas de unidad propias para evaluar el motor algorítmico de la maratón.
+ */
+public class SlotMachineContestTest {
+    /**
+     * Valida que el motor logre generar una solución matemática y 
+     * retorne una matriz inicializada (no nula) para un caso básico de 3 ruedas.
+     */
+    @Test
+    public void testSolveReturnsNonNullMatrix() {
+        SlotMachineContest contest = new SlotMachineContest();
+        int[][] acciones = contest.solve(3);
+        
+        assertNotNull("El algoritmo debe retornar una matriz, no un valor nulo", acciones);
+    }
+
+    /**
+     * Valida que el algoritmo sea eficiente y no supere el límite estricto
+     * de 10,000 acciones establecido por el ICPC Problem I.
+     */
+    @Test
+    public void testSolveDoesNotExceedMaxActions() {
+        SlotMachineContest contest = new SlotMachineContest();
+        // Probamos con 5 ruedas, un escenario más complejo
+        int[][] acciones = contest.solve(5); 
+        
+        assertTrue("La cantidad de acciones no debe superar el límite de 10,000 de la maratón", acciones.length <= 10000);
+    }
+}
