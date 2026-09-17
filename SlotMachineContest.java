@@ -8,8 +8,7 @@ import java.util.Map;
 public class SlotMachineContest {
 
     /**
-     * Motor de solución algorítmica (Requisito 14).
-     * Complejidad: O(n²)
+     * Motor de solución algorítmica.
      * 
      * @param n Número de ruedas y símbolos (3 <= n <= 50).
      * @return Matriz de enteros donde cada fila representa una acción {rueda, pasos}.
@@ -21,8 +20,7 @@ public class SlotMachineContest {
     }
     
     /**
-     * Simulación visual de la solución (Requisito 15).
-     * Complejidad: O(n²)
+     * Simulación visual de la solución.
      * 
      * @param n Número de ruedas y símbolos (3 <= n <= 50).
      */
