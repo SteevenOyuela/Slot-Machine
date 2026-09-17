@@ -5,8 +5,6 @@ Escuela Colombiana de Ingeniería — Ciclo No. 1, 2026-2.
 
 El proyecto está inspirado en el *Problem I* de la Maratón de Programación Internacional 2025: **Slot Machine**.
 
-> ⚠️ **Nota:** en esta entrega no se resuelve el problema de la maratón; únicamente se construye el simulador de la máquina.
-
 ---
 
 ## 🎯 Objetivos del Proyecto
