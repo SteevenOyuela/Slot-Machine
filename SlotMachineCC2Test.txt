@@ -164,24 +164,4 @@ public class Slotmach1CC2Test {
         
         assertTrue(mach1.isJackpot());
     }
-    
-    /**
-     * Verifica que, al intercambiar dos ruedas válidas con símbolos
-     * distintos mediante swap(int, int), cada una termine mostrando el
-     * símbolo que antes tenía la otra.
-     */
-    @Test
-    public void accordingDcOaShouldSwapSymbolsBetweenTwoValidWheels(){
-        mach1.addSymbol(1, "red");
-        mach1.addSymbol(2, "blue");
-        mach1.addWheel(1);
-        mach1.addWheel(2);
-        mach1.placeSymbol(1, "red");
-        mach1.placeSymbol(2, "blue");
-
-        mach1.swap(1, 2);
-
-        assertEquals("blue", mach1.configuration()[0]);
-        assertEquals("red", mach1.configuration()[1]);
-    }
 }

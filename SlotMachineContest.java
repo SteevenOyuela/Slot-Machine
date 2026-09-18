@@ -6,7 +6,6 @@ import java.util.Map;
  * Clase encargada de resolver algorítmicamente el "Problem I" de la maratón ICPC.
  */
 public class SlotMachineContest {
-
     /**
      * Motor de solución algorítmica.
      * 
