@@ -70,7 +70,6 @@ public class SlotMachineContest {
                 // Aritmética modular: distancia hacia adelante en el catálogo circular
                 int pasosPrefijo = (indiceObjetivo - indiceActualObj + n) % n;
                 
-                // UNA SOLA LLAMADA a spin() en lugar de n iteraciones
                 maquina.spin(i, pasosPrefijo);
                 registroAcciones.add(new int[]{i, pasosPrefijo});
             }
