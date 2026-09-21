@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.JOptionPane;
+
 
 /**
  * Clase encargada de resolver algorítmicamente el "Problem I" de la maratón ICPC.
@@ -12,7 +14,12 @@ public class SlotMachineContest {
      * @param n Número de ruedas y símbolos (3 <= n <= 50).
      * @return Matriz de enteros donde cada fila representa una acción {rueda, pasos}.
      */
-    public int[][] solve(int n) {
+    public int[][] solve(int n) {  
+        if (n < 3 || n > 50) {
+            System.err.println("Error en solve: El número de ruedas (" + n + ") debe estar entre 3 y 50.");
+            return new int[0][0];
+        }
+        
         SlotMachine testingMachine = new SlotMachine(n);
         testingMachine.makeInvisible(); 
         return resolverAlgoritmo(testingMachine, n);
@@ -24,6 +31,17 @@ public class SlotMachineContest {
      * @param n Número de ruedas y símbolos (3 <= n <= 50).
      */
     public void simulate(int n) {
+        if (n < 3 || n > 50) {
+            JOptionPane.showMessageDialog(
+                null,
+                "Error en simulate: Cantidad de ruedas inválida (" + n + ").\n" +
+                "El número de ruedas permitidas debe estar entre 3 y 50.",
+                "Parámetro Inválido",
+                JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+        
         SlotMachine simMachine = new SlotMachine(n);
         simMachine.makeVisible(); 
         resolverAlgoritmo(simMachine, n);
