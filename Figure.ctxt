@@ -1,0 +1,29 @@
+#BlueJ class context
+#Sun Sep 20 20:06:42 COT 2026
+comment0.target=Figure
+comment0.text=\r\n Superclase abstracta que centraliza el estado y comportamiento com\u00FAn\r\n de toda figura geom\u00E9trica dibujable en el Canvas.\r\n
+comment1.target=Figure()
+comment10.target=void moveUp()
+comment11.target=void moveDown()
+comment12.params=distance
+comment12.target=void moveHorizontal(int)
+comment13.params=distance
+comment13.target=void moveVertical(int)
+comment14.params=distance
+comment14.target=void slowMoveHorizontal(int)
+comment15.params=distance
+comment15.target=void slowMoveVertical(int)
+comment16.params=newColor
+comment16.target=void changeColor(java.lang.String)
+comment2.params=forma
+comment2.target=Figure crear(java.lang.String)
+comment2.text=\r\n Factory Method\: crea y configura la figura correspondiente al\r\n tama\u00F1o est\u00E1ndar de s\u00EDmbolo (60px), sin exponer los tipos concretos\r\n a las clases que la invoquen.\r\n
+comment3.target=void makeVisible()
+comment4.target=void makeInvisible()
+comment5.target=void erase()
+comment6.params=shape
+comment6.target=void drawShape(java.awt.Shape)
+comment7.target=void draw()
+comment8.target=void moveRight()
+comment9.target=void moveLeft()
+numComments=17

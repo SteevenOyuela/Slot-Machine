@@ -1,5 +1,5 @@
 #BlueJ class context
-#Thu Sep 17 19:01:23 COT 2026
+#Sun Sep 20 20:06:45 COT 2026
 comment0.target=Wheel
 comment0.text=\r\n Representa Las ruedas.\r\n \r\n Estas casillas estan represetnadas de color balnco y se encuentran distribuidas en el tablero.\r\n
 comment1.params=index
