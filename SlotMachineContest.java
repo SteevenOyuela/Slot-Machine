@@ -1,33 +1,30 @@
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import javax.swing.JOptionPane;
 
-
 /**
- * Clase encargada de resolver algorítmicamente el "Problem I" de la maratón ICPC.
+ * Clase encargada de resolver y simular el problema de la maratón Slot Machine.
  */
 public class SlotMachineContest {
+
     /**
      * Motor de solución algorítmica.
-     * 
      * @param n Número de ruedas y símbolos (3 <= n <= 50).
      * @return Matriz de enteros donde cada fila representa una acción {rueda, pasos}.
      */
-    public int[][] solve(int n) {  
+    public int[][] solve(int n) {
         if (n < 3 || n > 50) {
             System.err.println("Error en solve: El número de ruedas (" + n + ") debe estar entre 3 y 50.");
             return new int[0][0];
         }
         
-        SlotMachine testingMachine = new SlotMachine(n);
-        testingMachine.makeInvisible(); 
-        return resolverAlgoritmo(testingMachine, n);
+        SlotMachine SlotMachineSolution = new SlotMachine(n);
+        SlotMachineSolution.makeInvisible(); 
+        
+        return solve(SlotMachineSolution, n);
     }
     
     /**
      * Simulación visual de la solución.
-     * 
      * @param n Número de ruedas y símbolos (3 <= n <= 50).
      */
     public void simulate(int n) {
@@ -41,59 +38,56 @@ public class SlotMachineContest {
             );
             return;
         }
+        SlotMachine SlotMachineSolution = new SlotMachine(n);
+        SlotMachineSolution.makeVisible(); 
         
-        SlotMachine simMachine = new SlotMachine(n);
-        simMachine.makeVisible(); 
-        resolverAlgoritmo(simMachine, n);
-        simMachine.exit();
+        solve(SlotMachineSolution, n);
+        
+        SlotMachineSolution.makeInvisible(); 
+        SlotMachineSolution.exit();          
     }
     
     /**
-     * Motor matemático optimizado: calcula la distancia exacta necesaria
-     * para alinear cada rueda en una sola operación.
+     * Método privado que centraliza el motor de la solución.
+     * Utiliza configuration() para alinear las ruedas superando el mínimo local.
      * 
      * @param maquina La instancia de la máquina a operar.
      * @param n Cantidad de ruedas y símbolos.
      * @return Matriz de acciones ejecutadas.
      */
-    private int[][] resolverAlgoritmo(SlotMachine maquina, int n) {
+    private int[][] solve(SlotMachine maquina, int n) {
         ArrayList<int[]> registroAcciones = new ArrayList<>();
         
-        // 1. Caso base: máquina ya ganadora
+        // 1. Si la máquina ya nació en estado ganador, no hay que hacer nada
         if (maquina.distinctSymbols() == 1) {
             return new int[0][0];
         }
         
-        // 2. Definir referencia y catálogo
+        // 2. Fijamos la primera rueda como nuestra referencia. 
+        // Su color actual será el color objetivo para todas las demás.
         String colorObjetivo = maquina.configuration()[0];
-        String[] simbolos = maquina.symbols();
         
-        // 3. Cachear mapeo color -> índice en catálogo (O(n) una sola vez)
-        Map<String, Integer> indiceSimbolos = new HashMap<>();
-        for (int i = 0; i < simbolos.length; i++) {
-            indiceSimbolos.put(simbolos[i].toLowerCase(), i);
-        }
-        
-        int indiceObjetivo = indiceSimbolos.get(colorObjetivo.toLowerCase());
-        
-        // 4. Alinear cada rueda con UNA SOLA OPERACIÓN
-        //    Calculamos exactamente cuántos pasos necesita cada rueda
+        // 3. Alinear cada rueda (desde la 2 hasta n) con la rueda 1
         for (int i = 2; i <= n; i++) {
-            String colorActual = maquina.configuration()[i - 1];
             
-            // Si no coincide, calcular distancia y girar exactamente esa cantidad
-            if (!colorActual.equalsIgnoreCase(colorObjetivo)) {
-                Integer indiceActualObj = indiceSimbolos.get(colorActual.toLowerCase());
+            // Girar la rueda actual paso a paso (máximo n-1 giros)
+            for (int pasos = 1; pasos < n; pasos++) {
+                // Consultamos el color que tiene la rueda 'i' en este preciso instante.
+                // Como el arreglo inicia en 0, la rueda 'i' corresponde al índice 'i - 1'.
+                String colorActual = maquina.configuration()[i - 1];
                 
-                // Aritmética modular: distancia hacia adelante en el catálogo circular
-                int pasosPrefijo = (indiceObjetivo - indiceActualObj + n) % n;
+                // Si el color de la rueda ya es igual al objetivo, pasamos a la siguiente rueda
+                if (colorActual.equalsIgnoreCase(colorObjetivo)) {
+                    break; 
+                }
                 
-                maquina.spin(i, pasosPrefijo);
-                registroAcciones.add(new int[]{i, pasosPrefijo});
+                // Si no es igual, giramos la rueda 1 paso y registramos la acción
+                maquina.spin(i, 1);
+                registroAcciones.add(new int[]{i, 1});
             }
         }
         
-        // 5. Convertir lista dinámica a matriz estática
+        // 4. Convertir la lista dinámica a la matriz estática exigida por el UML
         int[][] matrizSolucion = new int[registroAcciones.size()][2];
         for (int i = 0; i < registroAcciones.size(); i++) {
             matrizSolucion[i] = registroAcciones.get(i);

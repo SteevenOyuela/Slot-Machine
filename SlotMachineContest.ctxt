@@ -1,14 +1,14 @@
 #BlueJ class context
-#Sun Sep 20 20:06:48 COT 2026
+#Sun Sep 20 21:02:28 COT 2026
 comment0.target=SlotMachineContest
-comment0.text=\r\n Clase encargada de resolver algor\u00EDtmicamente el "Problem I" de la marat\u00F3n ICPC.\r\n
+comment0.text=\r\n Clase encargada de resolver y simular el problema de la marat\u00F3n Slot Machine.\r\n
 comment1.params=n
 comment1.target=int[][] solve(int)
-comment1.text=\r\n Motor de soluci\u00F3n algor\u00EDtmica.\r\n \r\n @param n N\u00FAmero de ruedas y s\u00EDmbolos (3 <\= n <\= 50).\r\n @return Matriz de enteros donde cada fila representa una acci\u00F3n {rueda, pasos}.\r\n
+comment1.text=\r\n Motor de soluci\u00F3n algor\u00EDtmica.\r\n @param n N\u00FAmero de ruedas y s\u00EDmbolos (3 <\= n <\= 50).\r\n @return Matriz de enteros donde cada fila representa una acci\u00F3n {rueda, pasos}.\r\n
 comment2.params=n
 comment2.target=void simulate(int)
-comment2.text=\r\n Simulaci\u00F3n visual de la soluci\u00F3n.\r\n \r\n @param n N\u00FAmero de ruedas y s\u00EDmbolos (3 <\= n <\= 50).\r\n
+comment2.text=\r\n Simulaci\u00F3n visual de la soluci\u00F3n.\r\n @param n N\u00FAmero de ruedas y s\u00EDmbolos (3 <\= n <\= 50).\r\n
 comment3.params=maquina n
-comment3.target=int[][] resolverAlgoritmo(SlotMachine, int)
-comment3.text=\r\n Motor matem\u00E1tico optimizado\: calcula la distancia exacta necesaria\r\n para alinear cada rueda en una sola operaci\u00F3n.\r\n \r\n @param maquina La instancia de la m\u00E1quina a operar.\r\n @param n Cantidad de ruedas y s\u00EDmbolos.\r\n @return Matriz de acciones ejecutadas.\r\n
+comment3.target=int[][] solve(SlotMachine, int)
+comment3.text=\r\n M\u00E9todo privado que centraliza el motor de la soluci\u00F3n.\r\n Utiliza configuration() para alinear las ruedas superando el m\u00EDnimo local.\r\n \r\n @param maquina La instancia de la m\u00E1quina a operar.\r\n @param n Cantidad de ruedas y s\u00EDmbolos.\r\n @return Matriz de acciones ejecutadas.\r\n
 numComments=4

@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sun Sep 20 20:06:42 COT 2026
+#Sun Sep 20 20:48:12 COT 2026
 comment0.target=Figure
 comment0.text=\r\n Superclase abstracta que centraliza el estado y comportamiento com\u00FAn\r\n de toda figura geom\u00E9trica dibujable en el Canvas.\r\n
 comment1.target=Figure()
