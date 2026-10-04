@@ -65,10 +65,16 @@ public class SlotMachine {
 
         addSymbol(1, "maroon");
         addSymbol(2, "green");
-        addSymbol(3, "blue");
-        addSymbol(4, "purple");
-        addSymbol(5, "yellow");
+        addSymbol(3, "purple");
+        addSymbol(4, "yellow");
         addSymbol(6, "turquoise");
+        
+        symbols = new ArrayList<Symbol>();
+        addSymbol("ephemeral", "blue");
+        addSymbol("ephemeral", "purple");
+        
+        addSymbol("shy", "green");
+        addSymbol("shy", "brown");
         
         wheels = new ArrayList<Wheel>();
         
@@ -76,13 +82,82 @@ public class SlotMachine {
         
         makeInvisible();
     }
-
+    
     /**
      * Crea una máquina tragamonedas de n ruedas y n símbolos distintos,
      * inicializada aleatoriamente.
      * @param n Cantidad de ruedas y símbolos a generar (3 <= n <= 50).
      */
+
     public SlotMachine(int n) {
+        canvas = Canvas.getCanvas();
+
+        bordeTrasero = new Rectangle();
+        bordeTrasero.changeSize(210, 390);
+        bordeTrasero.changeColor("black");
+        bordeTrasero.moveHorizontal(45);
+        bordeTrasero.moveVertical(65);
+        bordeTrasero.makeVisible();
+
+        parteTrasera = new Rectangle();
+        parteTrasera.changeSize(200, 380);
+        parteTrasera.changeColor("lightgray");
+        parteTrasera.moveHorizontal(50);
+        parteTrasera.moveVertical(70);
+        parteTrasera.makeVisible();
+
+        base = new Rectangle();
+        base.changeSize(25, 150);
+        base.changeColor("black");
+
+        int anchoInicial = 20 + (3 * 120); 
+        posicionXBase = 50 + (anchoInicial / 2) - 75;
+
+        base.moveHorizontal(posicionXBase);
+        base.moveVertical(272);
+        base.makeVisible();
+
+        palanca = new Lever();        
+
+        symbols = new ArrayList<Symbol>();
+
+        wheels = new ArrayList<Wheel>();
+
+        List<String> disponibles = new ArrayList<>();
+
+        disponibles.add("blue");
+        disponibles.add("yellow");
+        disponibles.add("orange");
+        disponibles.add("green");
+        disponibles.add("grey");
+        disponibles.add("pink");
+        disponibles.add("purple");
+        disponibles.add("maroon");
+        disponibles.add("silver");
+        disponibles.add("turquoise");
+        disponibles.add("salmon");
+        disponibles.add("darkgreen");
+        disponibles.add("lavender");
+        
+        Collections.shuffle(disponibles); // Mezclamos los colores al azar IA IMPLEMENTATIVA
+
+        for (int i = 0; i < n; i++) {
+            String colorUnico = disponibles.get(i % disponibles.size()); // Usamos (i % disponibles.size()) por si 'n' es mayor a 13 IA IMPLEMENTATIVA
+            String formaAsignada = "triangle"; 
+            addSymbol(i, colorUnico);
+            addWheel(i+1);
+        }
+        
+        makeVisible();
+
+    }
+
+    /**
+     * Crea una máquina tragamonedas de n ruedas, n símbolos distintos, n combinaciones de tipo de simbolos,
+     * inicializada aleatoriamente.
+     * @param n Cantidad de ruedas y símbolos a generar (3 <= n <= 50).
+     */
+    public SlotMachine(int n, String m) {
         canvas = Canvas.getCanvas();
         
         bordeTrasero = new Rectangle();
@@ -130,19 +205,28 @@ public class SlotMachine {
         disponibles.add("salmon");
         disponibles.add("darkgreen");
         disponibles.add("lavender");
+        
+        Collections.shuffle(disponibles);
+        
+        String[] tiposDisponibles = {"normal", "ephemeral", "shy"};
+        
+        // IA IMPLEMENTATIVA
+        
+         for (int i = 0; i < n; i++) {
 
-        Collections.shuffle(disponibles); // Mezclamos los colores al azar IA IMPLEMENTATIVA
-
-        for (int i = 0; i < n; i++) {
             String colorUnico = disponibles.get(i % disponibles.size()); // Usamos (i % disponibles.size()) por si 'n' es mayor a 13 IA IMPLEMENTATIVA
-            String formaAsignada = "triangle"; 
+
+            String tipoElegido = tiposDisponibles[(int)(Math.random() * tiposDisponibles.length)];
             
-            addSymbol(i, colorUnico);
+            String formaAsignada = "triangle"; 
+
+            addSymbol(tipoElegido, colorUnico);
+
             addWheel(i+1);
+
         }
         
         actualizarRuedas();
-        
         makeVisible();
     }
     
@@ -264,6 +348,15 @@ public class SlotMachine {
         }
         
         int indiceJava = pos - 1;
+        Wheel ruedaAEliminar = wheels.get(indiceJava);
+        
+        if (ruedaAEliminar instanceof RebelWheel) {
+            if(isVisible) {
+                JOptionPane.showMessageDialog(null, "Error: La rueda rebelde no se puede eliminar.");
+            }
+            ok = false;
+            return;
+        }
         
         if (indiceJava < wheels.size()) {
             Wheel ruedaEnPosicion = wheels.get(indiceJava);
@@ -279,7 +372,6 @@ public class SlotMachine {
             }
         }
         
-        Wheel ruedaAEliminar = wheels.get(indiceJava);
         ruedaAEliminar.makeInvisible();
         wheels.remove(indiceJava);
         
@@ -339,6 +431,41 @@ public class SlotMachine {
         symbols.add(indiceJava, nuevoSimbolo);
         ok = true;
     }
+    
+    /**
+     * Adiciona un símbolo polimórfico al catálogo de la máquina.
+     * @param tipo "normal", "ephemeral" o "shy".
+     * @param color El color del símbolo.
+     * @param forma La figura ("circle", "triangle", "rectangle").
+     */
+    public void addSymbol(String tipo, String color) {
+        if (existeColor(color)) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, "Error: Ya existe un símbolo de color " + color);
+            }
+            ok = false;
+            return;
+        }
+
+        Symbol nuevoSimbolo = null;
+
+        if (tipo.equalsIgnoreCase("normal")) {
+            nuevoSimbolo = new Symbol(color, "triangle");
+        } else if (tipo.equalsIgnoreCase("ephemeral")) {
+            nuevoSimbolo = new EphemeralSymbol(color, "triangle");
+        } else if (tipo.equalsIgnoreCase("shy")) {
+            nuevoSimbolo = new ShySymbol(color, "triangle");
+        } else {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, "Error: Tipo de símbolo desconocido (" + tipo + ")");
+            }
+            ok = false;
+            return;
+        }
+
+        symbols.add(nuevoSimbolo);
+        ok = true;
+    }
 
     /**
      * Elimina un símbolo de la máquina tragamonedas.
@@ -378,9 +505,11 @@ public class SlotMachine {
     private void asignarSimboloAleatorio(Wheel rueda) {
         if (!symbols.isEmpty()) {
             int indiceAleatorio = (int) (Math.random() * symbols.size());
-            Symbol simboloElegido = symbols.get(indiceAleatorio);
+            Symbol simboloDeCatalogo = symbols.get(indiceAleatorio);
             
-            rueda.setSymbol(simboloElegido.getColor(), simboloElegido.getForma());
+            simboloDeCatalogo.aplicarEfecto();
+            
+            rueda.setSymbol(simboloDeCatalogo.generarCopia());
         }
     }
     
@@ -415,7 +544,10 @@ public class SlotMachine {
                 int indiceAleatorio = (int) (Math.random() * symbols.size());
                 Symbol simboloElegido = symbols.get(indiceAleatorio);
                 
-                ruedaActual.girar(simboloElegido.getColor(), simboloElegido.getForma());
+                simboloElegido.aplicarEfecto();
+                Symbol copiaSimbolo = simboloElegido.generarCopia();
+                
+                ruedaActual.girar(copiaSimbolo);
             }
         }
         
@@ -564,16 +696,16 @@ public class SlotMachine {
             return;
         }
 
-        String formaEncontrada = "";
+        Symbol simboloEncontrado = null;
         for (Symbol s : symbols) {
             if (s.getColor().equalsIgnoreCase(symbol)) {
-                formaEncontrada = s.getForma();
+                simboloEncontrado = s;
                 break;
             }
         }
 
-        if (!formaEncontrada.isEmpty()) {
-            wheels.get(index).setSymbol(symbol, formaEncontrada);
+        if (simboloEncontrado != null) {
+            wheels.get(index).setSymbol(simboloEncontrado.generarCopia());
             ok = true;
         } else {
             if (isVisible) {
@@ -622,13 +754,16 @@ public class SlotMachine {
 
         int indiceAleatorio = (int) (Math.random() * symbols.size());
         Symbol simboloElegido = symbols.get(indiceAleatorio);
+        
+        simboloElegido.aplicarEfecto();
+        Symbol copiaSimbolo = simboloElegido.generarCopia();
 
         if (isVisible) {
             palanca.tirar();
             Canvas.getCanvas().wait(200);
         }
         
-        wheels.get(index).girar(simboloElegido.getColor(), simboloElegido.getForma());
+        wheels.get(index).girar(copiaSimbolo);
         
         if (isVisible) {
             Canvas.getCanvas().wait(200);
@@ -664,7 +799,7 @@ public class SlotMachine {
             ok = false;
             return;
         }
-
+        
         int indice1 = wheel1 - 1;
         int indice2 = wheel2 - 1;
         
@@ -673,7 +808,23 @@ public class SlotMachine {
         
         if (ruedaActual1.isLocked() || ruedaActual2.isLocked()) {
             if (isVisible) {
-                JOptionPane.showMessageDialog(null, "Error: Una de las ruedas está bloqueada y no se puede realizar el cambio.");
+                JOptionPane.showMessageDialog(null, "Error: Una de las ruedas está bloqueada y no se puede realizar el cambio, \n");
+            }
+            ok = false;
+            return;
+        }
+        
+        if (ruedaActual1 instanceof LeftyWheel || ruedaActual2 instanceof LeftyWheel) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, "Error: Una de las ruedas es Lefty, no se pueden intercambiar.");
+            }
+            ok = false;
+            return;
+        }
+        
+        if (ruedaActual1 instanceof RebelWheel || ruedaActual2 instanceof RebelWheel) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, "Error: Una de las ruedas es rebelde, no se pueden intercambiar.");
             }
             ok = false;
             return;
@@ -715,6 +866,14 @@ public class SlotMachine {
         }
         
         Wheel ruedaObjetivo = wheels.get(wheel - 1);
+        
+        if (ruedaObjetivo instanceof RebelWheel) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, "Error: La rueda rebelde no se puede bloquear.");
+            }
+            ok = false;
+            return;
+        }
 
         if (ruedaObjetivo.isLocked()) {
             if (isVisible) {
@@ -817,7 +976,6 @@ public class SlotMachine {
             return;
         }
 
-        // 5. Encontrar en qué posición del catálogo de símbolos está el símbolo actual (IA implementativa)
         int indiceCatalogo = 0;
         String colorActual = ruedaActual.getColorActual();
         for (int i = 0; i < symbols.size(); i++) {
@@ -832,17 +990,19 @@ public class SlotMachine {
             Canvas.getCanvas().wait(200);
         }
         
-        // 7. Avanzar el número de pasos indicados
         for (int i = 0; i < steps; i++) {
             indiceCatalogo = (indiceCatalogo + 1) % symbols.size();
             Symbol siguienteSimbolo = symbols.get(indiceCatalogo);
             
+            siguienteSimbolo.aplicarEfecto();
+            Symbol copiaSimbolo = siguienteSimbolo.generarCopia();
+            
             if (isVisible) {
                 Canvas.getCanvas().wait(400);
-                ruedaActual.girar(siguienteSimbolo.getColor(), siguienteSimbolo.getForma());
+                ruedaActual.girar(copiaSimbolo);
                 Canvas.getCanvas().wait(400);
             } else {
-                ruedaActual.setSymbol(siguienteSimbolo.getColor(), siguienteSimbolo.getForma());
+                ruedaActual.setSymbol(copiaSimbolo);
             }
         }
         
@@ -896,27 +1056,27 @@ public class SlotMachine {
             }
         }
 
-        String[] formasEncontradas = new String[setSymbols.length];
+        Symbol[] simbolosAAsignar = new Symbol[setSymbols.length];
         
         for (int i = 0; i < setSymbols.length; i++) {
             String colorBuscado = setSymbols[i];
-            String formaEncontrada = "";
+            Symbol simboloEncontrado = null;
             
             for (Symbol s : symbols) {
                 if (s.getColor().equalsIgnoreCase(colorBuscado)) {
-                    formaEncontrada = s.getForma();
+                    simboloEncontrado = s;
                     break;
                 }
             }
             
-            if (formaEncontrada.isEmpty()) {
+            if (simboloEncontrado == null) {
                 if (isVisible) {
                     JOptionPane.showMessageDialog(null, "Error: El símbolo de color '" + colorBuscado + "' no existe en el catálogo.");
                 }
                 ok = false;
                 return; 
             }
-            formasEncontradas[i] = formaEncontrada;
+            simbolosAAsignar[i] = simboloEncontrado;
         }
 
         if (isVisible) {
@@ -928,19 +1088,153 @@ public class SlotMachine {
             Wheel ruedaActual = wheels.get(i);
             
             if (!ruedaActual.isLocked()) {
+                Symbol simboloBase = simbolosAAsignar[i];
+                simboloBase.aplicarEfecto();
+                Symbol copiaSimbolo = simboloBase.generarCopia();
+                
                 if (isVisible) {
-                    ruedaActual.girar(setSymbols[i], formasEncontradas[i]);
+                    ruedaActual.girar(copiaSimbolo);
                 } else {
-                    ruedaActual.setSymbol(setSymbols[i], formasEncontradas[i]);
+                    ruedaActual.setSymbol(copiaSimbolo);
                 }
             }
         }
 
-        if (isVisible) {
-            Canvas.getCanvas().wait(200);
-            palanca.soltar();
+        isJackpot();
+        ok = true;
+    }
+    
+    /**
+     * Adiciona una nueva rueda tipo Lefty a la máquina, validando estrictamente los casos frontera.
+     * @param pos La posición donde se desea insertar la rueda (iniciando en 1).
+     */
+    public void addLeftyWheel(int pos) {
+        int maxPosValida = wheels.size() + 1;
+        
+        if (pos < 1 || pos > maxPosValida) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, 
+                    "Error: No se puede agregar en la posición " + pos + ".\n" +
+                    "Actualmente solo puedes usar posiciones del 1 al " + maxPosValida + ".");
+            }
+            ok = false;
+            return;
         }
+        
+        int index = pos - 1;
+        if (index >= 0 && index <= wheels.size()) {
+            Wheel ruedaEnPosicion = wheels.get(index);
+            
+            if (ruedaEnPosicion.isLocked()) {
+                if (isVisible) {
+                    JOptionPane.showMessageDialog(null, 
+                        "Error: La rueda en la posición " + pos + " está bloqueada.\n" +
+                        "No puedes agregar una rueda aquí porque está en estado de bloqueo.");
+                }
+                ok = false; 
+                return;
+            }
+            
+            if (ruedaEnPosicion instanceof LeftyWheel) {
+                if (isVisible) {
+                    JOptionPane.showMessageDialog(null, 
+                        "Error: Ya se encuentra una rueda en estado Lefty en la posición " + pos + ".\n" +
+                        "Por lo tanto, no se puede insertar otra rueda aquí y desplazarla.");
+                }
+                ok = false;
+                return;
+            }
+        }
+        
+        LeftyWheel nuevaLefty = new LeftyWheel(index, wheels);
+        asignarSimboloAleatorio(nuevaLefty);  
+        wheels.add(index, nuevaLefty);
+            
+        actualizarRuedas();
+        isJackpot();
+        ok = true;
+    }
+    
+    /**
+     * Adiciona una nueva rueda tipo Rebel a la máquina, alc ual tiene como función principal no se deja bloquear, ni intercambiar, ni eliminar.
+     * @param pos La posición donde se desea insertar la rueda (iniciando en 1).
+     */
+    public void addRebelWheel(int pos) {
+        int maxPosValida = wheels.size() + 1;
+        
+        if (pos < 1 || pos > maxPosValida) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, 
+                    "Error: No se puede agregar en la posición " + pos + ".\n" +
+                    "Actualmente solo puedes usar posiciones del 1 al " + maxPosValida + ".");
+            }
+            ok = false;
+            return;
+        }
+        
+        int index = pos - 1;
+        if (index >= 0 && index <= wheels.size()) {
+            RebelWheel nuevaRebel = new RebelWheel(index);
+            
+            asignarSimboloAleatorio(nuevaRebel);
 
+            wheels.add(index, nuevaRebel);
+            actualizarRuedas();
+            
+            ok = true;
+        } else {
+            ok = false;
+        }
+    }
+    
+    /**
+     * Adiciona una nueva rueda tipo Lazy a la máquina, validando estrictamente los casos frontera.
+     * @param pos La posición donde se desea insertar la rueda (iniciando en 1).
+     */
+    public void addLazyWheel(int pos) {
+        int maxPosValida = wheels.size() + 1;
+        
+        if (pos < 1 || pos > maxPosValida) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, 
+                    "Error: No se puede agregar en la posición " + pos + ".\n" +
+                    "Actualmente solo puedes usar posiciones del 1 al " + maxPosValida + ".");
+            }
+            ok = false;
+            return;
+        }
+        
+        int indiceJava = pos - 1;
+        
+        if (indiceJava < wheels.size()) { //[cite: 10]
+            Wheel ruedaEnPosicion = wheels.get(indiceJava);
+            
+            if (ruedaEnPosicion.isLocked()) {
+                if (isVisible) {
+                    JOptionPane.showMessageDialog(null, 
+                        "Error: La rueda en la posición " + pos + " está bloqueada.\n" +
+                        "No puedes agregar una rueda aquí porque desplazaría a la que está congelada.");
+                }
+                ok = false; 
+                return;
+            }
+            
+            if (ruedaEnPosicion instanceof LazyWheel) {
+                if (isVisible) {
+                    JOptionPane.showMessageDialog(null, 
+                        "Error: Ya se encuentra una rueda Lazy en la posición " + pos + ".\n" +
+                        "Por lo tanto, no se puede insertar otra rueda aquí y desplazarla.");
+                }
+                ok = false;
+                return;
+            }
+        }
+        
+        LazyWheel nuevaRueda = new LazyWheel(indiceJava);
+        asignarSimboloAleatorio(nuevaRueda); 
+        wheels.add(indiceJava, nuevaRueda);
+        
+        actualizarRuedas();
         isJackpot();
         ok = true;
     }

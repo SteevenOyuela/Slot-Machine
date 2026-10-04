@@ -1,0 +1,11 @@
+#BlueJ class context
+#Sat Oct 03 19:35:12 COT 2026
+comment0.target=EphemeralSymbol
+comment0.text=\r\n S\u00EDmbolo que reduce su tama\u00F1o progresivamente cada vez que es seleccionado,\r\n hasta quedar como un punto peque\u00F1o.\r\n
+comment1.params=color forma
+comment1.target=EphemeralSymbol(java.lang.String, java.lang.String)
+comment2.params=color forma tamano
+comment2.target=EphemeralSymbol(java.lang.String, java.lang.String, int)
+comment3.target=void aplicarEfecto()
+comment4.target=Symbol generarCopia()
+numComments=5

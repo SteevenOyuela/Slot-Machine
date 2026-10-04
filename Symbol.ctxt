@@ -1,9 +1,11 @@
 #BlueJ class context
-#Sun Sep 20 20:48:12 COT 2026
+#Sat Oct 03 18:17:16 COT 2026
 comment0.target=Symbol
 comment0.text=\r\n Representa un s\u00EDmbolo en la m\u00E1quina tragamonedas.\r\n
 comment1.params=color forma
 comment1.target=Symbol(java.lang.String, java.lang.String)
+comment10.target=void aplicarEfecto()
+comment11.target=Symbol generarCopia()
 comment2.target=java.lang.String getColor()
 comment3.target=java.lang.String getForma()
 comment4.target=void makeVisible()
@@ -14,4 +16,6 @@ comment7.params=distancia
 comment7.target=void moverHorizontal(int)
 comment8.params=distancia
 comment8.target=void moverVertical(int)
-numComments=9
+comment9.params=nuevoTamano
+comment9.target=void cambiarTamano(int)
+numComments=12

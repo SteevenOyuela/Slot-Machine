@@ -1,0 +1,15 @@
+#BlueJ class context
+#Sat Oct 03 20:39:50 COT 2026
+comment0.target=SlotMachineContestCTest
+comment0.text=\r\n Pruebas de aceptaci\u00F3n colectivas para la clase SlotMachineContest.\r\n Autores\: Duran Ceballos y Oyuela Mendez (DcOm).\r\n
+comment1.target=void accordingDcOmShouldReturnValidWheelAndStepRanges()
+comment1.text=\r\n Prueba de Aceptaci\u00F3n 1\:\r\n Verifica que todas las coordenadas de acci\u00F3n {rueda, pasos} dictadas por el algoritmo\r\n tengan sentido l\u00F3gico (la rueda afectada est\u00E9 entre 2 y n, y los pasos sean positivos).\r\n
+comment2.target=void accordingDcOmShouldReturnMatrixWithTwoColumnsForEveryAction()
+comment2.text=\r\n Prueba de Aceptaci\u00F3n 2\:\r\n Verifica la integridad estructural de la matriz generada por el motor algor\u00EDtmico.\r\n Garantiza que cada acci\u00F3n registrada contenga exactamente dos columnas, \r\n correspondientes estrictamente al par de datos {rueda, pasos} exigido por el UML.\r\n
+comment3.target=void accordingDcOmShouldReturnEmptyMatrixForNEqualsOne()
+comment3.text=\r\n Prueba de Aceptaci\u00F3n 3\:\r\n Verifica el comportamiento del motor algor\u00EDtmico ante un caso frontera inferior (n \= 1).\r\n Dado que el problema de la marat\u00F3n requiere m\u00FAltiples ruedas para poder interactuar y\r\n alinear s\u00EDmbolos, procesar una sola rueda es un estado inv\u00E1lido o "ya resuelto", \r\n por lo que el algoritmo debe abortar y retornar una matriz vac\u00EDa (0 movimientos).\r\n
+comment4.target=void accordingDcOmShouldReturnConsistentResultsOnRepeatedCallsForSameN()
+comment4.text=\r\n Prueba de Aceptaci\u00F3n 4\:\r\n Verifica la consistencia y estabilidad del motor algor\u00EDtmico al ser invocado \r\n m\u00FAltiples veces consecutivas con el mismo par\u00E1metro (n \= 5).\r\n Garantiza que el algoritmo siempre retorne resultados v\u00E1lidos (no nulos) y \r\n respete el l\u00EDmite estricto de 10,000 acciones exigido por el problema en cada ejecuci\u00F3n.\r\n
+comment5.target=void accordingDcOmShouldSolveMaxMachineSizeWithinLimits()
+comment5.text=\r\n Prueba de Aceptaci\u00F3n 5\:\r\n Eval\u00FAa la robustez del motor algor\u00EDtmico llev\u00E1ndolo al l\u00EDmite m\u00E1ximo \r\n permitido por las reglas del problema (n \= 50 ruedas y s\u00EDmbolos).\r\n
+numComments=6

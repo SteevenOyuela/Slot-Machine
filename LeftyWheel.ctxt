@@ -1,0 +1,11 @@
+#BlueJ class context
+#Sat Oct 03 20:32:53 COT 2026
+comment0.target=LeftyWheel
+comment0.text=\r\n Representa una rueda de tipo "Lefty" en la m\u00E1quina tragamonedas.\r\n Esta clase hereda de Wheel, al momento de girar, ignora los par\u00E1metros aleatorios que recibe \r\n y en su lugar copia el color y la forma de la rueda a su izquierda.\r\n
+comment1.params=index wheels
+comment1.target=LeftyWheel(int, java.util.ArrayList)
+comment1.text=\r\n Constructor de la rueda Lefty.\r\n \r\n @param index El \u00EDndice donde se posicionar\u00E1 inicialmente la rueda (base 0).\r\n @param wheels La lista de ruedas actual de la clase SlotMachine.\r\n
+comment2.params=nuevoSimbolo
+comment2.target=void girar(Symbol)
+comment2.text=\r\n Sobrescribe el comportamiento de giro.\r\n Si la rueda tiene una vecina a su izquierda, intercepta y reemplaza \r\n el nuevo color y forma antes de ejecutar el giro real.\r\n \r\n @param nuevoColor Color aleatorio enviado por la m\u00E1quina.\r\n @param nuevaForma Forma aleatoria enviada por la m\u00E1quina.\r\n
+numComments=3

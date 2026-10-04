@@ -2,12 +2,10 @@
  * Representa un símbolo en la máquina tragamonedas.
  */
 public class Symbol {
-    private String color;
-    private String forma;
+    protected String color;
+    protected String forma;
 
-    // ¡LA MAGIA DEL POLIMORFISMO!
-    // Symbol solo conoce Figure; la creación concreta la resuelve el factory.
-    private Figure figura;
+    protected Figure figura;
 
     public Symbol(String color, String forma) {
         this.color = color;
@@ -44,5 +42,26 @@ public class Symbol {
 
     public void moverVertical(int distancia) {
         if (figura != null) figura.moveVertical(distancia);
+    }
+    
+    public void cambiarTamano(int nuevoTamano) {
+        if (figura != null) {
+            if (figura instanceof Circle) {
+                ((Circle) figura).changeSize(nuevoTamano);
+            } 
+            else if (figura instanceof Triangle) {
+                ((Triangle) figura).changeSize(nuevoTamano, nuevoTamano);
+            } 
+            else if (figura instanceof Rectangle) {
+                ((Rectangle) figura).changeSize(nuevoTamano, nuevoTamano);
+            }
+        }
+    }
+
+    public void aplicarEfecto() {
+    }
+
+    public Symbol generarCopia() {
+        return new Symbol(this.getColor(), this.getForma());
     }
 }

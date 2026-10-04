@@ -1,0 +1,11 @@
+#BlueJ class context
+#Sat Oct 03 20:39:52 COT 2026
+comment0.target=LazyWheel
+comment0.text=\r\n Representa una rueda de tipo "Rebel" en la m\u00E1quina tragamonedas.\r\n Esta clase hereda de Wheel y tiene un comportamiento polim\u00F3rfico rebelde\:\r\n es inmune a las alteraciones de estado, por lo que rechaza ser bloqueada.\r\n
+comment1.params=index
+comment1.target=LazyWheel(int)
+comment1.text=\r\n Constructor de la rueda Lazy.\r\n \r\n @param index El \u00EDndice donde se posicionar\u00E1 inicialmente la rueda (base 0).\r\n
+comment2.params=nuevoSimbolo
+comment2.target=void girar(Symbol)
+comment2.text=\r\n Sobrescribe el comportamiento de giro.\r\n Antes de hacer el giro, Tiene un 60% de probabilidad de girar normalmente, \r\n y un 40% de probabilidad de abortar el giro y quedarse con la ficha que ya ten\u00EDa.\r\n\r\n @param nuevoColor Color aleatorio enviado por la m\u00E1quina.\r\n
+numComments=3

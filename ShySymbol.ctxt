@@ -1,0 +1,12 @@
+#BlueJ class context
+#Sat Oct 03 19:44:52 COT 2026
+comment0.target=ShySymbol
+comment0.text=\r\n S\u00EDmbolo que alterna su visibilidad cada vez que es seleccionado en una rueda.\r\n
+comment1.params=color forma
+comment1.target=ShySymbol(java.lang.String, java.lang.String)
+comment2.params=color forma oculto
+comment2.target=ShySymbol(java.lang.String, java.lang.String, boolean)
+comment3.target=void aplicarEfecto()
+comment4.target=Symbol generarCopia()
+comment5.target=void makeVisible()
+numComments=6

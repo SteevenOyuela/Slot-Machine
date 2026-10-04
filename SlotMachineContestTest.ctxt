@@ -1,11 +1,26 @@
 #BlueJ class context
-#Sun Sep 20 21:02:28 COT 2026
+#Sat Oct 03 20:39:50 COT 2026
 comment0.target=SlotMachineContestTest
-comment0.text=\r\n The test class SlotMachineContestTest.\r\n\r\n @author  (your name)\r\n @version (a version number or a date)\r\n
-comment1.target=SlotMachineContestTest()
-comment1.text=\r\n Default constructor for test class SlotMachineContestTest\r\n
-comment2.target=void setUp()
-comment2.text=\r\n Sets up the test fixture.\r\n\r\n Called before every test case method.\r\n
-comment3.target=void tearDown()
-comment3.text=\r\n Tears down the test fixture.\r\n\r\n Called after every test case method.\r\n
-numComments=4
+comment0.text=\r\n Bater\u00EDa masiva de pruebas unitarias y de aceptaci\u00F3n para SlotMachineContest.\r\n Solo se prueba solve(n); JAM\u00C1S simulate(n) (bloquea el hilo por makeVisible/wait).\r\n
+comment1.target=void setUp()
+comment10.target=void testLimiteMinimoValidoN3()
+comment10.text=\r\n Prueba de Unidad\:\r\n Verifica que las acciones generadas para n\=3 apunten exclusivamente a las \r\n ruedas correctas. Como la rueda 1 se usa de pivote, los movimientos \r\n deben aplicarse \u00FAnicamente a las ruedas 2 y 3.\r\n
+comment11.target=void testConfiguracionFinalTieneUnSoloColor()
+comment11.text=\r\n Prueba de Integraci\u00F3n\:\r\n Ejecuta una simulaci\u00F3n matem\u00E1tica ciega. Genera las acciones con el algoritmo \r\n y luego las aplica iterativamente a una instancia independiente de SlotMachine \r\n para comprobar si, al final del proceso, la m\u00E1quina realmente alcanza el \r\n estado de Jackpot (un solo s\u00EDmbolo distinto en el tablero).\r\n
+comment2.target=void testSolveN3NotNull()
+comment2.text=\r\n Prueba de Unidad\:\r\n Verifica que el motor algor\u00EDtmico logre generar y retornar una matriz \r\n v\u00E1lida (no nula) para el caso base inferior permitido por el problema (n \= 3).\r\n
+comment3.target=void testSolveN4NotNull()
+comment3.text=\r\n Prueba de Unidad\:\r\n Verifica que el motor algor\u00EDtmico logre generar y retornar una matriz \r\n v\u00E1lida (no nula) para un tama\u00F1o de m\u00E1quina intermedio par (n \= 4).\r\n
+comment4.target=void testSolveN5NotNull()
+comment4.text=\r\n Prueba de Unidad\:\r\n Verifica que el motor algor\u00EDtmico logre generar y retornar una matriz \r\n v\u00E1lida (no nula) para un tama\u00F1o de m\u00E1quina intermedio impar (n \= 5).\r\n
+comment5.target=void testNoSeRepitenPasosNegativosOCero()
+comment5.text=\r\n Prueba de Unidad\:\r\n Audita la matriz de resultados para garantizar que el algoritmo nunca dicte \r\n movimientos nulos (0 pasos) ni rotaciones negativas, respetando la f\u00EDsica \r\n de los giros de la m\u00E1quina.\r\n
+comment6.target=void testN1DevuelveMatrizVacia()
+comment6.text=\r\n Prueba de Unidad\:\r\n Verifica la resiliencia del sistema ante un caso frontera inv\u00E1lido (n \= 1).\r\n Dado que no hay ruedas ajenas para alinear contra una rueda pivote, \r\n el algoritmo debe abortar de forma segura retornando una matriz vac\u00EDa.\r\n
+comment7.target=void testN2NoLanzaExcepcion()
+comment7.text=\r\n Prueba de Unidad\:\r\n Verifica que el algoritmo pueda procesar un tama\u00F1o de 2 ruedas sin \r\n lanzar excepciones, retornando una estructura de matriz v\u00E1lida.\r\n
+comment8.target=void testN0ComportamientoConocido()
+comment8.text=\r\n Prueba de Unidad\:\r\n Valida el comportamiento esperado ante un tama\u00F1o fuera de los l\u00EDmites \r\n del contrato ICPC (n \= 0). Asegura que el sistema arroje expl\u00EDcitamente \r\n un ArrayIndexOutOfBoundsException al intentar consultar el color pivote.\r\n
+comment9.target=void testN50NoLanzaExcepcion()
+comment9.text=\r\n Prueba de Unidad\:\r\n Verifica la resiliencia y el manejo de memoria del algoritmo \r\n llev\u00E1ndolo al l\u00EDmite m\u00E1ximo permitido por las reglas del ICPC (n \= 50).\r\n
+numComments=12

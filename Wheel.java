@@ -3,14 +3,13 @@
  * 
  * Estas casillas estan represetnadas de color balnco y se encuentran distribuidas en el tablero.
  */
-
 public class Wheel {
-    private Rectangle casilla;
-    private int posicionX;
-    private Symbol simboloActual;
-    private Rectangle bordeCasilla;
+    protected Rectangle casilla;
+    protected int posicionX;
+    protected Symbol simboloActual;
+    protected Rectangle bordeCasilla;
     
-    private boolean isLocked;
+    protected boolean isLocked;
 
     /**
      * Crea una nueva rueda y la posiciona dinámicamente en el lienzo.
@@ -77,16 +76,14 @@ public class Wheel {
     }
     
     /**
-     * Asigna un nuevo símbolo a esta rueda y lo dibuja centrado.
-     * @param color El color del símbolo.
-     * @param forma La figura geométrica ("circle", "triangle", "rectangle").
+     * Asigna un nuevo OBJETO símbolo a esta rueda y lo dibuja centrado.
      */
-    public void setSymbol(String color, String forma) {
+    public void setSymbol(Symbol nuevoSimbolo) {
         if (simboloActual != null) {
             simboloActual.makeInvisible();
         }
 
-        simboloActual = new Symbol(color, forma);
+        simboloActual = nuevoSimbolo;
 
         int ajusteHorizontal = posicionX + 20; 
         int ajusteVertical = 138; 
@@ -99,20 +96,19 @@ public class Wheel {
     
     /**
      * Realiza una animación de giro poniendo la casilla en negro por un instante
-     * antes de revelar el nuevo símbolo.
+     * antes de revelar el nuevo OBJETO símbolo.
      */
-    public void girar(String nuevoColor, String nuevaForma) {
+    public void girar(Symbol nuevoSimbolo) {
         if (simboloActual != null) {
             simboloActual.makeInvisible();
         }
         casilla.changeColor("black");
         
-        // Pausa para el cambio de color (implementación con IA)
         Canvas.getCanvas().wait(200); 
         
         casilla.changeColor("white"); 
 
-        setSymbol(nuevoColor, nuevaForma);
+        setSymbol(nuevoSimbolo);
     }
     
     /**
@@ -169,5 +165,12 @@ public class Wheel {
      */
     public boolean isLocked() {
         return isLocked;
+    }
+    
+    /**
+     * Retornamos el simbolo actual que tiene la rueda
+     */
+    public Symbol getSimboloActual() {
+        return simboloActual;
     }
 }
