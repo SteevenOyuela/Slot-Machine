@@ -1,0 +1,10 @@
+#BlueJ class context
+#Sat Oct 03 20:32:53 COT 2026
+comment0.target=RebelWheel
+comment0.text=\r\n Representa una rueda de tipo "Rebel" en la m\u00E1quina tragamonedas.\r\n Esta clase hereda de Wheel y tiene un comportamiento polim\u00F3rfico rebelde\:\r\n es inmune a las alteraciones de estado, por lo que rechaza ser bloqueada.\r\n
+comment1.params=index
+comment1.target=RebelWheel(int)
+comment1.text=\r\n Constructor de la rueda Rebel.\r\n \r\n @param index El \u00EDndice donde se posicionar\u00E1 inicialmente la rueda (base 0).\r\n
+comment2.target=void lock()
+comment2.text=\r\n Sobrescribe el comportamiento de bloqueo.\r\n Al intentar bloquear una rueda rebelde, esta intercepta y anula la instrucci\u00F3n.\r\n
+numComments=3

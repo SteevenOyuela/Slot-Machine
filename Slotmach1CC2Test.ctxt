@@ -1,0 +1,22 @@
+#BlueJ class context
+#Sat Oct 03 20:39:50 COT 2026
+comment0.target=Slotmach1CC2Test
+comment0.text=\r\n Pruebas de integraci\u00F3n para Slotmach1 relacionadas con el Jackpot\:\r\n verifica que se alcance correctamente, que el estado ganador se preserve\r\n y que se rechacen operaciones posteriores al ganar.\r\n
+comment1.target=void setUp()
+comment1.text=\r\n Crea una m\u00E1quina nueva e invisible antes de cada prueba.\r\n
+comment2.target=int ruedas()
+comment2.text=\r\n @return la cantidad actual de ruedas en la m\u00E1quina.\r\n
+comment3.params=indice
+comment3.target=java.lang.String simbolo(int)
+comment3.text=\r\n Obtiene el color del s\u00EDmbolo ubicado en el \u00EDndice dado del cat\u00E1logo\r\n de s\u00EDmbolos de la m\u00E1quina, validando que exista.\r\n @param indice posici\u00F3n en el cat\u00E1logo de s\u00EDmbolos.\r\n @return el color del s\u00EDmbolo en esa posici\u00F3n.\r\n
+comment4.target=void crearTresRuedas()
+comment4.text=\r\n Agrega ruedas hasta que la m\u00E1quina tenga exactamente 3.\r\n
+comment5.target=void evitarJackpotAccidental()
+comment5.text=\r\n addWheel asigna s\u00EDmbolos al azar; si por azar la configuraci\u00F3n inicial\r\n ya resulta ganadora, spin(String[]) quedar\u00EDa bloqueado antes de poder\r\n fijar la configuraci\u00F3n deseada en la prueba. Este m\u00E9todo reasigna la\r\n \u00FAltima rueda hasta romper ese Jackpot accidental.\r\n
+comment6.target=void accordingDcOaShouldReachJackpotAndPreserveWinningState()
+comment6.text=\r\n Tras fijar una configuraci\u00F3n no ganadora, se pueda\r\n bloquear/desbloquear una rueda sin afectar el estado, que luego se\r\n pueda alcanzar el Jackpot fijando el mismo s\u00EDmbolo en todas las\r\n ruedas, y que una vez ganado, un nuevo spin con otra configuraci\u00F3n\r\n sea rechazado y el estado ganador se mantenga intacto.\r\n
+comment7.target=void accordingDcOaShouldReachJackpotAndRejectSubsequentOperations()
+comment7.text=\r\n Verifica que con dos ruedas se pueda alcanzar el Jackpot fijando el\r\n mismo s\u00EDmbolo en ambas, y que un spin posterior con s\u00EDmbolos distintos\r\n sea rechazado, dejando la configuraci\u00F3n ganadora sin modificar.\r\n
+comment8.target=void accordingDcOaShouldDetectJackpotAfterForcedSpin()
+comment8.text=\r\n Verifica colectivamente que, al forzar una configuraci\u00F3n donde todas las ruedas\r\n quedan con el mismo s\u00EDmbolo mediante spin(String[]), el sistema cambie su estado\r\n y detecte exitosamente el jackpot.\r\n
+numComments=9

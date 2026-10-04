@@ -1,0 +1,22 @@
+#BlueJ class context
+#Sat Oct 03 20:39:50 COT 2026
+comment0.target=Slotmach1CC4Test
+comment0.text=\r\n Pruebas de integraci\u00F3n para Slotmach1 relacionadas con el Jackpot\:\r\n verifica que se alcance correctamente, que el estado ganador se preserve\r\n y que se rechacen operaciones posteriores al ganar.\r\n
+comment1.target=void setUp()
+comment1.text=\r\n Crea una m\u00E1quina nueva e invisible antes de cada prueba.\r\n
+comment2.target=int ruedas()
+comment2.text=\r\n @return la cantidad actual de ruedas en la m\u00E1quina.\r\n
+comment3.params=indice
+comment3.target=java.lang.String simbolo(int)
+comment3.text=\r\n Obtiene el color del s\u00EDmbolo ubicado en el \u00EDndice dado del cat\u00E1logo\r\n de s\u00EDmbolos de la m\u00E1quina, validando que exista.\r\n @param indice posici\u00F3n en el cat\u00E1logo de s\u00EDmbolos.\r\n @return el color del s\u00EDmbolo en esa posici\u00F3n.\r\n
+comment4.target=void crearTresRuedas()
+comment4.text=\r\n Agrega ruedas hasta que la m\u00E1quina tenga exactamente 3.\r\n
+comment5.target=void evitarJackpotAccidental()
+comment5.text=\r\n addWheel asigna s\u00EDmbolos al azar; si por azar la configuraci\u00F3n inicial\r\n ya resulta ganadora, spin(String[]) quedar\u00EDa bloqueado antes de poder\r\n fijar la configuraci\u00F3n deseada en la prueba. Este m\u00E9todo reasigna la\r\n \u00FAltima rueda hasta romper ese Jackpot accidental.\r\n
+comment6.target=void accordingDcOaShouldReachJackpotWhenLeftyWheelCopiesLeftNeighbor()
+comment6.text=\r\n Verifica que una rueda Lefty complete el Jackpot al copiar el s\u00EDmbolo de su\r\n vecina izquierda, y que luego se rechace cualquier giro sin alterar el estado ganador.\r\n
+comment7.target=void accordingDcOaShouldReachJackpotWithRebelWheelAndRejectLaterOperations()
+comment7.text=\r\n Verifica que con una rueda Rebel en la m\u00E1quina se alcance el Jackpot, y que\r\n despu\u00E9s se rechacen bloquearla, colocar s\u00EDmbolos y fijar otra configuraci\u00F3n,\r\n conservando el estado ganador.\r\n
+comment8.target=void accordingDcOaShouldReachJackpotWithTypedSymbolsAndRejectSubsequentSpins()
+comment8.text=\r\n Verifica que los s\u00EDmbolos agregados con addSymbol(tipo, color) (ephemeral y shy)\r\n puedan formar el Jackpot, y que luego se rechacen spin() y spin(rueda, pasos).\r\n
+numComments=9
