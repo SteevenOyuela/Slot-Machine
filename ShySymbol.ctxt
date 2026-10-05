@@ -1,12 +1,17 @@
 #BlueJ class context
-#Sat Oct 03 19:44:52 COT 2026
+#Sun Oct 04 23:24:21 COT 2026
 comment0.target=ShySymbol
-comment0.text=\r\n S\u00EDmbolo que alterna su visibilidad cada vez que es seleccionado en una rueda.\r\n
+comment0.text=\r\n S\u00EDmbolo que alterna su visibilidad (visible/invisible) cada vez que es seleccionado \r\n en una rueda. Hereda de la superclase Symbol y encapsula su propio estado de ocultamiento.\r\n
 comment1.params=color forma
 comment1.target=ShySymbol(java.lang.String, java.lang.String)
+comment1.text=\r\n Constructor p\u00FAblico utilizado para a\u00F1adir el s\u00EDmbolo al cat\u00E1logo de la m\u00E1quina.\r\n Por defecto, el s\u00EDmbolo inicia en estado visible.\r\n \r\n @param color El color.\r\n @param forma La figura geom\u00E9trica que representar\u00E1 el s\u00EDmbolo.\r\n
 comment2.params=color forma oculto
 comment2.target=ShySymbol(java.lang.String, java.lang.String, boolean)
+comment2.text=\r\n Constructor privado utilizado exclusivamente por el Patr\u00F3n Prototype.\r\n Permite instanciar copias exactas para las ruedas conservando el estado de visibilidad actual.\r\n \r\n @param color El color en formato CSS.\r\n @param forma La figura geom\u00E9trica del s\u00EDmbolo.\r\n @param oculto El estado de visibilidad a heredar en la copia.\r\n
 comment3.target=void aplicarEfecto()
+comment3.text=\r\n Sobrescribe el comportamiento polim\u00F3rfico del s\u00EDmbolo.\r\n Invierte el estado l\u00F3gico de visibilidad (de visible a invisible y viceversa)\r\n cada vez que el s\u00EDmbolo es seleccionado durante un giro.\r\n
 comment4.target=Symbol generarCopia()
+comment4.text=\r\n Implementa el Patr\u00F3n Prototype para evitar el bug visual de m\u00FAltiples referencias en el Canvas.\r\n \r\n @return Una nueva instancia f\u00EDsica de ShySymbol con las mismas propiedades y estado actual.\r\n
 comment5.target=void makeVisible()
+comment5.text=\r\n Sobrescribe el m\u00E9todo de visibilidad visual.\r\n Intercepta la orden de dibujo del Canvas\: solo ejecuta la visualizaci\u00F3n \r\n gr\u00E1fica real (super.makeVisible()) si el s\u00EDmbolo NO est\u00E1 en su fase oculta.\r\n
 numComments=6

@@ -7,6 +7,9 @@ public class Rectangle extends Figure {
     private int height;
     private int width;
 
+    /**
+     * El constructor que inicializa el rectangulo con las unidades especificadas
+     */
     public Rectangle(){
         super();
         height = 30;
@@ -14,6 +17,9 @@ public class Rectangle extends Figure {
         color = "magenta";
     }
 
+    /**
+     * Dibuja el rectangulo en el lienzo conlas unidades predeterminadas
+     */
     protected void draw() {
         drawShape(new java.awt.Rectangle(xPosition, yPosition, width, height));
     }

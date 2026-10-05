@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sat Oct 03 20:32:53 COT 2026
+#Sun Oct 04 23:19:16 COT 2026
 comment0.target=LeftyWheel
 comment0.text=\r\n Representa una rueda de tipo "Lefty" en la m\u00E1quina tragamonedas.\r\n Esta clase hereda de Wheel, al momento de girar, ignora los par\u00E1metros aleatorios que recibe \r\n y en su lugar copia el color y la forma de la rueda a su izquierda.\r\n
 comment1.params=index wheels

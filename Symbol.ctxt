@@ -1,21 +1,29 @@
 #BlueJ class context
-#Sat Oct 03 18:17:16 COT 2026
+#Sun Oct 04 23:19:16 COT 2026
 comment0.target=Symbol
 comment0.text=\r\n Representa un s\u00EDmbolo en la m\u00E1quina tragamonedas.\r\n
 comment1.params=color forma
 comment1.target=Symbol(java.lang.String, java.lang.String)
+comment1.text=\r\n Crea un simbolo asignandole un color y una forma especifica\r\n
 comment10.target=void aplicarEfecto()
+comment10.text=\r\n Es reservado para aplicar efectos visuales especificos de cada simbolo\r\n
 comment11.target=Symbol generarCopia()
+comment11.text=\r\n Crea y retorna un nuevo objeto symbol igual al actual con el mismo\r\n color y forma\r\n
 comment2.target=java.lang.String getColor()
+comment2.text=\r\n Retorna el color actual o la forma\r\n
 comment3.target=java.lang.String getForma()
 comment4.target=void makeVisible()
+comment4.text=\r\n Se muestra o se oculta la figura del simbolo en el lienzo\r\n
 comment5.target=void makeInvisible()
 comment6.params=x y
 comment6.target=void moverA(int, int)
+comment6.text=\r\n Desplaza el simbolo a una nueva posicion sumando los valores indicados\r\n en coordenadas horizontales y verticales\r\n
 comment7.params=distancia
 comment7.target=void moverHorizontal(int)
+comment7.text=\r\n Mueve el simbolo de manera horizontal o vertical segun los pixeles\r\n que se especifiquen\r\n
 comment8.params=distancia
 comment8.target=void moverVertical(int)
 comment9.params=nuevoTamano
 comment9.target=void cambiarTamano(int)
+comment9.text=\r\n Cambia las dimensiones de la figura interna del simbolo, ademas\r\n valida si es un circulo, triangulo o rectangulo\r\n
 numComments=12

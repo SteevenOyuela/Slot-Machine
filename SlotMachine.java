@@ -1206,7 +1206,7 @@ public class SlotMachine {
         
         int indiceJava = pos - 1;
         
-        if (indiceJava < wheels.size()) { //[cite: 10]
+        if (indiceJava < wheels.size()) {
             Wheel ruedaEnPosicion = wheels.get(indiceJava);
             
             if (ruedaEnPosicion.isLocked()) {
