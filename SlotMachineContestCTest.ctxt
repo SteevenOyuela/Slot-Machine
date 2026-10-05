@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sun Oct 04 23:25:25 COT 2026
+#Mon Oct 05 11:19:37 COT 2026
 comment0.target=SlotMachineContestCTest
 comment0.text=\r\n Pruebas de aceptaci\u00F3n colectivas para la clase SlotMachineContest.\r\n Autores\: Duran Ceballos y Oyuela Mendez (DcOm).\r\n
 comment1.target=void accordingDcOmShouldReturnValidWheelAndStepRanges()
