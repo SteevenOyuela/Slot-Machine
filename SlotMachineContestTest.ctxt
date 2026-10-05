@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sat Oct 03 20:39:50 COT 2026
+#Sun Oct 04 23:25:25 COT 2026
 comment0.target=SlotMachineContestTest
 comment0.text=\r\n Bater\u00EDa masiva de pruebas unitarias y de aceptaci\u00F3n para SlotMachineContest.\r\n Solo se prueba solve(n); JAM\u00C1S simulate(n) (bloquea el hilo por makeVisible/wait).\r\n
 comment1.target=void setUp()

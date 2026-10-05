@@ -1,8 +1,10 @@
 #BlueJ class context
-#Sun Sep 20 20:48:12 COT 2026
+#Sun Oct 04 23:19:16 COT 2026
 comment0.target=Triangle
 comment1.target=Triangle()
+comment1.text=\r\n El constructor el cual inicializa el triangulo, con el tama\u00F1o\r\n predeterminado\r\n
 comment2.target=void draw()
+comment2.text=\r\n Dibuja el poligono del triangulo en el lienzo, usando sus vertices, ancho,\r\n alto y posiciones actuales\r\n
 comment3.params=newHeight newWidth
 comment3.target=void changeSize(int, int)
 comment3.text=\r\n Change the size to the new size\r\n @param newHeight the new height in pixels. newHeight must be >\=0.\r\n @param newWidth the new width in pixels. newWidth must be >\=0.\r\n

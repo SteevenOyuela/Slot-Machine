@@ -1,11 +1,15 @@
 #BlueJ class context
-#Sat Oct 03 19:35:12 COT 2026
+#Sun Oct 04 23:25:22 COT 2026
 comment0.target=EphemeralSymbol
-comment0.text=\r\n S\u00EDmbolo que reduce su tama\u00F1o progresivamente cada vez que es seleccionado,\r\n hasta quedar como un punto peque\u00F1o.\r\n
+comment0.text=\r\n S\u00EDmbolo que reduce su tama\u00F1o progresivamente cada vez que es seleccionado en una rueda,\r\n hasta quedar como un punto peque\u00F1o. Hereda de la superclase Symbol y maneja su propia escala.\r\n
 comment1.params=color forma
 comment1.target=EphemeralSymbol(java.lang.String, java.lang.String)
+comment1.text=\r\n Constructor p\u00FAblico utilizado para a\u00F1adir el s\u00EDmbolo al cat\u00E1logo de la m\u00E1quina.\r\n Por defecto, el s\u00EDmbolo inicia con un tama\u00F1o inicial de 60.\r\n \r\n @param color El color en formato CSS.\r\n @param forma La figura geom\u00E9trica que representar\u00E1 el s\u00EDmbolo.\r\n
 comment2.params=color forma tamano
 comment2.target=EphemeralSymbol(java.lang.String, java.lang.String, int)
+comment2.text=\r\n Constructor privado utilizado exclusivamente por el Patr\u00F3n Prototype.\r\n Permite instanciar copias exactas para las ruedas conservando el nivel de encogimiento actual.\r\n \r\n @param color El color.\r\n @param forma La figura geom\u00E9trica del s\u00EDmbolo.\r\n @param tamano El tama\u00F1o actual a heredar en la copia.\r\n
 comment3.target=void aplicarEfecto()
+comment3.text=\r\n Sobrescribe el comportamiento polim\u00F3rfico del s\u00EDmbolo.\r\n Reduce el tama\u00F1o del s\u00EDmbolo en 10 unidades l\u00F3gicas cada vez que su efecto es activado,\r\n estableciendo un l\u00EDmite m\u00EDnimo de 10 unidades para evitar que desaparezca por completo.\r\n
 comment4.target=Symbol generarCopia()
+comment4.text=\r\n Implementa el Patr\u00F3n Prototype para instanciar clones f\u00EDsicos del s\u00EDmbolo.\r\n \r\n @return Una nueva instancia de EphemeralSymbol con el mismo color, forma y tama\u00F1o degradado actual.\r\n
 numComments=5

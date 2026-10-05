@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sat Oct 03 20:32:53 COT 2026
+#Sun Oct 04 23:19:16 COT 2026
 comment0.target=RebelWheel
 comment0.text=\r\n Representa una rueda de tipo "Rebel" en la m\u00E1quina tragamonedas.\r\n Esta clase hereda de Wheel y tiene un comportamiento polim\u00F3rfico rebelde\:\r\n es inmune a las alteraciones de estado, por lo que rechaza ser bloqueada.\r\n
 comment1.params=index

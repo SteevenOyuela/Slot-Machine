@@ -6,7 +6,11 @@ public class Triangle extends Figure {
 
     private int height;
     private int width;
-
+    
+    /**
+     * El constructor el cual inicializa el triangulo, con el tamaño
+     * predeterminado
+     */
     public Triangle(){
         super();
         height = 30;
@@ -14,7 +18,11 @@ public class Triangle extends Figure {
         xPosition = 0;
         color = "green";
     }
-
+    
+    /**
+     * Dibuja el poligono del triangulo en el lienzo, usando sus vertices, ancho,
+     * alto y posiciones actuales
+     */
     protected void draw(){
         int[] xpoints = { xPosition, xPosition + (width/2), xPosition - (width/2) };
         int[] ypoints = { yPosition, yPosition + height, yPosition + height };

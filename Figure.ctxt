@@ -1,29 +1,43 @@
 #BlueJ class context
-#Sun Sep 20 20:48:12 COT 2026
+#Sun Oct 04 23:19:16 COT 2026
 comment0.target=Figure
 comment0.text=\r\n Superclase abstracta que centraliza el estado y comportamiento com\u00FAn\r\n de toda figura geom\u00E9trica dibujable en el Canvas.\r\n
 comment1.target=Figure()
+comment1.text=\r\n Inicializa la posicion de la figura con coordenadas (0,0)\r\n y se establece en invisible por defecto\r\n
 comment10.target=void moveUp()
+comment10.text=\r\n Desplaza la figura 2o pixeles hacia arriba\r\n
 comment11.target=void moveDown()
+comment11.text=\r\n Desplaza la figura 20 pixeles hacia abajo\r\n
 comment12.params=distance
 comment12.target=void moveHorizontal(int)
+comment12.text=\r\n Borra la figura, actualiza su posicion horizontal sumandole la indicada\r\n y la vuelve a dibujar\r\n
 comment13.params=distance
 comment13.target=void moveVertical(int)
+comment13.text=\r\n Borra la figura, actualiza su posicion vertical sumandole la distancia indicada\r\n y la vuelve a dibujar\r\n
 comment14.params=distance
 comment14.target=void slowMoveHorizontal(int)
+comment14.text=\r\n Desplaza la figura horizontalmente pixel por pixel segun la distancia dada\r\n
 comment15.params=distance
 comment15.target=void slowMoveVertical(int)
+comment15.text=\r\n Desplaza la figura verticalmente pixel por pixel segun su distancia dada\r\n
 comment16.params=newColor
 comment16.target=void changeColor(java.lang.String)
+comment16.text=\r\n Cambia el color de la figura y la vuelve a dibujar con el nuevo color\r\n
 comment2.params=forma
 comment2.target=Figure crear(java.lang.String)
 comment2.text=\r\n Factory Method\: crea y configura la figura correspondiente al\r\n tama\u00F1o est\u00E1ndar de s\u00EDmbolo (60px), sin exponer los tipos concretos\r\n a las clases que la invoquen.\r\n
 comment3.target=void makeVisible()
+comment3.text=\r\n Hace visible la figura del lienzo y la dibuja\r\n
 comment4.target=void makeInvisible()
+comment4.text=\r\n Hace invisible la figura del lienzo y cambia su estado a invisible\r\n
 comment5.target=void erase()
+comment5.text=\r\n Borra la figura del lienzo solo si se esta en estado visible\r\n
 comment6.params=shape
 comment6.target=void drawShape(java.awt.Shape)
+comment6.text=\r\n Dibuja una forma geometrica especifica en el lienzo con el color\r\n actual solo si la figura es visible\r\n
 comment7.target=void draw()
 comment8.target=void moveRight()
+comment8.text=\r\n Desplaza la figura 20 pixeles hacia la derecha\r\n
 comment9.target=void moveLeft()
+comment9.text=\r\n Desplaza la figura 20 pixeles hacia la izquierda\r\n
 numComments=17

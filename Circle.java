@@ -6,12 +6,18 @@ public class Circle extends Figure {
 
     private int diameter;
 
+    /**
+     * El constructor el cual inicializael circulo con las medidas establecidas
+     */
     public Circle(){
         super();
         diameter = 30;
         color = "blue";
     }
 
+    /**
+     * Dibuja la figura del circulo en el lienzo segun su posicion y su diametro
+     */
     protected void draw(){
         drawShape(new Ellipse2D.Double(xPosition, yPosition, diameter, diameter));
     }

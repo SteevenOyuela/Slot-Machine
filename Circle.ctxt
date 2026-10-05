@@ -1,8 +1,10 @@
 #BlueJ class context
-#Sun Sep 20 20:48:12 COT 2026
+#Sun Oct 04 23:19:16 COT 2026
 comment0.target=Circle
 comment1.target=Circle()
+comment1.text=\r\n El constructor el cual inicializael circulo con las medidas establecidas\r\n
 comment2.target=void draw()
+comment2.text=\r\n Dibuja la figura del circulo en el lienzo segun su posicion y su diametro\r\n
 comment3.params=newDiameter
 comment3.target=void changeSize(int)
 comment3.text=\r\n Change the size.\r\n @param newDiameter the new size (in pixels). Size must be >\=0.\r\n
