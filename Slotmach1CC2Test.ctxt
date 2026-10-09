@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sun Oct 04 23:25:25 COT 2026
+#Fri Oct 09 11:17:32 COT 2026
 comment0.target=Slotmach1CC2Test
 comment0.text=\r\n Pruebas de integraci\u00F3n para Slotmach1 relacionadas con el Jackpot\:\r\n verifica que se alcance correctamente, que el estado ganador se preserve\r\n y que se rechacen operaciones posteriores al ganar.\r\n
 comment1.target=void setUp()

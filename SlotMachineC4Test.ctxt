@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sun Oct 04 23:25:25 COT 2026
+#Fri Oct 09 11:17:32 COT 2026
 comment0.target=SlotMachineC4Test
 comment0.text=\r\n Pruebas unitarias de la clase SlotMachine.\r\n Cada prueba documenta\: qu\u00E9 se busca probar, qu\u00E9 acci\u00F3n se ejecuta (When)\r\n y qu\u00E9 resultado se espera obtener (Then).\r\n\r\n Cat\u00E1logo inicial de SlotMachine()\: blue, purple, green, brown (en ese orden).\r\n No se prueba exit() porque termina la JVM de las pruebas.\r\n
 comment1.target=void setUp()

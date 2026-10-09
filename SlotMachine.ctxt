@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sun Oct 04 23:25:25 COT 2026
+#Fri Oct 09 11:17:30 COT 2026
 comment0.target=SlotMachine
 comment0.text=\r\n Representa una m\u00E1quina tragamonedas.\r\n \r\n La m\u00E1quina utiliza los componentes gr\u00E1ficos de la librer\u00EDa shapes\r\n para construir su representaci\u00F3n visual.\r\n
 comment1.target=SlotMachine()
@@ -31,7 +31,7 @@ comment19.target=boolean isJackpot()
 comment19.text=\r\n Consulta si la configuraci\u00F3n actual de las ruedas es ganadora.\r\n Se gana el Jackpot \u00FAnicamente si todas las ruedas muestran el mismo s\u00EDmbolo.\r\n @return true si la configuraci\u00F3n es ganadora, false en caso contrario.\r\n
 comment2.params=n
 comment2.target=SlotMachine(int)
-comment2.text=\r\n Crea una m\u00E1quina tragamonedas de n ruedas y n s\u00EDmbolos distintos,\r\n inicializada aleatoriamente.\r\n @param n Cantidad de ruedas y s\u00EDmbolos a generar (3 <\= n <\= 50).\r\n
+comment2.text=\r\n Crea una m\u00E1quina tragamonedas de n ruedas inicializada aleatoriamente.\r\n @param n Cantidad de ruedas y s\u00EDmbolos a generar (3 <\= n <\= 50).\r\n
 comment20.target=boolean ok()
 comment20.text=\r\n Indica si se logr\u00F3 realizar la \u00FAltima operaci\u00F3n solicitada.\r\n @return true si la operaci\u00F3n fue exitosa, false en caso contrario.\r\n
 comment21.target=void exit()
@@ -62,7 +62,7 @@ comment29.target=void addLeftyWheel(int)
 comment29.text=\r\n Adiciona una nueva rueda tipo Lefty a la m\u00E1quina, validando estrictamente los casos frontera.\r\n @param pos La posici\u00F3n donde se desea insertar la rueda (iniciando en 1).\r\n
 comment3.params=n m
 comment3.target=SlotMachine(int, java.lang.String)
-comment3.text=\r\n Crea una m\u00E1quina tragamonedas de n ruedas, n s\u00EDmbolos distintos, n combinaciones de tipo de simbolos,\r\n inicializada aleatoriamente.\r\n @param n Cantidad de ruedas y s\u00EDmbolos a generar (3 <\= n <\= 50).\r\n
+comment3.text=\r\n Crea una m\u00E1quina tragamonedas de n ruedas, n combinaciones de tipo de simbolos,\r\n inicializada aleatoriamente.\r\n @param n Cantidad de ruedas y s\u00EDmbolos a generar (3 <\= n <\= 50).\r\n
 comment30.params=pos
 comment30.target=void addRebelWheel(int)
 comment30.text=\r\n Adiciona una nueva rueda tipo Rebel a la m\u00E1quina, alc ual tiene como funci\u00F3n principal no se deja bloquear, ni intercambiar, ni eliminar.\r\n @param pos La posici\u00F3n donde se desea insertar la rueda (iniciando en 1).\r\n

@@ -55,9 +55,8 @@ public class SlotMachineContest {
     }
     
     /**
-     * Ejecuta el algoritmo central de la solución (ICPC Problem I) sobre la máquina dada.
      * El procedimiento consta de tres fases matemáticas estrictas para garantizar el éxito
-     * operando a ciegas (usando únicamente distinctSymbols() como sonda):
+     * operando a ciegas:
      *
      * Fase 1: Ajusta cada rueda hasta garantizar que todas muestren símbolos distintos.
      * Fase 2: Usa la rueda 1 como "sonda". La gira paso a paso y, al mismo tiempo,
