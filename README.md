@@ -1,7 +1,7 @@
 # 🎰 SlotMachine
 
 Simulador de una máquina tragamonedas desarrollado como proyecto inicial del curso **Desarrollo Orientado por Objetos [DOPO-POOB]**
-Escuela Colombiana de Ingeniería — Ciclo No. 1, 2026-2.
+Escuela Colombiana de Ingeniería.
 
 El proyecto está inspirado en el *Problem I* de la Maratón de Programación Internacional 2025: **Slot Machine**.
 

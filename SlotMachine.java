@@ -2,7 +2,7 @@ import java.util.List;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import java.util.Random;
-import java.util.*; //Poder usar el shuffle
+import java.util.*;
 
 /**
  * Representa una máquina tragamonedas.
@@ -84,8 +84,7 @@ public class SlotMachine {
     }
     
     /**
-     * Crea una máquina tragamonedas de n ruedas y n símbolos distintos,
-     * inicializada aleatoriamente.
+     * Crea una máquina tragamonedas de n ruedas inicializada aleatoriamente.
      * @param n Cantidad de ruedas y símbolos a generar (3 <= n <= 50).
      */
 
@@ -153,7 +152,7 @@ public class SlotMachine {
     }
 
     /**
-     * Crea una máquina tragamonedas de n ruedas, n símbolos distintos, n combinaciones de tipo de simbolos,
+     * Crea una máquina tragamonedas de n ruedas, n combinaciones de tipo de simbolos,
      * inicializada aleatoriamente.
      * @param n Cantidad de ruedas y símbolos a generar (3 <= n <= 50).
      */
@@ -318,7 +317,7 @@ public class SlotMachine {
         wheels.add(indiceJava, nuevaRueda);
         
         actualizarRuedas();
-        isJackpot(); //Al agregar una rueda comprueba si es estado ganador 
+        isJackpot();
         ok = true;
     }
     
@@ -376,7 +375,7 @@ public class SlotMachine {
         wheels.remove(indiceJava);
         
         actualizarRuedas();
-        isJackpot(); // Al elimianr una rueda comprueba si es estado eprdedor
+        isJackpot();
         ok = true;
     }
     

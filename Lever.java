@@ -11,7 +11,6 @@ public class Lever {
      * Construye una nueva palanca (Lever) y la dibuja en el lienzo.
      * Inicializa, dimensiona, colorea y posiciona el conector, el palo y la manija en su estado de reposo.
      */
-    
     public Lever() {
         conector = new Rectangle();
         conector.changeSize(10, 30);
