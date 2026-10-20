@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sun Oct 04 23:24:21 COT 2026
+#Mon Oct 19 19:31:50 COT 2026
 comment0.target=ShySymbol
 comment0.text=\r\n S\u00EDmbolo que alterna su visibilidad (visible/invisible) cada vez que es seleccionado \r\n en una rueda. Hereda de la superclase Symbol y encapsula su propio estado de ocultamiento.\r\n
 comment1.params=color forma

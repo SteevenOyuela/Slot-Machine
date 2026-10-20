@@ -3,7 +3,6 @@
  * hasta quedar como un punto pequeño. Hereda de la superclase Symbol y maneja su propia escala.
  */
 public class EphemeralSymbol extends Symbol {
-    
     /**
      * Estado interno que almacena el tamaño actual de la figura geométrica.
      */
@@ -37,13 +36,13 @@ public class EphemeralSymbol extends Symbol {
 
     /**
      * Sobrescribe el comportamiento polimórfico del símbolo.
-     * Reduce el tamaño del símbolo en 10 unidades lógicas cada vez que su efecto es activado,
+     * Reduce el tamaño del símbolo en 5 unidades lógicas cada vez que su efecto es activado,
      * estableciendo un límite mínimo de 10 unidades para evitar que desaparezca por completo.
      */
     @Override
     public void aplicarEfecto() {
         if (this.tamanoActual > 10) {
-            this.tamanoActual -= 10;
+            this.tamanoActual -= 5;
         }
     }
 
