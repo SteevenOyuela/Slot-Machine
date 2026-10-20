@@ -129,6 +129,7 @@ public class SlotMachineContest {
                     continue; 
                 }
                 
+                // IA generativa (Esto con el fin de seguir lso lineamientos del video y hacer que la rueda de n-1 pasos hacia atras)
                 maquina.spin(w, n - 1);
                 acciones.add(new int[]{w, n - 1});
                 
@@ -146,7 +147,6 @@ public class SlotMachineContest {
                 acciones.add(new int[]{w, 1});
                 
                 if (maquina.distinctSymbols() == 1){
-                    // Si ganó, retorna y termina.
                     return acciones.toArray(new int[acciones.size()][]);
                 }
             }
@@ -155,7 +155,7 @@ public class SlotMachineContest {
         // FASE 3: Alinear todas las ruedas al símbolo de la Rueda 1.
 
         for (int w = 2; w <= n; w++){
-            // IA gen para calcular la distacia desde al rueda objetivo a las sigueintes
+            // IA generativa para calcular la distacia desde al rueda objetivo a las sigueintes
             int pasos = (((offsetRueda1 - posicion[w]) % n) + n) % n;
             
             if (pasos != 0){

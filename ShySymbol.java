@@ -3,7 +3,6 @@
  * en una rueda. Hereda de la superclase Symbol y encapsula su propio estado de ocultamiento.
  */
 public class ShySymbol extends Symbol {
-    
     /**
      * Bandera interna que determina si el símbolo debe ocultarse gráficamente.
      */
