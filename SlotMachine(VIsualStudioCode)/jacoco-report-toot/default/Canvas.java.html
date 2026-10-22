@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Canvas.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">Canvas.java</span></div><h1>Canvas.java</h1><pre class="source lang-java linenums">import javax.swing.*;
+import java.awt.*;
+import java.util.List;
+import java.util.*;
+
+/**
+ * Canvas is a class to allow for simple graphical drawing on a canvas.
+ * This is a modification of the general purpose Canvas, specially made for
+ * the BlueJ &quot;shapes&quot; example. 
+ *
+ * @author: Bruce Quig
+ * @author: Michael Kolling (mik)
+ *
+ * @version: 1.6 (shapes)
+ */
+public class Canvas{
+    // Note: The implementation of this class (specifically the handling of
+    // shape identity and colors) is slightly more complex than necessary. This
+    // is done on purpose to keep the interface and instance fields of the
+    // shape objects in this project clean and simple for educational purposes.
+
+    private static Canvas canvasSingleton;
+
+    /**
+     * Factory method to get the canvas singleton object.
+     * Como recomendación apra el uso del metodo visible; 
+     * Cuando se ejcuten las pruebas de aceptación se recomiendo que esté en FALSE para que no se muestre el mensaje de felicitaciones.
+     * Cuando se ejecute el juego en modo normal, se recomienda que esté en TRUE para que se muestre el mensaje de felicitaciones.
+     */
+    public static Canvas getCanvas(){
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if(canvasSingleton == null) {</span>
+<span class="fc" id="L32">            canvasSingleton = new Canvas(&quot;BlueJ Shapes Demo&quot;, 1500, 400, </span>
+                                         Color.white);
+<span class="fc" id="L34">            canvasSingleton.init();</span>
+        }
+<span class="fc" id="L36">        return canvasSingleton;</span>
+    }
+
+    //  ----- instance part -----
+
+    private JFrame frame;
+    private CanvasPane canvas;
+    private Graphics2D graphic;
+    private Color backgroundColour;
+    private Image canvasImage;
+    private List &lt;Object&gt; objects;
+    private HashMap &lt;Object,ShapeDescription&gt; shapes;
+    
+    /**
+     * Create a Canvas.
+     * @param title  title to appear in Canvas Frame
+     * @param width  the desired width for the canvas
+     * @param height  the desired height for the canvas
+     * @param bgClour  the desired background colour of the canvas
+     */
+<span class="fc" id="L56">    private Canvas(String title, int width, int height, Color bgColour){</span>
+<span class="fc" id="L57">        frame = new JFrame();</span>
+<span class="fc" id="L58">        canvas = new CanvasPane();</span>
+<span class="fc" id="L59">        frame.setContentPane(canvas);</span>
+<span class="fc" id="L60">        frame.setTitle(title);</span>
+<span class="fc" id="L61">        canvas.setPreferredSize(new Dimension(width, height));</span>
+<span class="fc" id="L62">        backgroundColour = bgColour;</span>
+<span class="fc" id="L63">        frame.pack();</span>
+<span class="fc" id="L64">        objects = new ArrayList &lt;Object&gt;();</span>
+<span class="fc" id="L65">        shapes = new HashMap &lt;Object,ShapeDescription&gt;();</span>
+<span class="fc" id="L66">    }</span>
+
+    /**
+     * Set the canvas visibility and brings canvas to the front of screen
+     * when made visible. This method can also be used to bring an already
+     * visible canvas to the front of other windows.
+     * @param visible  boolean value representing the desired visibility of
+     * the canvas (true or false) 
+     */
+    public void setVisible(boolean visible){
+<span class="pc bpc" id="L76" title="1 of 2 branches missed.">        if(graphic == null) {</span>
+            // first time: instantiate the offscreen image and fill it with
+            // the background colour
+<span class="nc" id="L79">            Dimension size = canvas.getSize();</span>
+<span class="nc" id="L80">            canvasImage = canvas.createImage(size.width, size.height);</span>
+<span class="nc" id="L81">            graphic = (Graphics2D)canvasImage.getGraphics();</span>
+<span class="nc" id="L82">            graphic.setColor(backgroundColour);</span>
+<span class="nc" id="L83">            graphic.fillRect(0, 0, size.width, size.height);</span>
+<span class="nc" id="L84">            graphic.setColor(Color.black);</span>
+        }
+<span class="fc" id="L86">        frame.setVisible(visible);</span>
+<span class="fc" id="L87">    }</span>
+
+    /**
+     * Draw a given shape onto the canvas.
+     * @param  referenceObject  an object to define identity for this shape
+     * @param  color            the color of the shape
+     * @param  shape            the shape object to be drawn on the canvas
+     */
+     // Note: this is a slightly backwards way of maintaining the shape
+     // objects. It is carefully designed to keep the visible shape interfaces
+     // in this project clean and simple for educational purposes.
+    public void draw(Object referenceObject, String color, Shape shape){
+<span class="fc" id="L99">        objects.remove(referenceObject);   // just in case it was already there</span>
+<span class="fc" id="L100">        objects.add(referenceObject);      // add at the end</span>
+<span class="fc" id="L101">        shapes.put(referenceObject, new ShapeDescription(shape, color));</span>
+<span class="fc" id="L102">        redraw();</span>
+<span class="fc" id="L103">    }</span>
+ 
+    /**
+     * Erase a given shape's from the screen.
+     * @param  referenceObject  the shape object to be erased 
+     */
+    public void erase(Object referenceObject){
+<span class="fc" id="L110">        objects.remove(referenceObject);   // just in case it was already there</span>
+<span class="fc" id="L111">        shapes.remove(referenceObject);</span>
+<span class="fc" id="L112">        redraw();</span>
+<span class="fc" id="L113">    }</span>
+
+    /**
+     * Set the foreground colour of the Canvas.
+     * @param  newColour   the new colour for the foreground of the Canvas 
+     */
+        public void setForegroundColor(String colorString) {
+<span class="fc bfc" id="L120" title="All 2 branches covered.">        if(colorString.equals(&quot;red&quot;))</span>
+<span class="fc" id="L121">            graphic.setColor(Color.red);</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">        else if(colorString.equals(&quot;black&quot;))</span>
+<span class="fc" id="L123">            graphic.setColor(Color.black);</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">        else if(colorString.equals(&quot;blue&quot;))</span>
+<span class="fc" id="L125">            graphic.setColor(Color.blue);</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">        else if(colorString.equals(&quot;yellow&quot;))</span>
+<span class="fc" id="L127">            graphic.setColor(Color.yellow);</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">        else if(colorString.equals(&quot;green&quot;))</span>
+<span class="fc" id="L129">            graphic.setColor(Color.green);</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">        else if(colorString.equals(&quot;magenta&quot;))</span>
+<span class="fc" id="L131">            graphic.setColor(Color.magenta);</span>
+<span class="fc bfc" id="L132" title="All 2 branches covered.">        else if(colorString.equals(&quot;white&quot;))</span>
+<span class="fc" id="L133">            graphic.setColor(Color.white);</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">        else if(colorString.equals(&quot;cyan&quot;))</span>
+<span class="fc" id="L135">            graphic.setColor(Color.cyan);</span>
+<span class="fc bfc" id="L136" title="All 2 branches covered.">        else if(colorString.equals(&quot;orange&quot;))</span>
+<span class="fc" id="L137">            graphic.setColor(Color.orange);</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">        else if(colorString.equals(&quot;pink&quot;))</span>
+<span class="fc" id="L139">            graphic.setColor(Color.pink);</span>
+<span class="fc bfc" id="L140" title="All 2 branches covered.">        else if(colorString.equals(&quot;grey&quot;))</span>
+<span class="fc" id="L141">            graphic.setColor(Color.gray);</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">        else if(colorString.equals(&quot;lightgray&quot;))</span>
+<span class="fc" id="L143">            graphic.setColor(Color.lightGray);</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">        else if(colorString.equals(&quot;darkgray&quot;))</span>
+<span class="fc" id="L145">            graphic.setColor(Color.darkGray);</span>
+            
+        // === COLORES NUEVOS PERSONALIZADOS (RGB) ===
+<span class="fc bfc" id="L148" title="All 2 branches covered.">        else if(colorString.equals(&quot;purple&quot;))</span>
+<span class="fc" id="L149">            graphic.setColor(new Color(128, 0, 128));</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">        else if(colorString.equals(&quot;brown&quot;))</span>
+<span class="fc" id="L151">            graphic.setColor(new Color(139, 69, 19));</span>
+<span class="fc bfc" id="L152" title="All 2 branches covered.">        else if(colorString.equals(&quot;gold&quot;))</span>
+<span class="fc" id="L153">            graphic.setColor(new Color(255, 215, 0));</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">        else if(colorString.equals(&quot;navy&quot;))</span>
+<span class="fc" id="L155">            graphic.setColor(new Color(0, 0, 128));</span>
+<span class="fc bfc" id="L156" title="All 2 branches covered.">        else if(colorString.equals(&quot;teal&quot;))</span>
+<span class="fc" id="L157">            graphic.setColor(new Color(0, 128, 128));</span>
+<span class="fc bfc" id="L158" title="All 2 branches covered.">        else if(colorString.equals(&quot;maroon&quot;))</span>
+<span class="fc" id="L159">            graphic.setColor(new Color(128, 0, 0));</span>
+<span class="fc bfc" id="L160" title="All 2 branches covered.">        else if(colorString.equals(&quot;olive&quot;))</span>
+<span class="fc" id="L161">            graphic.setColor(new Color(128, 128, 0));</span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">        else if(colorString.equals(&quot;silver&quot;))</span>
+<span class="fc" id="L163">            graphic.setColor(new Color(192, 192, 192));</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">        else if(colorString.equals(&quot;violet&quot;))</span>
+<span class="fc" id="L165">            graphic.setColor(new Color(238, 130, 238));</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">        else if(colorString.equals(&quot;indigo&quot;))</span>
+<span class="fc" id="L167">            graphic.setColor(new Color(75, 0, 130));</span>
+<span class="fc bfc" id="L168" title="All 2 branches covered.">        else if(colorString.equals(&quot;turquoise&quot;))</span>
+<span class="fc" id="L169">            graphic.setColor(new Color(64, 224, 208));</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">        else if(colorString.equals(&quot;coral&quot;))</span>
+<span class="fc" id="L171">            graphic.setColor(new Color(255, 127, 80));</span>
+<span class="fc bfc" id="L172" title="All 2 branches covered.">        else if(colorString.equals(&quot;salmon&quot;))</span>
+<span class="fc" id="L173">            graphic.setColor(new Color(250, 128, 114));</span>
+<span class="fc bfc" id="L174" title="All 2 branches covered.">        else if(colorString.equals(&quot;khaki&quot;))</span>
+<span class="fc" id="L175">            graphic.setColor(new Color(240, 230, 140));</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">        else if(colorString.equals(&quot;plum&quot;))</span>
+<span class="fc" id="L177">            graphic.setColor(new Color(221, 160, 221));</span>
+<span class="fc bfc" id="L178" title="All 2 branches covered.">        else if(colorString.equals(&quot;lavender&quot;))</span>
+<span class="fc" id="L179">            graphic.setColor(new Color(230, 230, 250));</span>
+<span class="fc bfc" id="L180" title="All 2 branches covered.">        else if(colorString.equals(&quot;skyblue&quot;))</span>
+<span class="fc" id="L181">            graphic.setColor(new Color(135, 206, 235));</span>
+<span class="fc bfc" id="L182" title="All 2 branches covered.">        else if(colorString.equals(&quot;darkgreen&quot;))</span>
+<span class="fc" id="L183">            graphic.setColor(new Color(0, 100, 0));</span>
+        else
+<span class="fc" id="L185">            graphic.setColor(Color.black);</span>
+<span class="fc" id="L186">    }</span>
+
+    /**
+     * Wait for a specified number of milliseconds before finishing.
+     * This provides an easy way to specify a small delay which can be
+     * used when producing animations.
+     * @param  milliseconds  the number 
+     */
+    public void wait(int milliseconds){
+        try{
+<span class="fc" id="L196">            Thread.sleep(milliseconds);</span>
+<span class="fc" id="L197">        } catch (Exception e){</span>
+            // ignoring exception at the moment
+<span class="fc" id="L199">        }</span>
+<span class="fc" id="L200">    }</span>
+
+    /**
+     * Redraw ell shapes currently on the Canvas.
+     */
+    private void redraw(){
+<span class="fc" id="L206">        erase();</span>
+<span class="fc bfc" id="L207" title="All 2 branches covered.">        for(Iterator i=objects.iterator(); i.hasNext(); ) {</span>
+<span class="fc" id="L208">                       shapes.get(i.next()).draw(graphic);</span>
+        }
+<span class="fc" id="L210">        canvas.repaint();</span>
+<span class="fc" id="L211">    }</span>
+       
+    /**
+     * Erase the whole canvas. (Does not repaint.)
+     */
+    private void erase(){
+<span class="fc" id="L217">        Color original = graphic.getColor();</span>
+<span class="fc" id="L218">        graphic.setColor(backgroundColour);</span>
+<span class="fc" id="L219">        Dimension size = canvas.getSize();</span>
+<span class="fc" id="L220">        graphic.fill(new java.awt.Rectangle(0, 0, size.width, size.height));</span>
+<span class="fc" id="L221">        graphic.setColor(original);</span>
+<span class="fc" id="L222">    }</span>
+
+
+    /************************************************************************
+     * Inner class CanvasPane - the actual canvas component contained in the
+     * Canvas frame. This is essentially a JPanel with added capability to
+     * refresh the image drawn on it.
+     */
+<span class="fc" id="L230">    private class CanvasPane extends JPanel{</span>
+        public void paint(Graphics g){
+<span class="fc" id="L232">            g.drawImage(canvasImage, 0, 0, null);</span>
+<span class="fc" id="L233">        }</span>
+    }
+    
+    /************************************************************************
+     * Inner class CanvasPane - the actual canvas component contained in the
+     * Canvas frame. This is essentially a JPanel with added capability to
+     * refresh the image drawn on it.
+     */
+    private class ShapeDescription{
+        private Shape shape;
+        private String colorString;
+
+<span class="fc" id="L245">        public ShapeDescription(Shape shape, String color){</span>
+<span class="fc" id="L246">            this.shape = shape;</span>
+<span class="fc" id="L247">            colorString = color;</span>
+<span class="fc" id="L248">        }</span>
+
+        public void draw(Graphics2D graphic){
+<span class="fc" id="L251">            setForegroundColor(colorString);</span>
+<span class="fc" id="L252">            graphic.draw(shape);</span>
+<span class="fc" id="L253">            graphic.fill(shape);</span>
+<span class="fc" id="L254">        }</span>
+    }
+
+    private void init(){
+<span class="fc" id="L258">        Dimension size = canvas.getSize();</span>
+<span class="fc" id="L259">        canvasImage = canvas.createImage(size.width, size.height);</span>
+<span class="fc" id="L260">        graphic = (Graphics2D)canvasImage.getGraphics();</span>
+<span class="fc" id="L261">        graphic.setColor(backgroundColour);</span>
+<span class="fc" id="L262">        graphic.fillRect(0, 0, size.width, size.height);</span>
+<span class="fc" id="L263">        graphic.setColor(Color.black);</span>
+<span class="fc" id="L264">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

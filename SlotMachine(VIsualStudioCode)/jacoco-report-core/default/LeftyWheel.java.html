@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LeftyWheel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">LeftyWheel.java</span></div><h1>LeftyWheel.java</h1><pre class="source lang-java linenums">import java.util.ArrayList;
+/**
+ * Representa una rueda de tipo &quot;Lefty&quot; en la máquina tragamonedas.
+ * Esta clase hereda de Wheel, al momento de girar, ignora los parámetros aleatorios que recibe 
+ * y en su lugar copia el color y la forma de la rueda a su izquierda.
+ */
+public class LeftyWheel extends Wheel {
+    /** 
+     * Referencia a la lista completa de ruedas de la máquina.
+     * Es esencial para que esta rueda pueda encontrar su propio índice 
+     * dinámicamente y consultar el estado de su vecina.
+     */
+    private ArrayList&lt;Wheel&gt; wheelsRef;
+    
+    /**
+     * Constructor de la rueda Lefty.
+     * 
+     * @param index El índice donde se posicionará inicialmente la rueda (base 0).
+     * @param wheels La lista de ruedas actual de la clase SlotMachine.
+     */
+    public LeftyWheel(int index, ArrayList&lt;Wheel&gt; wheels) {
+<span class="fc" id="L22">        super(index); </span>
+<span class="fc" id="L23">        this.wheelsRef = wheels;</span>
+
+<span class="fc" id="L25">        bordeCasilla.changeColor(&quot;purple&quot;);</span>
+        
+<span class="fc" id="L27">        redibujar(); </span>
+<span class="fc" id="L28">    }</span>
+    
+    /**
+     * Sobrescribe el comportamiento de giro.
+     * Si la rueda tiene una vecina a su izquierda, intercepta y reemplaza 
+     * el nuevo color y forma antes de ejecutar el giro real.
+     * 
+     * @param nuevoColor Color aleatorio enviado por la máquina.
+     * @param nuevaForma Forma aleatoria enviada por la máquina.
+     */
+    @Override
+    public void girar(Symbol nuevoSimbolo) {
+<span class="fc" id="L40">        int indexActual = wheelsRef.indexOf(this);</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">        if (indexActual &gt; 0) {</span>
+<span class="fc" id="L42">            Wheel ruedaIzquierda = wheelsRef.get(indexActual - 1);</span>
+<span class="fc" id="L43">            Symbol symIzq = ruedaIzquierda.getSimboloActual();</span>
+            
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">            if (symIzq != null) {</span>
+<span class="fc" id="L46">                nuevoSimbolo = symIzq.generarCopia();</span>
+            }
+        }
+<span class="fc" id="L49">        super.girar(nuevoSimbolo);</span>
+<span class="fc" id="L50">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

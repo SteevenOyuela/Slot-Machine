@@ -1,0 +1,1241 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SlotMachine.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">SlotMachine.java</span></div><h1>SlotMachine.java</h1><pre class="source lang-java linenums">import java.util.List;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import java.util.Random;
+import java.util.*;
+
+/**
+ * Representa una máquina tragamonedas.
+ * 
+ * La máquina utiliza los componentes gráficos de la librería shapes
+ * para construir su representación visual.
+ */
+
+public class SlotMachine {
+    private Canvas canvas;
+    private Rectangle parteTrasera;
+    private Rectangle bordeTrasero;
+    
+    private Rectangle base;
+    private int posicionXBase;
+    
+    private ArrayList&lt;Wheel&gt; wheels;
+    private ArrayList&lt;Symbol&gt; symbols; 
+    
+    private boolean isVisible;
+    
+    private Lever palanca;
+    
+    private boolean ok;
+
+    /**
+     * Crea una nueva máquina tragamonedas.
+     */
+<span class="fc" id="L34">    public SlotMachine() {</span>
+<span class="fc" id="L35">        canvas = Canvas.getCanvas();</span>
+    
+<span class="fc" id="L37">        bordeTrasero = new Rectangle();</span>
+<span class="fc" id="L38">        bordeTrasero.changeSize(210, 390);</span>
+<span class="fc" id="L39">        bordeTrasero.changeColor(&quot;black&quot;);</span>
+<span class="fc" id="L40">        bordeTrasero.moveHorizontal(45);</span>
+<span class="fc" id="L41">        bordeTrasero.moveVertical(65);</span>
+<span class="fc" id="L42">        bordeTrasero.makeVisible();</span>
+    
+<span class="fc" id="L44">        parteTrasera = new Rectangle();</span>
+<span class="fc" id="L45">        parteTrasera.changeSize(200, 380);</span>
+<span class="fc" id="L46">        parteTrasera.changeColor(&quot;lightgray&quot;);</span>
+<span class="fc" id="L47">        parteTrasera.moveHorizontal(50);</span>
+<span class="fc" id="L48">        parteTrasera.moveVertical(70);</span>
+<span class="fc" id="L49">        parteTrasera.makeVisible();</span>
+        
+<span class="fc" id="L51">        base = new Rectangle();</span>
+<span class="fc" id="L52">        base.changeSize(25, 150);</span>
+<span class="fc" id="L53">        base.changeColor(&quot;black&quot;); </span>
+        
+<span class="fc" id="L55">        int anchoInicial = 20 + (3 * 120); </span>
+<span class="fc" id="L56">        posicionXBase = 50 + (anchoInicial / 2) - 75;</span>
+        
+<span class="fc" id="L58">        base.moveHorizontal(posicionXBase);</span>
+<span class="fc" id="L59">        base.moveVertical(272);</span>
+<span class="fc" id="L60">        base.makeVisible();</span>
+        
+<span class="fc" id="L62">        palanca = new Lever();</span>
+        
+<span class="fc" id="L64">        symbols = new ArrayList&lt;Symbol&gt;();</span>
+
+<span class="fc" id="L66">        addSymbol(1, &quot;maroon&quot;);</span>
+<span class="fc" id="L67">        addSymbol(2, &quot;green&quot;);</span>
+<span class="fc" id="L68">        addSymbol(3, &quot;purple&quot;);</span>
+<span class="fc" id="L69">        addSymbol(4, &quot;yellow&quot;);</span>
+<span class="fc" id="L70">        addSymbol(6, &quot;turquoise&quot;);</span>
+        
+<span class="fc" id="L72">        symbols = new ArrayList&lt;Symbol&gt;();</span>
+<span class="fc" id="L73">        addSymbol(&quot;ephemeral&quot;, &quot;blue&quot;);</span>
+<span class="fc" id="L74">        addSymbol(&quot;ephemeral&quot;, &quot;purple&quot;);</span>
+        
+<span class="fc" id="L76">        addSymbol(&quot;shy&quot;, &quot;green&quot;);</span>
+<span class="fc" id="L77">        addSymbol(&quot;shy&quot;, &quot;brown&quot;);</span>
+        
+<span class="fc" id="L79">        wheels = new ArrayList&lt;Wheel&gt;();</span>
+        
+<span class="fc" id="L81">        actualizarRuedas();</span>
+        
+<span class="fc" id="L83">        makeInvisible();</span>
+<span class="fc" id="L84">    }</span>
+    
+    /**
+     * Crea una máquina tragamonedas de n ruedas inicializada aleatoriamente.
+     * @param n Cantidad de ruedas y símbolos a generar (3 &lt;= n &lt;= 50).
+     */
+
+<span class="fc" id="L91">    public SlotMachine(int n) {</span>
+<span class="fc" id="L92">        canvas = Canvas.getCanvas();</span>
+
+<span class="fc" id="L94">        bordeTrasero = new Rectangle();</span>
+<span class="fc" id="L95">        bordeTrasero.changeSize(210, 390);</span>
+<span class="fc" id="L96">        bordeTrasero.changeColor(&quot;black&quot;);</span>
+<span class="fc" id="L97">        bordeTrasero.moveHorizontal(45);</span>
+<span class="fc" id="L98">        bordeTrasero.moveVertical(65);</span>
+<span class="fc" id="L99">        bordeTrasero.makeVisible();</span>
+
+<span class="fc" id="L101">        parteTrasera = new Rectangle();</span>
+<span class="fc" id="L102">        parteTrasera.changeSize(200, 380);</span>
+<span class="fc" id="L103">        parteTrasera.changeColor(&quot;lightgray&quot;);</span>
+<span class="fc" id="L104">        parteTrasera.moveHorizontal(50);</span>
+<span class="fc" id="L105">        parteTrasera.moveVertical(70);</span>
+<span class="fc" id="L106">        parteTrasera.makeVisible();</span>
+
+<span class="fc" id="L108">        base = new Rectangle();</span>
+<span class="fc" id="L109">        base.changeSize(25, 150);</span>
+<span class="fc" id="L110">        base.changeColor(&quot;black&quot;);</span>
+
+<span class="fc" id="L112">        int anchoInicial = 20 + (3 * 120); </span>
+<span class="fc" id="L113">        posicionXBase = 50 + (anchoInicial / 2) - 75;</span>
+
+<span class="fc" id="L115">        base.moveHorizontal(posicionXBase);</span>
+<span class="fc" id="L116">        base.moveVertical(272);</span>
+<span class="fc" id="L117">        base.makeVisible();</span>
+
+<span class="fc" id="L119">        palanca = new Lever();        </span>
+
+<span class="fc" id="L121">        symbols = new ArrayList&lt;Symbol&gt;();</span>
+
+<span class="fc" id="L123">        wheels = new ArrayList&lt;Wheel&gt;();</span>
+
+<span class="fc" id="L125">        List&lt;String&gt; disponibles = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L127">        disponibles.add(&quot;blue&quot;);</span>
+<span class="fc" id="L128">        disponibles.add(&quot;yellow&quot;);</span>
+<span class="fc" id="L129">        disponibles.add(&quot;orange&quot;);</span>
+<span class="fc" id="L130">        disponibles.add(&quot;green&quot;);</span>
+<span class="fc" id="L131">        disponibles.add(&quot;grey&quot;);</span>
+<span class="fc" id="L132">        disponibles.add(&quot;pink&quot;);</span>
+<span class="fc" id="L133">        disponibles.add(&quot;purple&quot;);</span>
+<span class="fc" id="L134">        disponibles.add(&quot;maroon&quot;);</span>
+<span class="fc" id="L135">        disponibles.add(&quot;silver&quot;);</span>
+<span class="fc" id="L136">        disponibles.add(&quot;turquoise&quot;);</span>
+<span class="fc" id="L137">        disponibles.add(&quot;salmon&quot;);</span>
+<span class="fc" id="L138">        disponibles.add(&quot;darkgreen&quot;);</span>
+<span class="fc" id="L139">        disponibles.add(&quot;lavender&quot;);</span>
+        
+<span class="fc" id="L141">        Collections.shuffle(disponibles); // Mezclamos los colores al azar IA IMPLEMENTATIVA</span>
+
+<span class="fc bfc" id="L143" title="All 2 branches covered.">        for (int i = 0; i &lt; n; i++) {</span>
+<span class="fc" id="L144">            String colorUnico = disponibles.get(i % disponibles.size()); // Usamos (i % disponibles.size()) por si 'n' es mayor a 13 IA IMPLEMENTATIVA</span>
+<span class="fc" id="L145">            String formaAsignada = &quot;triangle&quot;; </span>
+<span class="fc" id="L146">            addSymbol(i, colorUnico);</span>
+<span class="fc" id="L147">            addWheel(i+1);</span>
+        }
+        
+<span class="fc" id="L150">        makeVisible();</span>
+
+<span class="fc" id="L152">    }</span>
+
+    /**
+     * Crea una máquina tragamonedas de n ruedas, n combinaciones de tipo de simbolos,
+     * inicializada aleatoriamente.
+     * @param n Cantidad de ruedas y símbolos a generar (3 &lt;= n &lt;= 50).
+     */
+<span class="fc" id="L159">    public SlotMachine(int n, String m) {</span>
+<span class="fc" id="L160">        canvas = Canvas.getCanvas();</span>
+        
+<span class="fc" id="L162">        bordeTrasero = new Rectangle();</span>
+<span class="fc" id="L163">        bordeTrasero.changeSize(210, 390);</span>
+<span class="fc" id="L164">        bordeTrasero.changeColor(&quot;black&quot;);</span>
+<span class="fc" id="L165">        bordeTrasero.moveHorizontal(45);</span>
+<span class="fc" id="L166">        bordeTrasero.moveVertical(65);</span>
+<span class="fc" id="L167">        bordeTrasero.makeVisible();</span>
+    
+<span class="fc" id="L169">        parteTrasera = new Rectangle();</span>
+<span class="fc" id="L170">        parteTrasera.changeSize(200, 380);</span>
+<span class="fc" id="L171">        parteTrasera.changeColor(&quot;lightgray&quot;);</span>
+<span class="fc" id="L172">        parteTrasera.moveHorizontal(50);</span>
+<span class="fc" id="L173">        parteTrasera.moveVertical(70);</span>
+<span class="fc" id="L174">        parteTrasera.makeVisible();</span>
+        
+<span class="fc" id="L176">        base = new Rectangle();</span>
+<span class="fc" id="L177">        base.changeSize(25, 150);</span>
+<span class="fc" id="L178">        base.changeColor(&quot;black&quot;);</span>
+        
+<span class="fc" id="L180">        int anchoInicial = 20 + (3 * 120); </span>
+<span class="fc" id="L181">        posicionXBase = 50 + (anchoInicial / 2) - 75;</span>
+        
+<span class="fc" id="L183">        base.moveHorizontal(posicionXBase);</span>
+<span class="fc" id="L184">        base.moveVertical(272);</span>
+<span class="fc" id="L185">        base.makeVisible();</span>
+        
+<span class="fc" id="L187">        palanca = new Lever();</span>
+        
+<span class="fc" id="L189">        symbols = new ArrayList&lt;Symbol&gt;();</span>
+        
+<span class="fc" id="L191">        wheels = new ArrayList&lt;Wheel&gt;();</span>
+        
+<span class="fc" id="L193">        List&lt;String&gt; disponibles = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L194">        disponibles.add(&quot;blue&quot;);</span>
+<span class="fc" id="L195">        disponibles.add(&quot;yellow&quot;);</span>
+<span class="fc" id="L196">        disponibles.add(&quot;orange&quot;);</span>
+<span class="fc" id="L197">        disponibles.add(&quot;green&quot;);</span>
+<span class="fc" id="L198">        disponibles.add(&quot;grey&quot;);</span>
+<span class="fc" id="L199">        disponibles.add(&quot;pink&quot;);</span>
+<span class="fc" id="L200">        disponibles.add(&quot;purple&quot;);</span>
+<span class="fc" id="L201">        disponibles.add(&quot;maroon&quot;);</span>
+<span class="fc" id="L202">        disponibles.add(&quot;silver&quot;);</span>
+<span class="fc" id="L203">        disponibles.add(&quot;turquoise&quot;);</span>
+<span class="fc" id="L204">        disponibles.add(&quot;salmon&quot;);</span>
+<span class="fc" id="L205">        disponibles.add(&quot;darkgreen&quot;);</span>
+<span class="fc" id="L206">        disponibles.add(&quot;lavender&quot;);</span>
+        
+<span class="fc" id="L208">        Collections.shuffle(disponibles);</span>
+        
+<span class="fc" id="L210">        String[] tiposDisponibles = {&quot;normal&quot;, &quot;ephemeral&quot;, &quot;shy&quot;};</span>
+        
+        // IA IMPLEMENTATIVA
+        
+<span class="fc bfc" id="L214" title="All 2 branches covered.">         for (int i = 0; i &lt; n; i++) {</span>
+
+<span class="fc" id="L216">            String colorUnico = disponibles.get(i % disponibles.size()); // Usamos (i % disponibles.size()) por si 'n' es mayor a 13 IA IMPLEMENTATIVA</span>
+
+<span class="fc" id="L218">            String tipoElegido = tiposDisponibles[(int)(Math.random() * tiposDisponibles.length)];</span>
+            
+<span class="fc" id="L220">            String formaAsignada = &quot;triangle&quot;; </span>
+
+<span class="fc" id="L222">            addSymbol(tipoElegido, colorUnico);</span>
+
+<span class="fc" id="L224">            addWheel(i+1);</span>
+
+        }
+        
+<span class="fc" id="L228">        actualizarRuedas();</span>
+<span class="fc" id="L229">        makeVisible();</span>
+<span class="fc" id="L230">    }</span>
+    
+    /**
+     * Hace visible la máquina tragamonedas.
+     */
+    public void makeVisible()
+    {
+<span class="fc" id="L237">        isVisible = true;</span>
+<span class="fc" id="L238">        canvas.setVisible(true);</span>
+<span class="fc" id="L239">    }</span>
+
+    /**
+     * Hace invisible la máquina tragamonedas.
+     */
+    public void makeInvisible()
+    {
+<span class="fc" id="L246">        isVisible = false;</span>
+<span class="fc" id="L247">        canvas.setVisible(false);</span>
+<span class="fc" id="L248">    }</span>
+    
+    /**
+     * Recorre la lista de ruedas y actualiza la posición gráfica de cada una.
+     * También ajusta el tamaño del fondo de la máquina para que coincida.
+     */
+    private void actualizarRuedas() {
+<span class="fc" id="L255">        int nuevoAncho = 20 + (wheels.size() * 120);</span>
+<span class="fc" id="L256">        bordeTrasero.changeSize(210, nuevoAncho + 10);</span>
+<span class="fc" id="L257">        parteTrasera.changeSize(200, nuevoAncho);</span>
+        
+<span class="fc bfc" id="L259" title="All 2 branches covered.">        for (int i = 0; i &lt; wheels.size(); i++) {</span>
+<span class="fc" id="L260">            Wheel ruedaActual = wheels.get(i);</span>
+<span class="fc" id="L261">            ruedaActual.actualizarPosicion(i);</span>
+        }
+        
+<span class="fc" id="L264">        int nuevaPosicionXBase = 50 + (nuevoAncho / 2) - 75;</span>
+<span class="fc" id="L265">        int distanciaAMoverBase = nuevaPosicionXBase - posicionXBase;</span>
+        
+<span class="fc" id="L267">        base.moveHorizontal(distanciaAMoverBase);</span>
+<span class="fc" id="L268">        posicionXBase = nuevaPosicionXBase;</span>
+<span class="fc" id="L269">        base.makeVisible();</span>
+<span class="fc" id="L270">    }</span>
+    
+    /**
+     * Cambia el color de las casillas de todas las ruedas.
+     * @param color El color al que se cambiarán las casillas.
+     */
+    private void pintarCasillasRuedas(String color) {
+<span class="fc bfc" id="L277" title="All 2 branches covered.">        for (Wheel rueda : wheels) {</span>
+<span class="fc" id="L278">            rueda.cambiarColorFondo(color);</span>
+<span class="fc" id="L279">        }</span>
+<span class="fc" id="L280">    }</span>
+    
+    /**
+     * Adiciona una nueva rueda a la máquina validando estrictamente los casos frontera.
+     * @param pos La posición donde se desea insertar la rueda (iniciando en 1).
+     */
+    public void addWheel(int pos) {
+<span class="fc" id="L287">        int maxPosValida = wheels.size() + 1;</span>
+        
+<span class="fc bfc" id="L289" title="All 4 branches covered.">        if (pos &lt; 1 || pos &gt; maxPosValida) {</span>
+<span class="fc bfc" id="L290" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L291">                JOptionPane.showMessageDialog(null, </span>
+                    &quot;Error: No se puede agregar en la posición &quot; + pos + &quot;.\n&quot; +
+                    &quot;Actualmente solo puedes usar posiciones del 1 al &quot; + maxPosValida + &quot;.&quot;);
+            }
+<span class="fc" id="L295">            ok = false;</span>
+<span class="fc" id="L296">            return;</span>
+        }
+        
+<span class="fc" id="L299">        int indiceJava = pos - 1;</span>
+        
+<span class="fc bfc" id="L301" title="All 2 branches covered.">        if (indiceJava &lt; wheels.size()) {</span>
+<span class="fc" id="L302">            Wheel ruedaEnPosicion = wheels.get(indiceJava);</span>
+            
+<span class="fc bfc" id="L304" title="All 2 branches covered.">            if (ruedaEnPosicion.isLocked()) {</span>
+<span class="fc bfc" id="L305" title="All 2 branches covered.">                if (isVisible) {</span>
+<span class="fc" id="L306">                    JOptionPane.showMessageDialog(null, </span>
+                        &quot;Error: La rueda en la posición &quot; + pos + &quot; está bloqueada.\n&quot; +
+                        &quot;No puedes agregar una rueda aquí porque desplazaría a la que está congelada.&quot;);
+                }
+<span class="fc" id="L310">                ok = false;</span>
+<span class="fc" id="L311">                return;</span>
+            }
+        }
+        
+<span class="fc" id="L315">        Wheel nuevaRueda = new Wheel(indiceJava);</span>
+<span class="fc" id="L316">        asignarSimboloAleatorio(nuevaRueda); </span>
+<span class="fc" id="L317">        wheels.add(indiceJava, nuevaRueda);</span>
+        
+<span class="fc" id="L319">        actualizarRuedas();</span>
+<span class="fc" id="L320">        isJackpot();</span>
+<span class="fc" id="L321">        ok = true;</span>
+<span class="fc" id="L322">    }</span>
+    
+    /**
+     * Elimina una rueda de la máquina validando estrictamente los casos frontera.
+     * @param pos La posición de la rueda que se desea eliminar (iniciando en 1).
+     */
+    public void delWheel(int pos) {
+<span class="fc bfc" id="L329" title="All 2 branches covered.">        if (wheels.isEmpty()) {</span>
+<span class="fc bfc" id="L330" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L331">                JOptionPane.showMessageDialog(null, &quot;Error: No hay ruedas para eliminar.&quot;);</span>
+            }
+<span class="fc" id="L333">            ok = false;</span>
+<span class="fc" id="L334">            return;</span>
+        }
+        
+<span class="fc" id="L337">        int maxPosValida = wheels.size();</span>
+        
+<span class="fc bfc" id="L339" title="All 4 branches covered.">        if (pos &lt; 1 || pos &gt; maxPosValida) {</span>
+<span class="fc bfc" id="L340" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L341">                JOptionPane.showMessageDialog(null, </span>
+                    &quot;Error: No existe la rueda en la posición &quot; + pos + &quot;.\n&quot; +
+                    &quot;Actualmente solo puedes eliminar posiciones del 1 al &quot; + maxPosValida + &quot;.&quot;);
+            }
+<span class="fc" id="L345">            ok = false;</span>
+<span class="fc" id="L346">            return; </span>
+        }
+        
+<span class="fc" id="L349">        int indiceJava = pos - 1;</span>
+<span class="fc" id="L350">        Wheel ruedaAEliminar = wheels.get(indiceJava);</span>
+        
+<span class="fc bfc" id="L352" title="All 2 branches covered.">        if (ruedaAEliminar instanceof RebelWheel) {</span>
+<span class="fc bfc" id="L353" title="All 2 branches covered.">            if(isVisible) {</span>
+<span class="fc" id="L354">                JOptionPane.showMessageDialog(null, &quot;Error: La rueda rebelde no se puede eliminar.&quot;);</span>
+            }
+<span class="fc" id="L356">            ok = false;</span>
+<span class="fc" id="L357">            return;</span>
+        }
+        
+<span class="pc bpc" id="L360" title="1 of 2 branches missed.">        if (indiceJava &lt; wheels.size()) {</span>
+<span class="fc" id="L361">            Wheel ruedaEnPosicion = wheels.get(indiceJava);</span>
+            
+<span class="fc bfc" id="L363" title="All 2 branches covered.">            if (ruedaEnPosicion.isLocked()) {</span>
+<span class="fc bfc" id="L364" title="All 2 branches covered.">                if (isVisible) {</span>
+<span class="fc" id="L365">                    JOptionPane.showMessageDialog(null, </span>
+                        &quot;Error: La rueda en la posición &quot; + pos + &quot; está bloqueada.\n&quot; +
+                        &quot;No puedes eliminar una rueda aquí&quot;);
+                }
+<span class="fc" id="L369">                ok = false;</span>
+<span class="fc" id="L370">                return;</span>
+            }
+        }
+        
+<span class="fc" id="L374">        ruedaAEliminar.makeInvisible();</span>
+<span class="fc" id="L375">        wheels.remove(indiceJava);</span>
+        
+<span class="fc" id="L377">        actualizarRuedas();</span>
+<span class="fc" id="L378">        isJackpot();</span>
+<span class="fc" id="L379">        ok = true;</span>
+<span class="fc" id="L380">    }</span>
+    
+    /**
+     * Verifica si un símbolo con el color indicado ya existe en la máquina.
+     * @param color El color a buscar.
+     * @return true si el color ya existe, false en caso contrario.
+     */
+    private boolean existeColor(String color) {
+<span class="fc bfc" id="L388" title="All 2 branches covered.">        for (Symbol s : symbols) {</span>
+            // Usamos equalsIgnoreCase como recomendación de IA para que no reconozca matusculas y minusculas
+<span class="fc bfc" id="L390" title="All 2 branches covered.">            if (s.getColor().equalsIgnoreCase(color)) {</span>
+<span class="fc" id="L391">                return true; </span>
+            }
+<span class="fc" id="L393">        }</span>
+<span class="fc" id="L394">        return false;</span>
+    }
+    
+    /**
+     * Agrega un nuevo símbolo a la máquina tragamonedas en la posición indicada.
+     * El símbolo solo se agrega si no existe previamente.
+     * Si la posición es mayor que el número de símbolos, se agrega al final.
+     * Si la posición es menor o igual a uno, se agrega al principio.
+     *
+     * @param pos la posición deseada para el nuevo símbolo
+     * @param color el color del símbolo que se desea agregar. Los colores
+     * disponibles son &quot;red&quot;, &quot;black&quot;, &quot;blue&quot;, &quot;yellow&quot;, &quot;green&quot;, &quot;white&quot;,
+     * &quot;orange&quot; y &quot;cyan&quot;.
+     */
+    public void addSymbol(int pos, String color) {
+<span class="fc bfc" id="L409" title="All 2 branches covered.">        for (Symbol s : symbols) {</span>
+<span class="fc bfc" id="L410" title="All 2 branches covered.">            if (s.getColor().equalsIgnoreCase(color)) {</span>
+<span class="fc bfc" id="L411" title="All 2 branches covered.">                if (isVisible) {</span>
+<span class="fc" id="L412">                    JOptionPane.showMessageDialog(null, &quot;Error: Ya existe un símbolo de color &quot; + color);</span>
+                }
+<span class="fc" id="L414">                ok = false;</span>
+<span class="fc" id="L415">                return;</span>
+            }
+<span class="fc" id="L417">        }</span>
+        
+        int indiceJava;
+<span class="fc bfc" id="L420" title="All 2 branches covered.">        if (pos &lt;= 1) {</span>
+<span class="fc" id="L421">            indiceJava = 0;</span>
+<span class="fc bfc" id="L422" title="All 2 branches covered.">        } else if (pos &gt; symbols.size()) {</span>
+<span class="fc" id="L423">            indiceJava = symbols.size();</span>
+        } else {
+<span class="fc" id="L425">            indiceJava = pos - 1;</span>
+        }
+        
+<span class="fc" id="L428">        Symbol nuevoSimbolo = new Symbol(color, &quot;triangle&quot;); </span>
+        
+<span class="fc" id="L430">        symbols.add(indiceJava, nuevoSimbolo);</span>
+<span class="fc" id="L431">        ok = true;</span>
+<span class="fc" id="L432">    }</span>
+    
+    /**
+     * Adiciona un símbolo polimórfico al catálogo de la máquina.
+     * @param tipo &quot;normal&quot;, &quot;ephemeral&quot; o &quot;shy&quot;.
+     * @param color El color del símbolo.
+     * @param forma La figura (&quot;circle&quot;, &quot;triangle&quot;, &quot;rectangle&quot;).
+     */
+    public void addSymbol(String tipo, String color) {
+<span class="fc bfc" id="L441" title="All 2 branches covered.">        if (existeColor(color)) {</span>
+<span class="fc bfc" id="L442" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L443">                JOptionPane.showMessageDialog(null, &quot;Error: Ya existe un símbolo de color &quot; + color);</span>
+            }
+<span class="fc" id="L445">            ok = false;</span>
+<span class="fc" id="L446">            return;</span>
+        }
+
+<span class="fc" id="L449">        Symbol nuevoSimbolo = null;</span>
+
+<span class="fc bfc" id="L451" title="All 2 branches covered.">        if (tipo.equalsIgnoreCase(&quot;normal&quot;)) {</span>
+<span class="fc" id="L452">            nuevoSimbolo = new Symbol(color, &quot;triangle&quot;);</span>
+<span class="fc bfc" id="L453" title="All 2 branches covered.">        } else if (tipo.equalsIgnoreCase(&quot;ephemeral&quot;)) {</span>
+<span class="fc" id="L454">            nuevoSimbolo = new EphemeralSymbol(color, &quot;triangle&quot;);</span>
+<span class="fc bfc" id="L455" title="All 2 branches covered.">        } else if (tipo.equalsIgnoreCase(&quot;shy&quot;)) {</span>
+<span class="fc" id="L456">            nuevoSimbolo = new ShySymbol(color, &quot;triangle&quot;);</span>
+        } else {
+<span class="fc bfc" id="L458" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L459">                JOptionPane.showMessageDialog(null, &quot;Error: Tipo de símbolo desconocido (&quot; + tipo + &quot;)&quot;);</span>
+            }
+<span class="fc" id="L461">            ok = false;</span>
+<span class="fc" id="L462">            return;</span>
+        }
+
+<span class="fc" id="L465">        symbols.add(nuevoSimbolo);</span>
+<span class="fc" id="L466">        ok = true;</span>
+<span class="fc" id="L467">    }</span>
+
+    /**
+     * Elimina un símbolo de la máquina tragamonedas.
+     * Si el símbolo indicado no existe, la operación no se realiza
+     * y se muestra un mensaje de error.
+     *
+     * @param color el color del símbolo que se desea eliminar
+     */
+    public void delSymbol(String color) {
+<span class="fc" id="L477">        Symbol simboloAEliminar = null;</span>
+        
+<span class="fc bfc" id="L479" title="All 2 branches covered.">        for (Symbol s : symbols) {</span>
+<span class="fc bfc" id="L480" title="All 2 branches covered.">            if (s.getColor().equalsIgnoreCase(color)) {</span>
+<span class="fc" id="L481">                simboloAEliminar = s;</span>
+<span class="fc" id="L482">                break;</span>
+            }
+<span class="fc" id="L484">        }</span>
+        
+<span class="fc bfc" id="L486" title="All 2 branches covered.">        if (simboloAEliminar == null) {</span>
+<span class="fc bfc" id="L487" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L488">                JOptionPane.showMessageDialog(null, &quot;Error: No se encontró un símbolo de color &quot; + color + &quot; para eliminar.&quot;);</span>
+            }
+<span class="fc" id="L490">            ok = false;</span>
+<span class="fc" id="L491">            return;</span>
+        } 
+        
+<span class="fc" id="L494">        simboloAEliminar.makeInvisible();</span>
+<span class="fc" id="L495">        symbols.remove(simboloAEliminar);</span>
+<span class="fc" id="L496">        ok = true;</span>
+<span class="fc" id="L497">    }</span>
+    
+    /**
+     * Asigna un símbolo aleatorio de la lista de símbolos disponibles a una rueda.
+     * Si no hay símbolos en la lista, la rueda se queda vacía por el momento.
+     * @param rueda La rueda a la que se le asignará el símbolo.
+     */
+    private void asignarSimboloAleatorio(Wheel rueda) {
+<span class="fc bfc" id="L505" title="All 2 branches covered.">        if (!symbols.isEmpty()) {</span>
+<span class="fc" id="L506">            int indiceAleatorio = (int) (Math.random() * symbols.size());</span>
+<span class="fc" id="L507">            Symbol simboloDeCatalogo = symbols.get(indiceAleatorio);</span>
+            
+<span class="fc" id="L509">            simboloDeCatalogo.aplicarEfecto();</span>
+            
+<span class="fc" id="L511">            rueda.setSymbol(simboloDeCatalogo.generarCopia());</span>
+        }
+<span class="fc" id="L513">    }</span>
+    
+    /**
+     * Gira todas las ruedas de la máquina tragamonedas asignando símbolos aleatorios.
+     */
+    public void spin() {
+<span class="fc bfc" id="L519" title="All 4 branches covered.">        if (wheels.isEmpty() || symbols.isEmpty()) {</span>
+<span class="fc bfc" id="L520" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L521">                JOptionPane.showMessageDialog(null, &quot;Error: Faltan ruedas o símbolos para poder girar.&quot;);</span>
+            }
+<span class="fc" id="L523">            return;</span>
+        }
+        
+<span class="pc bpc" id="L526" title="1 of 4 branches missed.">        if (wheels.size() &gt; 1 &amp;&amp; distinctSymbols() == 1) {</span>
+<span class="fc bfc" id="L527" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L528">                JOptionPane.showMessageDialog(null, &quot;Error: Ya has ganado el Jackpot. No se permiten más movimientos.&quot;);</span>
+            }
+<span class="fc" id="L530">            ok = false;</span>
+<span class="fc" id="L531">            return;</span>
+        }
+        
+<span class="fc bfc" id="L534" title="All 2 branches covered.">        if (isVisible) {</span>
+<span class="fc" id="L535">            palanca.tirar();</span>
+<span class="fc" id="L536">            Canvas.getCanvas().wait(200);</span>
+        }
+        
+<span class="fc bfc" id="L539" title="All 2 branches covered.">        for (int i = 0; i &lt; wheels.size(); i++) {</span>
+<span class="fc" id="L540">            Wheel ruedaActual = wheels.get(i);</span>
+            
+<span class="fc bfc" id="L542" title="All 2 branches covered.">            if (!ruedaActual.isLocked()) {</span>
+<span class="fc" id="L543">                int indiceAleatorio = (int) (Math.random() * symbols.size());</span>
+<span class="fc" id="L544">                Symbol simboloElegido = symbols.get(indiceAleatorio);</span>
+                
+<span class="fc" id="L546">                simboloElegido.aplicarEfecto();</span>
+<span class="fc" id="L547">                Symbol copiaSimbolo = simboloElegido.generarCopia();</span>
+                
+<span class="fc" id="L549">                ruedaActual.girar(copiaSimbolo);</span>
+            }
+        }
+        
+<span class="fc bfc" id="L553" title="All 2 branches covered.">        if (isVisible) {</span>
+<span class="fc" id="L554">            Canvas.getCanvas().wait(200);</span>
+<span class="fc" id="L555">            palanca.soltar();</span>
+        }
+        
+<span class="fc" id="L558">        isJackpot();</span>
+        
+<span class="fc" id="L560">        ok = true;</span>
+<span class="fc" id="L561">    }</span>
+    
+    /**
+     * Retorna un arreglo con los colores de los símbolos visibles actualmente 
+     * en todas las ruedas de la máquina, ordenados de izquierda a derecha.
+     * @return Arreglo de Strings con los colores.
+     */
+    public String[] configuration() {
+<span class="fc" id="L569">        String[] config = new String[wheels.size()];</span>
+        
+<span class="fc bfc" id="L571" title="All 2 branches covered.">        for (int i = 0; i &lt; wheels.size(); i++) {</span>
+<span class="fc" id="L572">            config[i] = wheels.get(i).getColorActual();</span>
+        }
+        
+<span class="fc" id="L575">        return config;</span>
+    }
+    
+    /**
+     * Consulta cuántos símbolos (colores) distintos se están mostrando 
+     * actualmente en las ruedas visibles de la máquina.
+     * @return El número entero de símbolos diferentes.
+     */
+    public int distinctSymbols() {
+<span class="fc" id="L584">        String[] coloresVisibles = configuration();</span>
+        
+<span class="fc" id="L586">        ArrayList&lt;String&gt; coloresUnicos = new ArrayList&lt;String&gt;();</span>
+        
+<span class="fc bfc" id="L588" title="All 2 branches covered.">        for (String color : coloresVisibles) {</span>
+<span class="fc bfc" id="L589" title="All 4 branches covered.">            if (!color.isEmpty() &amp;&amp; !coloresUnicos.contains(color)) {</span>
+<span class="fc" id="L590">                coloresUnicos.add(color);</span>
+            }
+        }
+        
+<span class="fc" id="L594">        return coloresUnicos.size();</span>
+    }
+    
+    /**
+     * Retorna los colores de los símbolos en el orden que están en la rueda.
+     * @return Arreglo de Strings con el catálogo de colores.
+     */
+    public String[] symbols() {
+<span class="fc" id="L602">        String[] catalogo = new String[symbols.size()];</span>
+<span class="fc bfc" id="L603" title="All 2 branches covered.">        for (int i = 0; i &lt; symbols.size(); i++) {</span>
+<span class="fc" id="L604">            catalogo[i] = symbols.get(i).getColor();</span>
+        }
+<span class="fc" id="L606">        return catalogo;</span>
+    }
+    
+    /**
+     * Consulta si la configuración actual de las ruedas es ganadora.
+     * Se gana el Jackpot únicamente si todas las ruedas muestran el mismo símbolo.
+     * @return true si la configuración es ganadora, false en caso contrario.
+     */
+    public boolean isJackpot() {
+<span class="fc bfc" id="L615" title="All 2 branches covered.">        if (wheels.size() &lt;= 1) {</span>
+<span class="fc" id="L616">            parteTrasera.changeColor(&quot;lightgray&quot;); </span>
+<span class="fc" id="L617">            pintarCasillasRuedas(&quot;white&quot;); </span>
+<span class="fc" id="L618">            actualizarRuedas(); </span>
+<span class="fc" id="L619">            return false;</span>
+        }
+
+<span class="fc bfc" id="L622" title="All 2 branches covered.">        boolean ganaste = (distinctSymbols() == 1);</span>
+
+<span class="fc bfc" id="L624" title="All 2 branches covered.">        if (ganaste) {</span>
+<span class="fc" id="L625">            parteTrasera.changeColor(&quot;gold&quot;);</span>
+            
+<span class="fc bfc" id="L627" title="All 2 branches covered.">            for (Wheel ruedaActual : wheels) {</span>
+<span class="fc" id="L628">                ruedaActual.unlock(); </span>
+<span class="fc" id="L629">            }</span>
+            
+<span class="fc" id="L631">            actualizarRuedas();</span>
+            
+<span class="fc bfc" id="L633" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L634">                JOptionPane.showMessageDialog(null, &quot;¡FELICIDADES HAS GANADO!&quot;);</span>
+            }
+            
+        } else {
+<span class="fc" id="L638">            parteTrasera.changeColor(&quot;lightgray&quot;); </span>
+<span class="fc" id="L639">            pintarCasillasRuedas(&quot;white&quot;); </span>
+            
+<span class="fc" id="L641">            actualizarRuedas(); </span>
+        }
+
+<span class="fc" id="L644">        return ganaste;</span>
+    }
+    
+    /**
+     * Indica si se logró realizar la última operación solicitada.
+     * @return true si la operación fue exitosa, false en caso contrario.
+     */
+    public boolean ok() {
+<span class="fc" id="L652">        return ok;</span>
+    }
+
+    /**
+     * Termina la ejecución del simulador cerrando la ventana y el programa.
+     */
+    public void exit() {
+<span class="nc" id="L659">        System.exit(0);</span>
+<span class="nc" id="L660">    }</span>
+    
+    /**
+     * Asigna un símbolo específico a una rueda específica.
+     * @param wheel La posición de la rueda (iniciando en 1).
+     * @param symbol El color del símbolo a asignar.
+     */
+    public void placeSymbol(int wheel, String symbol) {
+<span class="fc bfc" id="L668" title="All 4 branches covered.">        if (wheels.isEmpty() || symbols.isEmpty()) {</span>
+<span class="fc" id="L669">            ok = false;</span>
+<span class="fc" id="L670">            return;</span>
+        }
+        
+<span class="fc bfc" id="L673" title="All 2 branches covered.">        if (distinctSymbols() == 1) {</span>
+<span class="fc bfc" id="L674" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L675">                JOptionPane.showMessageDialog(null, &quot;Error: Ya has ganado el Jackpot. No se permiten más movimientos.&quot;);</span>
+            }
+<span class="fc" id="L677">            ok = false;</span>
+<span class="fc" id="L678">            return;</span>
+        }
+
+<span class="fc" id="L681">        int index = wheel - 1;</span>
+<span class="fc bfc" id="L682" title="All 2 branches covered.">        if (index &lt; 0) {</span>
+<span class="fc" id="L683">            index = 0;</span>
+<span class="fc bfc" id="L684" title="All 2 branches covered.">        } else if (index &gt;= wheels.size()) {</span>
+<span class="fc" id="L685">            index = wheels.size() - 1;</span>
+        }
+        
+<span class="fc" id="L688">        Wheel ruedaActual = wheels.get(index);</span>
+        
+<span class="fc bfc" id="L690" title="All 2 branches covered.">        if (ruedaActual.isLocked()) {</span>
+<span class="fc bfc" id="L691" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L692">                JOptionPane.showMessageDialog(null, &quot;Error: La rueda &quot; + (index + 1) + &quot; está bloqueada y no puede girar para hacer la respectiva accion de cambio.&quot;);</span>
+            }
+<span class="fc" id="L694">            ok = false;</span>
+<span class="fc" id="L695">            return;</span>
+        }
+
+<span class="fc" id="L698">        Symbol simboloEncontrado = null;</span>
+<span class="fc bfc" id="L699" title="All 2 branches covered.">        for (Symbol s : symbols) {</span>
+<span class="fc bfc" id="L700" title="All 2 branches covered.">            if (s.getColor().equalsIgnoreCase(symbol)) {</span>
+<span class="fc" id="L701">                simboloEncontrado = s;</span>
+<span class="fc" id="L702">                break;</span>
+            }
+<span class="fc" id="L704">        }</span>
+
+<span class="fc bfc" id="L706" title="All 2 branches covered.">        if (simboloEncontrado != null) {</span>
+<span class="fc" id="L707">            wheels.get(index).setSymbol(simboloEncontrado.generarCopia());</span>
+<span class="fc" id="L708">            ok = true;</span>
+        } else {
+<span class="fc bfc" id="L710" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L711">                JOptionPane.showMessageDialog(null, &quot;Error: El símbolo &quot; + symbol + &quot; no existe.&quot;);</span>
+            }
+<span class="fc" id="L713">            ok = false;</span>
+        }
+        
+<span class="fc" id="L716">        isJackpot();</span>
+<span class="fc" id="L717">    }</span>
+    
+    /**
+     * Gira una única rueda específica asignándole un símbolo aleatorio.
+     * @param wheel La posición de la rueda (iniciando en 1).
+     */
+    public void spin(int wheel) {
+<span class="fc bfc" id="L724" title="All 4 branches covered.">        if (wheels.isEmpty() || symbols.isEmpty()) {</span>
+<span class="fc" id="L725">            ok = false;</span>
+<span class="fc" id="L726">            return;</span>
+        }
+        
+<span class="fc bfc" id="L729" title="All 2 branches covered.">        if (distinctSymbols() == 1) {</span>
+<span class="fc bfc" id="L730" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L731">                JOptionPane.showMessageDialog(null, &quot;Error: Ya has ganado el Jackpot. No se permiten más movimientos.&quot;);</span>
+            }
+<span class="fc" id="L733">            ok = false;</span>
+<span class="fc" id="L734">            return;</span>
+        }
+
+<span class="fc" id="L737">        int index = wheel - 1;</span>
+<span class="fc bfc" id="L738" title="All 2 branches covered.">        if (index &lt; 0) {</span>
+<span class="fc" id="L739">            index = 0;</span>
+<span class="fc bfc" id="L740" title="All 2 branches covered.">        } else if (index &gt;= wheels.size()) {</span>
+<span class="fc" id="L741">            index = wheels.size() - 1;</span>
+        }
+        
+<span class="fc" id="L744">        Wheel ruedaActual = wheels.get(index);</span>
+        
+<span class="fc bfc" id="L746" title="All 2 branches covered.">        if (ruedaActual.isLocked()) {</span>
+<span class="fc bfc" id="L747" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L748">                JOptionPane.showMessageDialog(null, &quot;Error: La rueda &quot; + (index + 1) + &quot; está bloqueada y no puede girar.&quot;);</span>
+            }
+<span class="fc" id="L750">            ok = false;</span>
+<span class="fc" id="L751">            return;</span>
+        }
+
+<span class="fc" id="L754">        int indiceAleatorio = (int) (Math.random() * symbols.size());</span>
+<span class="fc" id="L755">        Symbol simboloElegido = symbols.get(indiceAleatorio);</span>
+        
+<span class="fc" id="L757">        simboloElegido.aplicarEfecto();</span>
+<span class="fc" id="L758">        Symbol copiaSimbolo = simboloElegido.generarCopia();</span>
+
+<span class="fc bfc" id="L760" title="All 2 branches covered.">        if (isVisible) {</span>
+<span class="fc" id="L761">            palanca.tirar();</span>
+<span class="fc" id="L762">            Canvas.getCanvas().wait(200);</span>
+        }
+        
+<span class="fc" id="L765">        wheels.get(index).girar(copiaSimbolo);</span>
+        
+<span class="fc bfc" id="L767" title="All 2 branches covered.">        if (isVisible) {</span>
+<span class="fc" id="L768">            Canvas.getCanvas().wait(200);</span>
+<span class="fc" id="L769">            palanca.soltar();</span>
+        }
+        
+<span class="fc" id="L772">        isJackpot();</span>
+<span class="fc" id="L773">        ok = true;</span>
+<span class="fc" id="L774">    }</span>
+    
+    /**
+     * Intercambia la posición de dos ruedas dentro de la máquina tragamonedas.
+     * @param wheel1 La posición de la primera rueda a intercambiar (iniciando en 1).
+     * @param wheel2 La posición de la segunda rueda a intercambiar (iniciando en 1).
+     */
+    public void swap(int wheel1, int wheel2) {
+<span class="pc bpc" id="L782" title="1 of 4 branches missed.">        if (wheels.isEmpty() || wheels.size() &lt; 2) {</span>
+<span class="fc bfc" id="L783" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L784">                JOptionPane.showMessageDialog(null, &quot;Error: No hay suficientes ruedas para intercambiar.&quot;);</span>
+            }
+<span class="fc" id="L786">            ok = false;</span>
+<span class="fc" id="L787">            return;</span>
+        }
+        
+<span class="fc" id="L790">        int maxPosValida = wheels.size();</span>
+        
+<span class="fc bfc" id="L792" title="All 8 branches covered.">        if (wheel1 &lt; 1 || wheel1 &gt; maxPosValida || wheel2 &lt; 1 || wheel2 &gt; maxPosValida) {</span>
+<span class="fc bfc" id="L793" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L794">                JOptionPane.showMessageDialog(null, </span>
+                    &quot;Error: No se pueden intercambiar las posiciones &quot; + wheel1 + &quot; y &quot; + wheel2 + &quot;.\n&quot; +
+                    &quot;Actualmente solo puedes usar posiciones del 1 al &quot; + maxPosValida + &quot;.&quot;);
+            }
+<span class="fc" id="L798">            ok = false;</span>
+<span class="fc" id="L799">            return;</span>
+        }
+        
+<span class="fc" id="L802">        int indice1 = wheel1 - 1;</span>
+<span class="fc" id="L803">        int indice2 = wheel2 - 1;</span>
+        
+<span class="fc" id="L805">        Wheel ruedaActual1 = wheels.get(indice1);</span>
+<span class="fc" id="L806">        Wheel ruedaActual2 = wheels.get(indice2);</span>
+        
+<span class="fc bfc" id="L808" title="All 4 branches covered.">        if (ruedaActual1.isLocked() || ruedaActual2.isLocked()) {</span>
+<span class="fc bfc" id="L809" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L810">                JOptionPane.showMessageDialog(null, &quot;Error: Una de las ruedas está bloqueada y no se puede realizar el cambio, \n&quot;);</span>
+            }
+<span class="fc" id="L812">            ok = false;</span>
+<span class="fc" id="L813">            return;</span>
+        }
+        
+<span class="fc bfc" id="L816" title="All 4 branches covered.">        if (ruedaActual1 instanceof LeftyWheel || ruedaActual2 instanceof LeftyWheel) {</span>
+<span class="fc bfc" id="L817" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L818">                JOptionPane.showMessageDialog(null, &quot;Error: Una de las ruedas es Lefty, no se pueden intercambiar.&quot;);</span>
+            }
+<span class="fc" id="L820">            ok = false;</span>
+<span class="fc" id="L821">            return;</span>
+        }
+        
+<span class="fc bfc" id="L824" title="All 4 branches covered.">        if (ruedaActual1 instanceof RebelWheel || ruedaActual2 instanceof RebelWheel) {</span>
+<span class="fc bfc" id="L825" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L826">                JOptionPane.showMessageDialog(null, &quot;Error: Una de las ruedas es rebelde, no se pueden intercambiar.&quot;);</span>
+            }
+<span class="fc" id="L828">            ok = false;</span>
+<span class="fc" id="L829">            return;</span>
+        }
+
+<span class="fc bfc" id="L832" title="All 2 branches covered.">        if (indice1 != indice2) {</span>
+<span class="fc" id="L833">            Wheel ruedaTemporal = wheels.get(indice1);</span>
+<span class="fc" id="L834">            wheels.set(indice1, wheels.get(indice2));</span>
+<span class="fc" id="L835">            wheels.set(indice2, ruedaTemporal);</span>
+
+<span class="fc" id="L837">            actualizarRuedas();</span>
+<span class="fc" id="L838">            isJackpot();</span>
+        }
+<span class="fc" id="L840">        ok = true;</span>
+<span class="fc" id="L841">    }</span>
+    
+    /**
+     * Bloquea una rueda específica para que no gire.
+     * @param wheel La posición de la rueda (iniciando en 1).
+     */
+    public void lock(int wheel) {
+<span class="fc bfc" id="L848" title="All 2 branches covered.">        if (wheels.isEmpty()) {</span>
+<span class="fc bfc" id="L849" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L850">                JOptionPane.showMessageDialog(null, &quot;Error: No hay ruedas para bloquear.&quot;);</span>
+            }
+<span class="fc" id="L852">            ok = false;</span>
+<span class="fc" id="L853">            return;</span>
+        }
+        
+<span class="fc" id="L856">        int maxPosValida = wheels.size();</span>
+<span class="fc bfc" id="L857" title="All 4 branches covered.">        if (wheel &lt; 1 || wheel &gt; maxPosValida) {</span>
+<span class="fc bfc" id="L858" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L859">                JOptionPane.showMessageDialog(null, </span>
+                    &quot;Error: No se puede bloquear la posición &quot; + wheel + &quot;.\n&quot; +
+                    &quot;Rango válido actual: 1 a &quot; + maxPosValida + &quot;.&quot;);
+            }
+<span class="fc" id="L863">            ok = false;</span>
+<span class="fc" id="L864">            return;</span>
+        }
+        
+<span class="fc" id="L867">        Wheel ruedaObjetivo = wheels.get(wheel - 1);</span>
+        
+<span class="fc bfc" id="L869" title="All 2 branches covered.">        if (ruedaObjetivo instanceof RebelWheel) {</span>
+<span class="fc bfc" id="L870" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L871">                JOptionPane.showMessageDialog(null, &quot;Error: La rueda rebelde no se puede bloquear.&quot;);</span>
+            }
+<span class="fc" id="L873">            ok = false;</span>
+<span class="fc" id="L874">            return;</span>
+        }
+
+<span class="fc bfc" id="L877" title="All 2 branches covered.">        if (ruedaObjetivo.isLocked()) {</span>
+<span class="fc bfc" id="L878" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L879">                JOptionPane.showMessageDialog(null, &quot;Error: La rueda en la posición &quot; + wheel + &quot; ya se encuentra bloqueada.&quot;);</span>
+            }
+<span class="fc" id="L881">            ok = false;</span>
+<span class="fc" id="L882">            return;</span>
+        }
+
+<span class="fc" id="L885">        ruedaObjetivo.lock();</span>
+<span class="fc" id="L886">        ok = true;</span>
+<span class="fc" id="L887">    }</span>
+
+    /**
+     * Desbloquea una rueda específica para que vuelva a girar.
+     * @param wheel La posición de la rueda (iniciando en 1).
+     */
+    public void unlock(int wheel) {
+<span class="fc bfc" id="L894" title="All 2 branches covered.">        if (wheels.isEmpty()) {</span>
+<span class="fc bfc" id="L895" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L896">                JOptionPane.showMessageDialog(null, &quot;Error: No hay ruedas para desbloquear.&quot;);</span>
+            }
+<span class="fc" id="L898">            ok = false;</span>
+<span class="fc" id="L899">            return;</span>
+        }
+        
+<span class="fc" id="L902">        int maxPosValida = wheels.size();</span>
+<span class="fc bfc" id="L903" title="All 4 branches covered.">        if (wheel &lt; 1 || wheel &gt; maxPosValida) {</span>
+<span class="fc bfc" id="L904" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L905">                JOptionPane.showMessageDialog(null, </span>
+                    &quot;Error: No se puede desbloquear la posición &quot; + wheel + &quot;.\n&quot; +
+                    &quot;Rango válido actual: 1 a &quot; + maxPosValida + &quot;.&quot;);
+            }
+<span class="fc" id="L909">            ok = false;</span>
+<span class="fc" id="L910">            return;</span>
+        }
+        
+<span class="fc" id="L913">        Wheel ruedaObjetivo = wheels.get(wheel - 1);</span>
+        
+<span class="fc bfc" id="L915" title="All 2 branches covered.">        if (!ruedaObjetivo.isLocked()) {</span>
+<span class="fc bfc" id="L916" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L917">                JOptionPane.showMessageDialog(null, &quot;Error: La rueda en la posición &quot; + wheel + &quot; ya se encuentra libre.&quot;);</span>
+            }
+<span class="fc" id="L919">            ok = false;</span>
+<span class="fc" id="L920">            return;</span>
+        }
+
+<span class="fc" id="L923">        ruedaObjetivo.unlock();</span>
+<span class="fc" id="L924">        ok = true;</span>
+<span class="fc" id="L925">    }</span>
+    
+    /**
+     * Gira una rueda específica avanzando una cantidad determinada de pasos.
+     * @param wheel La posición de la rueda (iniciando en 1).
+     * @param steps La cantidad de posiciones a avanzar en el catálogo de símbolos.
+     */
+    public void spin(int wheel, int steps) {
+<span class="pc bpc" id="L933" title="1 of 4 branches missed.">        if (wheels.isEmpty() || symbols.isEmpty()) {</span>
+<span class="fc bfc" id="L934" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L935">                JOptionPane.showMessageDialog(null, &quot;Error: Faltan ruedas o símbolos para poder girar.&quot;);</span>
+            }
+<span class="fc" id="L937">            ok = false;</span>
+<span class="fc" id="L938">            return;</span>
+        }
+        
+<span class="pc bpc" id="L941" title="1 of 4 branches missed.">        if (wheels.size() &gt; 1 &amp;&amp; distinctSymbols() == 1) {</span>
+<span class="fc bfc" id="L942" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L943">                JOptionPane.showMessageDialog(null, &quot;Error: Ya has ganado el Jackpot. No se permiten más movimientos.&quot;);</span>
+            }
+<span class="fc" id="L945">            ok = false;</span>
+<span class="fc" id="L946">            return;</span>
+        }
+        
+<span class="fc" id="L949">        int maxPosValida = wheels.size();</span>
+        
+<span class="fc bfc" id="L951" title="All 4 branches covered.">        if (wheel &lt; 1 || wheel &gt; maxPosValida) {</span>
+<span class="fc bfc" id="L952" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L953">                JOptionPane.showMessageDialog(null, </span>
+                    &quot;Error: No se puede girar la rueda en la posición &quot; + wheel + &quot;.\n&quot; +
+                    &quot;Actualmente solo puedes usar posiciones del 1 al &quot; + maxPosValida + &quot;.&quot;);
+            }
+<span class="fc" id="L957">            ok = false;</span>
+<span class="fc" id="L958">            return;</span>
+        }
+
+<span class="fc" id="L961">        int index = wheel - 1;</span>
+<span class="pc bpc" id="L962" title="1 of 2 branches missed.">        if (index &lt; 0) {</span>
+<span class="nc" id="L963">            index = 0;</span>
+<span class="pc bpc" id="L964" title="1 of 2 branches missed.">        } else if (index &gt;= wheels.size()) {</span>
+<span class="nc" id="L965">            index = wheels.size() - 1;</span>
+        }
+        
+<span class="fc" id="L968">        Wheel ruedaActual = wheels.get(index);</span>
+        
+<span class="fc bfc" id="L970" title="All 2 branches covered.">        if (ruedaActual.isLocked()) {</span>
+<span class="fc bfc" id="L971" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L972">                JOptionPane.showMessageDialog(null, &quot;Error: La rueda &quot; + (index + 1) + &quot; está bloqueada y no puede girar.&quot;);</span>
+            }
+<span class="fc" id="L974">            ok = false;</span>
+<span class="fc" id="L975">            return;</span>
+        }
+
+<span class="fc" id="L978">        int indiceCatalogo = 0;</span>
+<span class="fc" id="L979">        String colorActual = ruedaActual.getColorActual();</span>
+<span class="fc bfc" id="L980" title="All 2 branches covered.">        for (int i = 0; i &lt; symbols.size(); i++) {</span>
+<span class="fc bfc" id="L981" title="All 2 branches covered.">            if (symbols.get(i).getColor().equalsIgnoreCase(colorActual)) {</span>
+<span class="fc" id="L982">                indiceCatalogo = i;</span>
+<span class="fc" id="L983">                break;</span>
+            }
+        }
+        
+<span class="fc bfc" id="L987" title="All 2 branches covered.">        if (isVisible) {</span>
+<span class="fc" id="L988">            palanca.tirar();</span>
+<span class="fc" id="L989">            Canvas.getCanvas().wait(200);</span>
+        }
+        
+<span class="fc bfc" id="L992" title="All 2 branches covered.">        for (int i = 0; i &lt; steps; i++) {</span>
+<span class="fc" id="L993">            indiceCatalogo = (indiceCatalogo + 1) % symbols.size();</span>
+<span class="fc" id="L994">            Symbol siguienteSimbolo = symbols.get(indiceCatalogo);</span>
+            
+<span class="fc" id="L996">            siguienteSimbolo.aplicarEfecto();</span>
+<span class="fc" id="L997">            Symbol copiaSimbolo = siguienteSimbolo.generarCopia();</span>
+            
+<span class="fc bfc" id="L999" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L1000">                Canvas.getCanvas().wait(400);</span>
+<span class="fc" id="L1001">                ruedaActual.girar(copiaSimbolo);</span>
+<span class="fc" id="L1002">                Canvas.getCanvas().wait(400);</span>
+            } else {
+<span class="fc" id="L1004">                ruedaActual.setSymbol(copiaSimbolo);</span>
+            }
+        }
+        
+<span class="fc bfc" id="L1008" title="All 2 branches covered.">        if (isVisible) {</span>
+<span class="fc" id="L1009">            Canvas.getCanvas().wait(200);</span>
+<span class="fc" id="L1010">            palanca.soltar();</span>
+        }
+        
+<span class="fc" id="L1013">        isJackpot();</span>
+<span class="fc" id="L1014">        ok = true;</span>
+<span class="fc" id="L1015">    }</span>
+    
+    /**
+     * Deja la máquina tragamonedas en una configuración exacta dada por el usuario.
+     * @param setSymbols Arreglo de Strings con los colores deseados para cada rueda, de izquierda a derecha.
+     */
+    public void spin(String[] setSymbols) {
+<span class="pc bpc" id="L1022" title="1 of 6 branches missed.">        if (wheels.isEmpty() || symbols.isEmpty() || setSymbols == null) {</span>
+<span class="fc bfc" id="L1023" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L1024">                JOptionPane.showMessageDialog(null, &quot;Error: Faltan ruedas, símbolos, o el arreglo ingresado es nulo.&quot;);</span>
+            }
+<span class="fc" id="L1026">            ok = false;</span>
+<span class="fc" id="L1027">            return;</span>
+        }
+
+<span class="fc bfc" id="L1030" title="All 2 branches covered.">        if (setSymbols.length != wheels.size()) {</span>
+<span class="fc bfc" id="L1031" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L1032">                JOptionPane.showMessageDialog(null, </span>
+                    &quot;Error: La cantidad de símbolos dados (&quot; + setSymbols.length + 
+<span class="fc" id="L1034">                    &quot;) no coincide con el número de ruedas (&quot; + wheels.size() + &quot;).&quot;);</span>
+            }
+<span class="fc" id="L1036">            ok = false;</span>
+<span class="fc" id="L1037">            return;</span>
+        }
+
+<span class="pc bpc" id="L1040" title="1 of 4 branches missed.">        if (wheels.size() &gt; 1 &amp;&amp; distinctSymbols() == 1) {</span>
+<span class="fc bfc" id="L1041" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L1042">                JOptionPane.showMessageDialog(null, &quot;Error: Ya has ganado el Jackpot. No se permiten más movimientos.&quot;);</span>
+            }
+<span class="fc" id="L1044">            ok = false;</span>
+<span class="fc" id="L1045">            return;</span>
+        }
+        
+<span class="fc bfc" id="L1048" title="All 2 branches covered.">        for (int i = 0; i &lt; wheels.size(); i++) {</span>
+<span class="fc bfc" id="L1049" title="All 2 branches covered.">            if (wheels.get(i).isLocked()) {</span>
+<span class="fc bfc" id="L1050" title="All 2 branches covered.">                if (isVisible) {</span>
+<span class="fc" id="L1051">                    JOptionPane.showMessageDialog(null, &quot;Error: La rueda &quot; + (i + 1) + &quot; está bloqueada. No se puede aplicar la configuración.&quot;);</span>
+                }
+<span class="fc" id="L1053">                ok = false;</span>
+<span class="fc" id="L1054">                return;</span>
+            }
+        }
+
+<span class="fc" id="L1058">        Symbol[] simbolosAAsignar = new Symbol[setSymbols.length];</span>
+        
+<span class="fc bfc" id="L1060" title="All 2 branches covered.">        for (int i = 0; i &lt; setSymbols.length; i++) {</span>
+<span class="fc" id="L1061">            String colorBuscado = setSymbols[i];</span>
+<span class="fc" id="L1062">            Symbol simboloEncontrado = null;</span>
+            
+<span class="fc bfc" id="L1064" title="All 2 branches covered.">            for (Symbol s : symbols) {</span>
+<span class="fc bfc" id="L1065" title="All 2 branches covered.">                if (s.getColor().equalsIgnoreCase(colorBuscado)) {</span>
+<span class="fc" id="L1066">                    simboloEncontrado = s;</span>
+<span class="fc" id="L1067">                    break;</span>
+                }
+<span class="fc" id="L1069">            }</span>
+            
+<span class="fc bfc" id="L1071" title="All 2 branches covered.">            if (simboloEncontrado == null) {</span>
+<span class="fc bfc" id="L1072" title="All 2 branches covered.">                if (isVisible) {</span>
+<span class="fc" id="L1073">                    JOptionPane.showMessageDialog(null, &quot;Error: El símbolo de color '&quot; + colorBuscado + &quot;' no existe en el catálogo.&quot;);</span>
+                }
+<span class="fc" id="L1075">                ok = false;</span>
+<span class="fc" id="L1076">                return; </span>
+            }
+<span class="fc" id="L1078">            simbolosAAsignar[i] = simboloEncontrado;</span>
+        }
+
+<span class="fc bfc" id="L1081" title="All 2 branches covered.">        if (isVisible) {</span>
+<span class="fc" id="L1082">            palanca.tirar();</span>
+<span class="fc" id="L1083">            Canvas.getCanvas().wait(200);</span>
+        }
+
+<span class="fc bfc" id="L1086" title="All 2 branches covered.">        for (int i = 0; i &lt; wheels.size(); i++) {</span>
+<span class="fc" id="L1087">            Wheel ruedaActual = wheels.get(i);</span>
+            
+<span class="pc bpc" id="L1089" title="1 of 2 branches missed.">            if (!ruedaActual.isLocked()) {</span>
+<span class="fc" id="L1090">                Symbol simboloBase = simbolosAAsignar[i];</span>
+<span class="fc" id="L1091">                simboloBase.aplicarEfecto();</span>
+<span class="fc" id="L1092">                Symbol copiaSimbolo = simboloBase.generarCopia();</span>
+                
+<span class="fc bfc" id="L1094" title="All 2 branches covered.">                if (isVisible) {</span>
+<span class="fc" id="L1095">                    ruedaActual.girar(copiaSimbolo);</span>
+                } else {
+<span class="fc" id="L1097">                    ruedaActual.setSymbol(copiaSimbolo);</span>
+                }
+            }
+        }
+
+<span class="fc" id="L1102">        isJackpot();</span>
+<span class="fc" id="L1103">        ok = true;</span>
+<span class="fc" id="L1104">    }</span>
+    
+    /**
+     * Adiciona una nueva rueda tipo Lefty a la máquina, validando estrictamente los casos frontera.
+     * @param pos La posición donde se desea insertar la rueda (iniciando en 1).
+     */
+    public void addLeftyWheel(int pos) {
+<span class="fc" id="L1111">        int maxPosValida = wheels.size() + 1;</span>
+        
+<span class="fc bfc" id="L1113" title="All 4 branches covered.">        if (pos &lt; 1 || pos &gt; maxPosValida) {</span>
+<span class="fc bfc" id="L1114" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L1115">                JOptionPane.showMessageDialog(null, </span>
+                    &quot;Error: No se puede agregar en la posición &quot; + pos + &quot;.\n&quot; +
+                    &quot;Actualmente solo puedes usar posiciones del 1 al &quot; + maxPosValida + &quot;.&quot;);
+            }
+<span class="fc" id="L1119">            ok = false;</span>
+<span class="fc" id="L1120">            return;</span>
+        }
+        
+<span class="fc" id="L1123">        int index = pos - 1;</span>
+<span class="pc bpc" id="L1124" title="2 of 4 branches missed.">        if (index &gt;= 0 &amp;&amp; index &lt;= wheels.size()) {</span>
+<span class="fc" id="L1125">            Wheel ruedaEnPosicion = wheels.get(index);</span>
+            
+<span class="fc bfc" id="L1127" title="All 2 branches covered.">            if (ruedaEnPosicion.isLocked()) {</span>
+<span class="pc bpc" id="L1128" title="1 of 2 branches missed.">                if (isVisible) {</span>
+<span class="fc" id="L1129">                    JOptionPane.showMessageDialog(null, </span>
+                        &quot;Error: La rueda en la posición &quot; + pos + &quot; está bloqueada.\n&quot; +
+                        &quot;No puedes agregar una rueda aquí porque está en estado de bloqueo.&quot;);
+                }
+<span class="fc" id="L1133">                ok = false; </span>
+<span class="fc" id="L1134">                return;</span>
+            }
+            
+<span class="fc bfc" id="L1137" title="All 2 branches covered.">            if (ruedaEnPosicion instanceof LeftyWheel) {</span>
+<span class="fc bfc" id="L1138" title="All 2 branches covered.">                if (isVisible) {</span>
+<span class="fc" id="L1139">                    JOptionPane.showMessageDialog(null, </span>
+                        &quot;Error: Ya se encuentra una rueda en estado Lefty en la posición &quot; + pos + &quot;.\n&quot; +
+                        &quot;Por lo tanto, no se puede insertar otra rueda aquí y desplazarla.&quot;);
+                }
+<span class="fc" id="L1143">                ok = false;</span>
+<span class="fc" id="L1144">                return;</span>
+            }
+        }
+        
+<span class="fc" id="L1148">        LeftyWheel nuevaLefty = new LeftyWheel(index, wheels);</span>
+<span class="fc" id="L1149">        asignarSimboloAleatorio(nuevaLefty);  </span>
+<span class="fc" id="L1150">        wheels.add(index, nuevaLefty);</span>
+            
+<span class="fc" id="L1152">        actualizarRuedas();</span>
+<span class="fc" id="L1153">        isJackpot();</span>
+<span class="fc" id="L1154">        ok = true;</span>
+<span class="fc" id="L1155">    }</span>
+    
+    /**
+     * Adiciona una nueva rueda tipo Rebel a la máquina, alc ual tiene como función principal no se deja bloquear, ni intercambiar, ni eliminar.
+     * @param pos La posición donde se desea insertar la rueda (iniciando en 1).
+     */
+    public void addRebelWheel(int pos) {
+<span class="fc" id="L1162">        int maxPosValida = wheels.size() + 1;</span>
+        
+<span class="fc bfc" id="L1164" title="All 4 branches covered.">        if (pos &lt; 1 || pos &gt; maxPosValida) {</span>
+<span class="fc bfc" id="L1165" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L1166">                JOptionPane.showMessageDialog(null, </span>
+                    &quot;Error: No se puede agregar en la posición &quot; + pos + &quot;.\n&quot; +
+                    &quot;Actualmente solo puedes usar posiciones del 1 al &quot; + maxPosValida + &quot;.&quot;);
+            }
+<span class="fc" id="L1170">            ok = false;</span>
+<span class="fc" id="L1171">            return;</span>
+        }
+        
+<span class="fc" id="L1174">        int index = pos - 1;</span>
+<span class="pc bpc" id="L1175" title="2 of 4 branches missed.">        if (index &gt;= 0 &amp;&amp; index &lt;= wheels.size()) {</span>
+<span class="fc" id="L1176">            RebelWheel nuevaRebel = new RebelWheel(index);</span>
+            
+<span class="fc" id="L1178">            asignarSimboloAleatorio(nuevaRebel);</span>
+
+<span class="fc" id="L1180">            wheels.add(index, nuevaRebel);</span>
+<span class="fc" id="L1181">            actualizarRuedas();</span>
+            
+<span class="fc" id="L1183">            ok = true;</span>
+<span class="fc" id="L1184">        } else {</span>
+<span class="nc" id="L1185">            ok = false;</span>
+        }
+<span class="fc" id="L1187">    }</span>
+    
+    /**
+     * Adiciona una nueva rueda tipo Lazy a la máquina, validando estrictamente los casos frontera.
+     * @param pos La posición donde se desea insertar la rueda (iniciando en 1).
+     */
+    public void addLazyWheel(int pos) {
+<span class="fc" id="L1194">        int maxPosValida = wheels.size() + 1;</span>
+        
+<span class="fc bfc" id="L1196" title="All 4 branches covered.">        if (pos &lt; 1 || pos &gt; maxPosValida) {</span>
+<span class="fc bfc" id="L1197" title="All 2 branches covered.">            if (isVisible) {</span>
+<span class="fc" id="L1198">                JOptionPane.showMessageDialog(null, </span>
+                    &quot;Error: No se puede agregar en la posición &quot; + pos + &quot;.\n&quot; +
+                    &quot;Actualmente solo puedes usar posiciones del 1 al &quot; + maxPosValida + &quot;.&quot;);
+            }
+<span class="fc" id="L1202">            ok = false;</span>
+<span class="fc" id="L1203">            return;</span>
+        }
+        
+<span class="fc" id="L1206">        int indiceJava = pos - 1;</span>
+        
+<span class="fc bfc" id="L1208" title="All 2 branches covered.">        if (indiceJava &lt; wheels.size()) {</span>
+<span class="fc" id="L1209">            Wheel ruedaEnPosicion = wheels.get(indiceJava);</span>
+            
+<span class="fc bfc" id="L1211" title="All 2 branches covered.">            if (ruedaEnPosicion.isLocked()) {</span>
+<span class="fc bfc" id="L1212" title="All 2 branches covered.">                if (isVisible) {</span>
+<span class="fc" id="L1213">                    JOptionPane.showMessageDialog(null, </span>
+                        &quot;Error: La rueda en la posición &quot; + pos + &quot; está bloqueada.\n&quot; +
+                        &quot;No puedes agregar una rueda aquí porque desplazaría a la que está congelada.&quot;);
+                }
+<span class="fc" id="L1217">                ok = false; </span>
+<span class="fc" id="L1218">                return;</span>
+            }
+            
+<span class="fc bfc" id="L1221" title="All 2 branches covered.">            if (ruedaEnPosicion instanceof LazyWheel) {</span>
+<span class="fc bfc" id="L1222" title="All 2 branches covered.">                if (isVisible) {</span>
+<span class="fc" id="L1223">                    JOptionPane.showMessageDialog(null, </span>
+                        &quot;Error: Ya se encuentra una rueda Lazy en la posición &quot; + pos + &quot;.\n&quot; +
+                        &quot;Por lo tanto, no se puede insertar otra rueda aquí y desplazarla.&quot;);
+                }
+<span class="fc" id="L1227">                ok = false;</span>
+<span class="fc" id="L1228">                return;</span>
+            }
+        }
+        
+<span class="fc" id="L1232">        LazyWheel nuevaRueda = new LazyWheel(indiceJava);</span>
+<span class="fc" id="L1233">        asignarSimboloAleatorio(nuevaRueda); </span>
+<span class="fc" id="L1234">        wheels.add(indiceJava, nuevaRueda);</span>
+        
+<span class="fc" id="L1236">        actualizarRuedas();</span>
+<span class="fc" id="L1237">        isJackpot();</span>
+<span class="fc" id="L1238">        ok = true;</span>
+<span class="fc" id="L1239">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>
