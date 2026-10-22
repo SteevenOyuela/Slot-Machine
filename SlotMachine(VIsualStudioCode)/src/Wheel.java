@@ -1,0 +1,176 @@
+/**
+ * Representa Las ruedas.
+ * 
+ * Estas casillas estan represetnadas de color balnco y se encuentran distribuidas en el tablero.
+ */
+public class Wheel {
+    protected Rectangle casilla;
+    protected int posicionX;
+    protected Symbol simboloActual;
+    protected Rectangle bordeCasilla;
+    
+    protected boolean isLocked;
+
+    /**
+     * Crea una nueva rueda y la posiciona dinámicamente en el lienzo.
+     * @param index El índice de la rueda (0 para la primera, 1 para la segunda, etc.)
+     */
+    public Wheel(int index) {
+        casilla = new Rectangle();
+        casilla.changeSize(140, 100);
+        casilla.changeColor("white");
+        
+        posicionX = 70 + (index * 120);
+        
+        casilla.moveHorizontal(posicionX);
+        casilla.moveVertical(100);
+        casilla.makeVisible();
+        
+        bordeCasilla = new Rectangle();
+        bordeCasilla.changeSize(150, 110); 
+        bordeCasilla.changeColor("black");
+        bordeCasilla.moveHorizontal(posicionX - 5); 
+        bordeCasilla.moveVertical(95);
+        bordeCasilla.makeVisible();
+    }
+    
+    /**
+     * Recalcula la posición de la rueda y desplaza el rectángulo.
+     * @param nuevoIndex El nuevo índice de la rueda en la máquina.
+     */
+    public void actualizarPosicion(int nuevoIndex) {
+        int nuevaPosicionX = 70 + (nuevoIndex * 120);
+        int distanciaAMover = nuevaPosicionX - posicionX;
+        
+        bordeCasilla.moveHorizontal(distanciaAMover);
+        casilla.moveHorizontal(distanciaAMover);
+        
+        if (simboloActual != null) {
+            simboloActual.moverHorizontal(distanciaAMover);
+        }
+        
+        posicionX = nuevaPosicionX; 
+    }
+    
+    /**
+     * Método para asegurar que la rueda quede encima del fondo gris
+     */
+    public void redibujar() {
+        bordeCasilla.makeVisible();
+        casilla.makeVisible();
+        if (simboloActual != null) {
+            simboloActual.makeVisible();
+        }
+    }
+    
+    /**
+     * Borra la representación visual de la rueda del lienzo.
+     */
+    public void makeInvisible() {
+        bordeCasilla.makeInvisible();
+        casilla.makeInvisible();
+        
+        if (simboloActual != null) {
+            simboloActual.makeInvisible();
+        }
+    }
+    
+    /**
+     * Asigna un nuevo OBJETO símbolo a esta rueda y lo dibuja centrado.
+     */
+    public void setSymbol(Symbol nuevoSimbolo) {
+        if (simboloActual != null) {
+            simboloActual.makeInvisible();
+        }
+
+        simboloActual = nuevoSimbolo;
+
+        int ajusteHorizontal = posicionX + 20; 
+        int ajusteVertical = 138; 
+        
+        simboloActual.moverHorizontal(ajusteHorizontal);
+        simboloActual.moverVertical(ajusteVertical); 
+        
+        simboloActual.makeVisible();
+    }
+    
+    /**
+     * Realiza una animación de giro poniendo la casilla en negro por un instante
+     * antes de revelar el nuevo OBJETO símbolo.
+     */
+    public void girar(Symbol nuevoSimbolo) {
+        if (simboloActual != null) {
+            simboloActual.makeInvisible();
+        }
+        casilla.changeColor("black");
+        
+        Canvas.getCanvas().wait(200); 
+        
+        casilla.changeColor("white"); 
+
+        setSymbol(nuevoSimbolo);
+    }
+    
+    /**
+     * Consulta el color del símbolo que la rueda está mostrando actualmente.
+     * @return El color en formato String, o una cadena vacía si no tiene símbolo.
+     */
+    public String getColorActual() {
+        if (simboloActual != null) {
+            return simboloActual.getColor();
+        }
+        return "";
+    }
+    
+    /**
+     * Cambia el color de fondo de la casilla de la rueda.
+     * @param color El color deseado.
+     */
+    public void cambiarColorFondo(String color) {
+        if (casilla != null) {
+            casilla.changeColor(color);
+        }
+    }
+    
+    /**
+     * Bloquea la rueda y cambia su color para indicarlo visualmente.
+     */
+    public void lock() {
+        isLocked = true; 
+        
+        bordeCasilla.changeColor("red");
+        redibujar();
+    }
+
+    /**
+     * Desbloquea la rueda y restaura su color original.
+     */
+    public void unlock() {
+        isLocked = false;
+        
+        bordeCasilla.changeColor("green");
+        
+        redibujar();
+        
+        Canvas.getCanvas().wait(400);
+        
+        bordeCasilla.changeColor("black");
+        
+        redibujar();
+    }
+
+    /**
+     * Consulta si la rueda está bloqueada.
+     * @return true si está bloqueada, false si está libre.
+     */
+    public boolean isLocked() {
+        return isLocked;
+    }
+    
+    /**
+     * Retornamos el simbolo actual que tiene la rueda
+     */
+    public Symbol getSimboloActual() {
+        return simboloActual;
+    }
+}

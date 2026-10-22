@@ -1,0 +1,13 @@
+# 1. Compilar todo una sola vez
+Remove-Item bin, bin-prod, jacoco.exec, jacoco-report -Recurse -Force -ErrorAction SilentlyContinue
+javac -cp "lib/*" -d bin src/*.java
+
+# 2. Ejecutar pruebas con el agente (usa bin)
+java -javaagent:lib/jacocoagent.jar=destfile=jacoco.exec -cp "bin;lib/*" org.junit.runner.JUnitCore SlotMachineC2Test Slotmach1CC2Test SlotMachineContestTest SlotMachineContestCTest Slotmach1CC4Test SlotMachineC4Test
+
+# 3. Copiar de bin (los MISMOS .class) solo las de producción
+New-Item -ItemType Directory bin-prod | Out-Null
+Get-ChildItem bin -Filter *.class | Where-Object { $_.Name -notmatch 'Test' } | Copy-Item -Destination bin-prod
+
+# 4. Reporte
+java -jar lib/jacococli.jar report jacoco.exec --classfiles bin-prod --sourcefiles src --html jacoco-report

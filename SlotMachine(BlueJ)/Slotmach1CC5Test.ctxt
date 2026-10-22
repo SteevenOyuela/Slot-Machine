@@ -1,0 +1,18 @@
+#BlueJ class context
+#Wed Oct 21 23:43:48 COT 2026
+comment0.target=Slotmach1CC5Test
+comment0.text=\r\n Pruebas de aceptaci\u00F3n (ciclo 5)\: flujos completos que combinan varias\r\n operaciones de la m\u00E1quina y verifican el estado final.\r\n
+comment1.target=void setUp()
+comment1.text=\r\n Crea una m\u00E1quina nueva e invisible antes de cada prueba.\r\n
+comment2.target=int ruedas()
+comment2.text=\r\n @return la cantidad actual de ruedas en la m\u00E1quina.\r\n
+comment3.params=n
+comment3.target=void crearRuedas(int)
+comment3.text=\r\n Agrega n ruedas y reasigna la \u00FAltima hasta romper un Jackpot accidental.\r\n @param n cantidad de ruedas a crear.\r\n
+comment4.target=void accordingDcOaShouldKeepLockedLazyWheelWhenMachineSpins()
+comment4.text=\r\n Verifica que una rueda Lazy agregada al final pueda bloquearse y conserve\r\n su s\u00EDmbolo cuando la m\u00E1quina gira, sin alterar el n\u00FAmero de ruedas.\r\n
+comment5.target=void accordingDcOaShouldSwapDeleteAndRebuildConfiguration()
+comment5.text=\r\n Verifica que intercambiar, eliminar y volver a agregar ruedas deje la\r\n configuraci\u00F3n esperada.\r\n
+comment6.target=void accordingDcOaShouldSpinStepsUsingCurrentCatalog()
+comment6.text=\r\n Verifica que al modificar el cat\u00E1logo (agregar y eliminar s\u00EDmbolos) los giros por\r\n pasos usen siempre el cat\u00E1logo vigente, incluso si el color mostrado ya no existe.\r\n
+numComments=7

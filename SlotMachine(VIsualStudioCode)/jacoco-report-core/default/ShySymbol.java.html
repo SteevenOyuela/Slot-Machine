@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ShySymbol.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">ShySymbol.java</span></div><h1>ShySymbol.java</h1><pre class="source lang-java linenums">/**
+ * Símbolo que alterna su visibilidad (visible/invisible) cada vez que es seleccionado 
+ * en una rueda. Hereda de la superclase Symbol y encapsula su propio estado de ocultamiento.
+ */
+public class ShySymbol extends Symbol {
+    /**
+     * Bandera interna que determina si el símbolo debe ocultarse gráficamente.
+     */
+    private boolean estaOculto;
+
+    /**
+     * Constructor público utilizado para añadir el símbolo al catálogo de la máquina.
+     * Por defecto, el símbolo inicia en estado visible.
+     * 
+     * @param color El color.
+     * @param forma La figura geométrica que representará el símbolo.
+     */
+    public ShySymbol(String color, String forma) {
+<span class="fc" id="L19">        super(color, forma);</span>
+<span class="fc" id="L20">        this.estaOculto = false;</span>
+<span class="fc" id="L21">    }</span>
+
+    /**
+     * Constructor privado utilizado exclusivamente por el Patrón Prototype.
+     * Permite instanciar copias exactas para las ruedas conservando el estado de visibilidad actual.
+     * 
+     * @param color El color en formato CSS.
+     * @param forma La figura geométrica del símbolo.
+     * @param oculto El estado de visibilidad a heredar en la copia.
+     */
+    private ShySymbol(String color, String forma, boolean oculto) {
+<span class="fc" id="L32">        super(color, forma);</span>
+<span class="fc" id="L33">        this.estaOculto = oculto;</span>
+<span class="fc" id="L34">    }</span>
+
+    /**
+     * Sobrescribe el comportamiento polimórfico del símbolo.
+     * Invierte el estado lógico de visibilidad (de visible a invisible y viceversa)
+     * cada vez que el símbolo es seleccionado durante un giro.
+     */
+    @Override
+    public void aplicarEfecto() {
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        this.estaOculto = !this.estaOculto;</span>
+<span class="fc" id="L44">    }</span>
+
+    /**
+     * Implementa el Patrón Prototype para evitar el bug visual de múltiples referencias en el Canvas.
+     * 
+     * @return Una nueva instancia física de ShySymbol con las mismas propiedades y estado actual.
+     */
+    @Override
+    public Symbol generarCopia() {
+<span class="fc" id="L53">        return new ShySymbol(this.getColor(), this.getForma(), this.estaOculto);</span>
+    }
+
+    /**
+     * Sobrescribe el método de visibilidad visual.
+     * Intercepta la orden de dibujo del Canvas: solo ejecuta la visualización 
+     * gráfica real (super.makeVisible()) si el símbolo NO está en su fase oculta.
+     */
+    @Override
+    public void makeVisible() {
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        if (!this.estaOculto) {</span>
+<span class="fc" id="L64">            super.makeVisible();</span>
+        }
+<span class="fc" id="L66">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>
